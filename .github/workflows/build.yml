@@ -72,7 +72,7 @@ jobs:
         image: datadog/agent:latest
         env:
           DOCKER_CONTENT_TRUST: 1
-          DD_SITE: datadoghq.com
+          DD_SITE: datadoghq.eu
           DD_API_KEY: "${{ env.DD_API_KEY }}"
           DD_DOGSTATSD_NON_LOCAL_TRAFFIC: 1
           DD_DOCKER_LABELS_AS_TAGS: '{"my.custom.label.project":"artillery","my.custom.label.version":"1.0"}'
