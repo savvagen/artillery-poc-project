@@ -85,10 +85,12 @@ jobs:
         ports:
           - '8125:8125/udp'
         options: '--hostname=datadog --name=dd_agent'
-      json-server:
+      json_server:
         image: savvagenchevskiy/json-server:latest
         ports:
-          - '3001:3000'
+          - '3000:3000'
+        options: '--hostname=json_server --name=json_server'
+
     env:
       DOCKER_CONTENT_TRUST: 1
       SCENARIO_NAME: "${{ needs.setup.outputs.scenarioName }}"

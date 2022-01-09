@@ -5,7 +5,7 @@ config:
       arrivalCount: 5
   environments:
     local:
-      target: "http://json-server:3001"
+      target: "http://json_server:3000"
       phases:
         - duration: 30
           arrivalCount: 10
