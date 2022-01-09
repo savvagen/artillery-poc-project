@@ -1,3 +1,6 @@
+# Artillery POC project
+
+![Build Status](https://github.com/savvagen/artillery-poc-project/actions/workflows/build.yml/badge.svg)
 
 ### Running Artillery scenario with plugins:
 Run command:
