@@ -1,5 +1,5 @@
 config:
-  target: "http://localhost:3001"
+  target: "http://json-server:3001"
   phases:
     - duration: 10
       arrivalRate: 1
@@ -23,7 +23,7 @@ config:
       name: "RampUp Stage"
   environments:
     local:
-      target: "http://localhost:3001"
+      target: "http://json-server:3001"
       phases:
         - duration: 10
           arrivalRate: 1

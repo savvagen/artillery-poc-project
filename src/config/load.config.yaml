@@ -1,12 +1,12 @@
 config:
-  target: "http://localhost:3001"
+  target: "http://json-server:3001"
   phases:
     - duration: 120
       arrivalCount: 60
       name: "My Load Stage"
   environments:
     local:
-      target: "http://localhost:3001"
+      target: "http://json-server:3001"
       phases:
         - duration: 10
           arrivalRate: 1
