@@ -1,0 +1,115 @@
+config:
+  target: "http://localhost:3001"
+  phases:
+    - duration: 10
+      arrivalRate: 1
+      maxVusers: 1
+      name: "Heating Stage"
+    - duration: 120
+      arrivalRate: 3
+      maxVusers: 5
+      name: "RampUp Stage"
+    - duration: 120
+      arrivalRate: 5
+      maxVusers: 10
+      name: "RampUp Stage"
+    - duration: 120
+      arrivalRate: 8
+      maxVusers: 15
+      name: "RampUp Stage"
+    - duration: 120
+      arrivalRate: 10
+      maxVusers: 20
+      name: "RampUp Stage"
+  environments:
+    local:
+      target: "http://localhost:3001"
+      phases:
+        - duration: 10
+          arrivalRate: 1
+          maxVusers: 1
+          name: "Heating Stage"
+        - duration: 120
+          arrivalRate: 3
+          maxVusers: 5
+          name: "RampUp Stage"
+        - duration: 120
+          arrivalRate: 5
+          maxVusers: 10
+          name: "RampUp Stage"
+        - duration: 120
+          arrivalRate: 8
+          maxVusers: 15
+          name: "RampUp Stage"
+        - duration: 120
+          arrivalRate: 10
+          maxVusers: 20
+          name: "RampUp Stage"
+  ensure:
+    maxErrorRate: 1
+  http:
+    timeout: 60
+    extendedMetrics: true
+  processor: "../processors/main.js"
+  variables:
+    commentsNumber: 2
+  payload:
+    path: "./../data/people.csv"
+    fields:
+      - "userId"
+      - "userName"
+      - "userEmail"
+    order: sequence  # sequence # random
+    skipHeader: true
+  defaults:
+    headers:
+      Content-Type: "application/json"
+      Accept: "application/json"
+  plugins:
+    expect: {}
+    metrics-by-endpoint:
+      useOnlyRequestNames: true
+    statsd: # https://github.com/artilleryio/artillery-plugin-statsd
+      host: "{{ $processEnvironment.STATSD_SERVER_ADDRESS }}" # localhost
+      port: "{{ $processEnvironment.STATSD_SERVER_PORT }}" # 8125 or 8126 for datadog
+      # Prefix Format: "artillery.<SCENARIO_NAME>.<CONFIG_NAME>"
+      # Set: "artillery.statsd_plugin" when publishing metrics to Datadog (using agent)
+      prefix: "artillery.statsd_plugin"
+    ########################
+    # Use Only with "metrics-by-endpoint" plugin!!!
+    ########################
+    datadog-advanced-metrics:
+      host: "{{ $processEnvironment.STATSD_SERVER_ADDRESS }}" # statsd server host
+      port: "{{ $processEnvironment.STATSD_SERVER_PORT }}" # statsd port
+      prefix: "artillery" # metrics prefix. Metrics path will be: {prefix}.plugins.datadog_statsd_endpoint_metrics.
+    # artillery-plugin-publish-metrics: https://github.com/artilleryio/artillery-plugin-publish-metrics
+    #publish-metrics:
+    #  # apiKey not set, so the plugin will assume that the agent is running:
+    #  - type: datadog
+    #    prefix: 'artillery.publish_metrics_plugin.'
+    #    # apiKey: "{{ $processEnvironment.DD_API_KEY }}" # '****************'
+    #    host: "{{ $processEnvironment.STATSD_SERVER_ADDRESS }}" # "127.0.0.1"
+    #    port: "{{ $processEnvironment.STATSD_SERVER_PORT }}" # 8125 # port to datadog agent
+    #    tags:
+    #      - 'tool:artillery'
+    #      - 'mode:{{ $processEnvironment.CONFIG }}' #'mode:load'
+    #      - 'scenario:{{ $processEnvironment.SCENARIO_NAME }}'
+    #      - 'env:{{ $environment }}'
+    #    event:
+    #      title: "Plugin integration test"
+    #      priority: low
+    #      tags:
+    #        - 'mode:load'
+    #        - 'tool:artillery'
+    #  - type: influxdb-statsd
+    #    prefix: 'artillery.system.load.'
+    #datadog: # artillery-plugin-datadog: https://github.com/artilleryio/artillery-plugin-datadog
+    #  # Custom hostname (leave blank if not desired)
+    #  host: ''
+    #  # Custom metric prefix (defaults to 'artillery.')
+    #  prefix: 'artillery.'
+    #  # Additional tags for all metrics
+    #  tags:
+    #    - 'mode:test'
+    #    - 'scenario:messaging'
+    #    - 'env:{{ $environment }}'

@@ -1,0 +1,1576 @@
+{
+  "title": "Artillery Detailed",
+  "description": "## Artillery Report Metrics\n Detailed metrics form Artilley Runner",
+  "widgets": [
+    {
+      "id": 5938902593863368,
+      "definition": {
+        "title": "Concurent Users",
+        "title_size": "16",
+        "title_align": "left",
+        "type": "query_value",
+        "requests": [
+          {
+            "formulas": [
+              {
+                "formula": "query1"
+              }
+            ],
+            "response_format": "scalar",
+            "queries": [
+              {
+                "query": "avg:artillery.statsd_plugin.concurrency{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                "data_source": "metrics",
+                "name": "query1",
+                "aggregator": "last"
+              }
+            ]
+          }
+        ],
+        "autoscale": false,
+        "precision": 0
+      },
+      "layout": {
+        "x": 0,
+        "y": 0,
+        "width": 2,
+        "height": 1
+      }
+    },
+    {
+      "id": 3536372333446018,
+      "definition": {
+        "title": "RPS",
+        "title_size": "16",
+        "title_align": "left",
+        "type": "query_value",
+        "requests": [
+          {
+            "formulas": [
+              {
+                "formula": "query1"
+              }
+            ],
+            "response_format": "scalar",
+            "queries": [
+              {
+                "query": "avg:artillery.statsd_plugin.rps.mean{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                "data_source": "metrics",
+                "name": "query1",
+                "aggregator": "last"
+              }
+            ]
+          }
+        ],
+        "autoscale": true,
+        "precision": 0
+      },
+      "layout": {
+        "x": 2,
+        "y": 0,
+        "width": 2,
+        "height": 1
+      }
+    },
+    {
+      "id": 1317194370848206,
+      "definition": {
+        "title": "Requests Pending",
+        "title_size": "16",
+        "title_align": "left",
+        "type": "query_value",
+        "requests": [
+          {
+            "formulas": [
+              {
+                "formula": "query1"
+              }
+            ],
+            "response_format": "scalar",
+            "queries": [
+              {
+                "query": "avg:artillery.statsd_plugin.pendingRequests{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                "data_source": "metrics",
+                "name": "query1",
+                "aggregator": "last"
+              }
+            ]
+          }
+        ],
+        "autoscale": false,
+        "precision": 0
+      },
+      "layout": {
+        "x": 4,
+        "y": 0,
+        "width": 2,
+        "height": 1
+      }
+    },
+    {
+      "id": 752874072861744,
+      "definition": {
+        "title": "Scenarios Created",
+        "title_size": "16",
+        "title_align": "left",
+        "type": "query_value",
+        "requests": [
+          {
+            "formulas": [
+              {
+                "formula": "query1"
+              }
+            ],
+            "conditional_formats": [
+              {
+                "comparator": ">",
+                "palette": "white_on_green",
+                "value": 0
+              }
+            ],
+            "response_format": "scalar",
+            "queries": [
+              {
+                "query": "avg:artillery.statsd_plugin.scenariosCreated{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                "data_source": "metrics",
+                "name": "query1",
+                "aggregator": "sum"
+              }
+            ]
+          }
+        ],
+        "autoscale": true,
+        "precision": 0
+      },
+      "layout": {
+        "x": 6,
+        "y": 0,
+        "width": 2,
+        "height": 1
+      }
+    },
+    {
+      "id": 1756454527976048,
+      "definition": {
+        "title": "Scenarios Completed",
+        "title_size": "16",
+        "title_align": "left",
+        "type": "query_value",
+        "requests": [
+          {
+            "formulas": [
+              {
+                "formula": "query1"
+              }
+            ],
+            "conditional_formats": [
+              {
+                "comparator": ">",
+                "palette": "white_on_green",
+                "value": 0
+              }
+            ],
+            "response_format": "scalar",
+            "queries": [
+              {
+                "query": "avg:artillery.statsd_plugin.scenariosCompleted{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                "data_source": "metrics",
+                "name": "query1",
+                "aggregator": "sum"
+              }
+            ]
+          }
+        ],
+        "autoscale": true,
+        "precision": 0
+      },
+      "layout": {
+        "x": 8,
+        "y": 0,
+        "width": 2,
+        "height": 1
+      }
+    },
+    {
+      "id": 5196962376969684,
+      "definition": {
+        "title": "Status Codes",
+        "title_size": "16",
+        "title_align": "left",
+        "type": "query_table",
+        "requests": [
+          {
+            "formulas": [
+              {
+                "alias": "200",
+                "conditional_formats": [
+
+                ],
+                "limit": {
+                  "count": 500,
+                  "order": "desc"
+                },
+                "cell_display_mode": "number",
+                "formula": "query1"
+              },
+              {
+                "alias": "201",
+                "conditional_formats": [
+
+                ],
+                "cell_display_mode": "number",
+                "formula": "query2"
+              },
+              {
+                "alias": "202",
+                "conditional_formats": [
+
+                ],
+                "cell_display_mode": "number",
+                "formula": "query3"
+              },
+              {
+                "alias": "204",
+                "conditional_formats": [
+
+                ],
+                "cell_display_mode": "number",
+                "formula": "query4"
+              },
+              {
+                "alias": "300",
+                "conditional_formats": [
+
+                ],
+                "cell_display_mode": "number",
+                "formula": "query5"
+              },
+              {
+                "alias": "301",
+                "conditional_formats": [
+
+                ],
+                "cell_display_mode": "number",
+                "formula": "query6"
+              },
+              {
+                "alias": "302",
+                "conditional_formats": [
+
+                ],
+                "cell_display_mode": "number",
+                "formula": "query7"
+              },
+              {
+                "alias": "304",
+                "conditional_formats": [
+
+                ],
+                "cell_display_mode": "number",
+                "formula": "query8"
+              },
+              {
+                "alias": "400",
+                "conditional_formats": [
+
+                ],
+                "cell_display_mode": "number",
+                "formula": "query9"
+              },
+              {
+                "alias": "401",
+                "conditional_formats": [
+
+                ],
+                "cell_display_mode": "number",
+                "formula": "query10"
+              },
+              {
+                "alias": "402",
+                "conditional_formats": [
+
+                ],
+                "cell_display_mode": "number",
+                "formula": "query11"
+              },
+              {
+                "alias": "404",
+                "conditional_formats": [
+
+                ],
+                "cell_display_mode": "number",
+                "formula": "query12"
+              },
+              {
+                "alias": "500",
+                "conditional_formats": [
+
+                ],
+                "cell_display_mode": "number",
+                "formula": "query13"
+              },
+              {
+                "alias": "503",
+                "conditional_formats": [
+
+                ],
+                "cell_display_mode": "number",
+                "formula": "query14"
+              },
+              {
+                "alias": "504",
+                "conditional_formats": [
+
+                ],
+                "cell_display_mode": "number",
+                "formula": "query15"
+              },
+              {
+                "alias": "520",
+                "conditional_formats": [
+
+                ],
+                "cell_display_mode": "number",
+                "formula": "query16"
+              },
+              {
+                "alias": "521",
+                "conditional_formats": [
+
+                ],
+                "cell_display_mode": "number",
+                "formula": "query17"
+              },
+              {
+                "alias": "2xx",
+                "formula": "query1 + query2 + query3 + query4"
+              },
+              {
+                "alias": "3xx",
+                "formula": "query5 + query6 + query7 + query8"
+              },
+              {
+                "alias": "4xx",
+                "formula": "query9 + query10 + query11 + query12"
+              },
+              {
+                "alias": "5xx",
+                "formula": "query13 + query14 + query15 + query16 + query17"
+              }
+            ],
+            "response_format": "scalar",
+            "queries": [
+              {
+                "query": "avg:artillery.statsd_plugin.codes.200{mode:$mode.value,env:$env.value,scenario:$scenario.value} by {scenario,mode,env}",
+                "data_source": "metrics",
+                "name": "query1",
+                "aggregator": "sum"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.codes.201{mode:$mode.value,env:$env.value,scenario:$scenario.value} by {scenario,mode,env}",
+                "data_source": "metrics",
+                "name": "query2",
+                "aggregator": "sum"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.codes.202{mode:$mode.value,env:$env.value,scenario:$scenario.value} by {scenario,mode,env}",
+                "data_source": "metrics",
+                "name": "query3",
+                "aggregator": "sum"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.codes.204{mode:$mode.value,env:$env.value,scenario:$scenario.value} by {scenario,mode,env}",
+                "data_source": "metrics",
+                "name": "query4",
+                "aggregator": "sum"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.codes.300{mode:$mode.value,env:$env.value,scenario:$scenario.value} by {scenario,mode,env}",
+                "data_source": "metrics",
+                "name": "query5",
+                "aggregator": "sum"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.codes.301{mode:$mode.value,env:$env.value,scenario:$scenario.value} by {scenario,mode,env}",
+                "data_source": "metrics",
+                "name": "query6",
+                "aggregator": "sum"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.codes.302{mode:$mode.value,env:$env.value,scenario:$scenario.value} by {scenario,mode,env}",
+                "data_source": "metrics",
+                "name": "query7",
+                "aggregator": "sum"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.codes.304{mode:$mode.value,env:$env.value,scenario:$scenario.value} by {scenario,mode,env}",
+                "data_source": "metrics",
+                "name": "query8",
+                "aggregator": "sum"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.codes.400{mode:$mode.value,env:$env.value,scenario:$scenario.value} by {scenario,mode,env}",
+                "data_source": "metrics",
+                "name": "query9",
+                "aggregator": "sum"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.codes.401{mode:$mode.value,env:$env.value,scenario:$scenario.value} by {scenario,mode,env}",
+                "data_source": "metrics",
+                "name": "query10",
+                "aggregator": "sum"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.codes.403{mode:$mode.value,env:$env.value,scenario:$scenario.value} by {scenario,mode,env}",
+                "data_source": "metrics",
+                "name": "query11",
+                "aggregator": "sum"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.codes.404{mode:$mode.value,env:$env.value,scenario:$scenario.value} by {scenario,mode,env}",
+                "data_source": "metrics",
+                "name": "query12",
+                "aggregator": "sum"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.codes.500{mode:$mode.value,env:$env.value,scenario:$scenario.value} by {scenario,mode,env}",
+                "data_source": "metrics",
+                "name": "query13",
+                "aggregator": "sum"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.codes.503{mode:$mode.value,env:$env.value,scenario:$scenario.value} by {scenario,mode,env}",
+                "data_source": "metrics",
+                "name": "query14",
+                "aggregator": "sum"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.codes.504{mode:$mode.value,env:$env.value,scenario:$scenario.value} by {scenario,mode,env}",
+                "data_source": "metrics",
+                "name": "query15",
+                "aggregator": "sum"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.codes.520{mode:$mode.value,env:$env.value,scenario:$scenario.value} by {scenario,mode,env}",
+                "data_source": "metrics",
+                "name": "query16",
+                "aggregator": "sum"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.codes.521{mode:$mode.value,env:$env.value,scenario:$scenario.value} by {scenario,mode,env}",
+                "data_source": "metrics",
+                "name": "query17",
+                "aggregator": "sum"
+              }
+            ]
+          }
+        ],
+        "has_search_bar": "auto"
+      },
+      "layout": {
+        "x": 0,
+        "y": 1,
+        "width": 12,
+        "height": 2
+      }
+    },
+    {
+      "id": 4040798084115446,
+      "definition": {
+        "title": "Http Codes",
+        "type": "group",
+        "show_title": true,
+        "layout_type": "ordered",
+        "widgets": [
+          {
+            "id": 8996457071725718,
+            "definition": {
+              "title": "2xx",
+              "title_size": "16",
+              "title_align": "left",
+              "type": "toplist",
+              "requests": [
+                {
+                  "formulas": [
+                    {
+                      "formula": "query2 + query1 + query3 + query4",
+                      "limit": {
+                        "count": 10,
+                        "order": "desc"
+                      }
+                    }
+                  ],
+                  "conditional_formats": [
+                    {
+                      "comparator": "<=",
+                      "palette": "white_on_red",
+                      "value": 0
+                    }
+                  ],
+                  "response_format": "scalar",
+                  "queries": [
+                    {
+                      "query": "avg:artillery.statsd_plugin.codes.200{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                      "data_source": "metrics",
+                      "name": "query2",
+                      "aggregator": "sum"
+                    },
+                    {
+                      "query": "avg:artillery.statsd_plugin.codes.201{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                      "data_source": "metrics",
+                      "name": "query1",
+                      "aggregator": "sum"
+                    },
+                    {
+                      "query": "avg:artillery.statsd_plugin.codes.202{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                      "data_source": "metrics",
+                      "name": "query3",
+                      "aggregator": "sum"
+                    },
+                    {
+                      "query": "avg:artillery.statsd_plugin.codes.204{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                      "data_source": "metrics",
+                      "name": "query4",
+                      "aggregator": "sum"
+                    }
+                  ]
+                }
+              ]
+            },
+            "layout": {
+              "x": 0,
+              "y": 0,
+              "width": 3,
+              "height": 2
+            }
+          },
+          {
+            "id": 7405692085505376,
+            "definition": {
+              "title": "3xx",
+              "title_size": "16",
+              "title_align": "left",
+              "type": "toplist",
+              "requests": [
+                {
+                  "formulas": [
+                    {
+                      "formula": "query2 + query1 + query3",
+                      "limit": {
+                        "count": 10,
+                        "order": "desc"
+                      }
+                    }
+                  ],
+                  "conditional_formats": [
+                    {
+                      "comparator": ">",
+                      "palette": "white_on_green",
+                      "value": 0
+                    },
+                    {
+                      "comparator": "<=",
+                      "palette": "white_on_green",
+                      "value": 0
+                    }
+                  ],
+                  "response_format": "scalar",
+                  "queries": [
+                    {
+                      "query": "avg:artillery.statsd_plugin.codes.301{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                      "data_source": "metrics",
+                      "name": "query2",
+                      "aggregator": "sum"
+                    },
+                    {
+                      "query": "avg:artillery.statsd_plugin.codes.302{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                      "data_source": "metrics",
+                      "name": "query1",
+                      "aggregator": "sum"
+                    },
+                    {
+                      "query": "avg:artillery.statsd_plugin.codes.304{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                      "data_source": "metrics",
+                      "name": "query3",
+                      "aggregator": "sum"
+                    }
+                  ]
+                }
+              ]
+            },
+            "layout": {
+              "x": 3,
+              "y": 0,
+              "width": 3,
+              " height": 2
+            }
+          },
+          {
+            "id": 8649768668953210,
+            "definition": {
+              "title": "4xx",
+              "title_size": "16",
+              "title_align": "left",
+              "type": "toplist",
+              "requests": [
+                {
+                  "formulas": [
+                    {
+                      "formula": "query2 + query1 + query3 + query4 + query5",
+                      "limit": {
+                        "count": 10,
+                        "order": "desc"
+                      }
+                    }
+                  ],
+                  "conditional_formats": [
+                    {
+                      "comparator": ">",
+                      "palette": "white_on_red",
+                      "value": 0
+                    }
+                  ],
+                  "response_format": "scalar",
+                  "queries": [
+                    {
+                      "query": "avg:artillery.statsd_plugin.codes.400{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                      "data_source": "metrics",
+                      "name": "query2",
+                      "aggregator": "sum"
+                    },
+                    {
+                      "query": "avg:artillery.statsd_plugin.codes.401{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                      "data_source": "metrics",
+                      "name": "query1",
+                      "aggregator": "sum"
+                    },
+                    {
+                      "query": "avg:artillery.statsd_plugin.codes.404{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                      "data_source": "metrics",
+                      "name": "query3",
+                      "aggregator": "sum"
+                    },
+                    {
+                      "query": "avg:artillery.statsd_plugin.codes.403{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                      "data_source": "metrics",
+                      "name": "query4",
+                      "aggregator": "sum"
+                    },
+                    {
+                      "query": "avg:artillery.statsd_plugin.codes.429{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                      "data_source": "metrics",
+                      "name": "query5",
+                      "aggregator": "sum"
+                    }
+                  ]
+                }
+              ]
+            },
+            "layout": {
+              "x": 6,
+              "y": 0,
+              "width": 3,
+              "height": 2
+            }
+          },
+          {
+            "id": 6718229458023324,
+            "definition": {
+              "title": "5xx",
+              "title_size": "16",
+              "title_align": "left",
+              "type": "toplist",
+              "requests": [
+                {
+                  "formulas": [
+                    {
+                      "formula": "query2 + query1 + query3 + query4 + query5",
+                      "limit": {
+                        "count": 10,
+                        "order": "desc"
+                      }
+                    }
+                  ],
+                  "conditional_formats": [
+                    {
+                      "comparator": ">",
+                      "palette": "white_on_red",
+                      "value": 0
+                    }
+                  ],
+                  "response_format": "scalar",
+                  "queries": [
+                    {
+                      "query": "avg:artillery.statsd_plugin.codes.500{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                      "data_source": "metrics",
+                      "name": "query2",
+                      "aggregator": "sum"
+                    },
+                    {
+                      "query": "avg:artillery.statsd_plugin.codes.503{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                      "data_source": "metrics",
+                      "name": "query1",
+                      "aggregator": "sum"
+                    },
+                    {
+                      "query": "avg:artillery.statsd_plugin.codes.504{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                      "data_source": "metrics",
+                      "name": "query3",
+                      "aggregator": "sum"
+                    },
+                    {
+                      "query": "avg:artillery.statsd_plugin.codes.520{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                      "data_source": "metrics",
+                      "name": "query4",
+                      "aggregator": "sum"
+                    },
+                    {
+                      "query": "avg:artillery.statsd_plugin.codes.521{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                      "data_source": "metrics",
+                      "name": "query5",
+                      "aggregator": "sum"
+                    }
+                  ]
+                }
+              ]
+            },
+            "layout": {
+              "x": 9,
+              "y": 0,
+              "width": 3,
+              "height": 2
+            }
+          }
+        ]
+      },
+      "layout": {
+        "x": 0,
+        "y": 3,
+        "width": 12,
+        "height": 3
+      }
+    },
+    {
+      "id": 753520488420436,
+      "definition": {
+        "title": "Requests over time",
+        "title_size": "16",
+        "title_align": "left",
+        "show_legend": true,
+        "legend_layout": "horizontal",
+        "legend_columns": [
+          "avg",
+          "min",
+          "max",
+          "value",
+          "sum"
+        ],
+        "type": "timeseries",
+        "requests": [
+          {
+            "formulas": [
+              {
+                "alias": "(avg) Requests per second",
+                "formula": "query1"
+              },
+              {
+                "alias": "requests",
+                "formula": "query2"
+              },
+              {
+                "alias": "users",
+                "formula": "query3"
+              }
+            ],
+            "response_format": "timeseries",
+            "queries": [
+              {
+                "query": "avg:artillery.statsd_plugin.rps.mean{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                "data_source": "metrics",
+                "name": "query1"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.rps.count{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                "data_source": "metrics",
+                "name": "query2"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.concurrency{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                "data_source": "metrics",
+                "name": "query3"
+              }
+            ],
+            "style": {
+              "palette": "dog_classic",
+              "line_type": "solid",
+              "line_width": "normal"
+            },
+            "display_type": "line"
+          }
+        ],
+        "yaxis": {
+          "include_zero": true,
+          "scale": "linear",
+          "label": "",
+          "min": "auto",
+          "max": "auto"
+        },
+        "markers": [
+
+        ]
+      },
+      "layout": {
+        "x": 0,
+        "y": 0,
+        "width": 6,
+        "height": 4
+      }
+    },
+    {
+      "id": 1386193011716566,
+      "definition": {
+        "title": "Latency over time",
+        "title_size": "16",
+        "title_align": "left",
+        "show_legend": true,
+        "legend_layout": "vertical",
+        "legend_columns": [
+          "min",
+          "max",
+          "value",
+          "avg"
+        ],
+        "type": "timeseries",
+        "requests": [
+          {
+            "formulas": [
+              {
+                "alias": "min",
+                "formula": "query1"
+              },
+              {
+                "alias": "max",
+                "formula": "query2"
+              },
+              {
+                "alias": "median",
+                "formula": "query3"
+              },
+              {
+                "alias": "p95",
+                "formula": "query4"
+              },
+              {
+                "alias": "p99",
+                "formula": "query5"
+              }
+            ],
+            "response_format": "timeseries",
+            "queries": [
+              {
+                "query": "avg:artillery.statsd_plugin.latency.min{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                "data_source": "metrics",
+                "name": "query1"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.latency.max{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                "data_source": "metrics",
+                "name": "query2"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.latency.median{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                "data_source": "metrics",
+                "name": "query3"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.latency.p95{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                "data_source": "metrics",
+                "name": "query4"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.latency.p99{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                "data_source": "metrics",
+                "name": "query5"
+              }
+            ],
+            "style": {
+              "palette": "dog_classic",
+              "line_type": "solid",
+              "line_width": "normal"
+            },
+            "display_type": "line"
+          }
+        ],
+        "yaxis": {
+          "include_zero": true,
+          "scale": "linear",
+          "label": "",
+          "min": "auto",
+          "max": "auto"
+        },
+        "markers": [
+
+        ]
+      },
+      "layout": {
+        "x": 6,
+        "y": 0,
+        "width": 6,
+        "height": 4
+      }
+    },
+    {
+      "id": 4130780904466936,
+      "definition": {
+        "title": "Requests Throughput vs Users ",
+        "title_size": "16",
+        "title_align": "left",
+        "show_legend": true,
+        "legend_layout": "horizontal",
+        "legend_columns": [
+          "avg",
+          "min",
+          "max",
+          "value",
+          "sum"
+        ],
+        "type": "timeseries",
+        "requests": [
+          {
+            "formulas": [
+              {
+                "alias": "users",
+                "formula": "query2"
+              },
+              {
+                "alias": "peding_requests",
+                "formula": "query3"
+              },
+              {
+                "alias": "completed_requests",
+                "formula": "query4"
+              }
+            ],
+            "response_format": "timeseries",
+            "queries": [
+              {
+                "query": "avg:artillery.statsd_plugin.concurrency{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                "data_source": "metrics",
+                "name": "query2"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.pendingRequests{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                "data_source": "metrics",
+                "name": "query3"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.requestsCompleted{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                "data_source": "metrics",
+                "name": "query4"
+              }
+            ],
+            "style": {
+              "palette": "dog_classic",
+              "line_type": "solid",
+              "line_width": "normal"
+            },
+            "display_type": "line"
+          }
+        ],
+        "yaxis": {
+          "include_zero": true,
+          "scale": "linear",
+          "label": "",
+          "min": "auto",
+          "max": "auto"
+        },
+        "markers": [
+
+        ]
+      },
+      "layout": {
+        "x": 0,
+        "y": 4,
+        "width": 6,
+        "height": 3
+      }
+    },
+    {
+      "id": 63269089764928,
+      "definition": {
+        "title": "Http codes over time",
+        "title_size": "16",
+        "title_align": "left",
+        "show_legend": true,
+        "legend_layout": "horizontal",
+        "legend_columns": [
+          "avg",
+          "min",
+          "max",
+          "value",
+          "sum"
+        ],
+        "type": "timeseries",
+        "requests": [
+          {
+            "formulas": [
+              {
+                "alias": "200 OK",
+                "formula": "query1"
+              },
+              {
+                "alias": "201 Created",
+                "formula": "query2"
+              },
+              {
+                "alias": "202 Accepted",
+                "formula": "query3"
+              },
+              {
+                "alias": "204 No Content",
+                "formula": "query4"
+              },
+              {
+                "alias": "400 Bad Request",
+                "formula": "query5"
+              },
+              {
+                "alias": "401 Unauthorized",
+                "formula": "query6"
+              },
+              {
+                "alias": "403 Forbiden",
+                "formula": "query7"
+              },
+              {
+                "alias": "404 Not Found",
+                "formula": "query8"
+              },
+              {
+                "alias": "429 To Many Requests",
+                "formula": "query9"
+              },
+              {
+                "alias": "300 Multiply Choises",
+                "formula": "query10"
+              },
+              {
+                "alias": "301 Moved Permanently",
+                "formula": "query11"
+              },
+              {
+                "alias": "302 Moved Temporarily",
+                "formula": "query12"
+              },
+              {
+                "alias": "304 Not Modified",
+                "formula": "query13"
+              },
+              {
+                "alias": "500 Internal Server Error",
+                "formula": "query14"
+              },
+              {
+                "alias": "504 Gateway Timeout",
+                "formula": "query15"
+              },
+              {
+                "alias": "503 Service Unvailable",
+                "formula": "query16"
+              },
+              {
+                "alias": "520 Unknown Error",
+                "formula": "query17"
+              },
+              {
+                "alias": "521 Web Server Is Down",
+                "formula": "query18"
+              }
+            ],
+            "response_format": "timeseries",
+            "queries": [
+              {
+                "query": "avg:artillery.statsd_plugin.codes.200{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                "data_source": "metrics",
+                "name": "query1"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.codes.201{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                "data_source": "metrics",
+                "name": "query2"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.codes.202{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                "data_source": "metrics",
+                "name": "query3"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.codes.204{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                "data_source": "metrics",
+                "name": "query4"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.codes.400{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                "data_source": "metrics",
+                "name": "query5"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.codes.401{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                "data_source": "metrics",
+                "name": "query6"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.codes.403{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                "data_source": "metrics",
+                "name": "query7"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.codes.404{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                "data_source": "metrics",
+                "name": "query8"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.codes.429{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                "data_source": "metrics",
+                "name": "query9"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.codes.300{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                "data_source": "metrics",
+                "name": "query10"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.codes.301{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                "data_source": "metrics",
+                "name": "query11"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.codes.302{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                "data_source": "metrics",
+                "name": "query12"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.codes.304{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                "data_source": "metrics",
+                "name": "query13"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.codes.500{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                "data_source": "metrics",
+                "name": "query14"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.codes.504{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                "data_source": "metrics",
+                "name": "query15"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.codes.503{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                "data_source": "metrics",
+                "name": "query16"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.codes.520{mode:$mode.value,env:$env.value,scenario:$scenario.value}",
+                "data_source": "metrics",
+                "name": "query17"
+              },
+              {
+                "query": "avg:artillery.statsd_plugin.codes.521{mode:$mode.value,env: $env.value,scenario:$scenario.value}",
+                "data_source": "metrics",
+                "name": "query18"
+              }
+            ],
+            "style": {
+              "palette": "dog_classic",
+              "line_type": "solid",
+              "line_width": "normal"
+            },
+            "display_type": "line"
+          }
+        ],
+        "yaxis": {
+          "include_zero": true,
+          "scale": "linear",
+          "label": "",
+          "min": "auto",
+          "max": "auto"
+        },
+        "markers": [
+
+        ]
+      },
+      "layout": {
+        "x": 6,
+        "y": 4,
+        "width": 6,
+        "height": 3
+      }
+    },
+    {
+      "id": 5095441059280754,
+      "definition": {
+        "title": "Metrics by endpoint",
+        "type": "group",
+        "show_title": true,
+        "layout_type": "ordered",
+        "widgets": [
+          {
+            "id": 6557208410717896,
+            "definition": {
+              "title": "Endpoint response times, ms",
+              "title_size": "16",
+              "title_align": "left",
+              "type": "query_table",
+              "requests": [
+                {
+                  "formulas": [
+                    {
+                      "alias": "max",
+                      "conditional_formats": [
+                        {
+                          "palette": "white_on_red",
+                          "value": 5000,
+                          "comparator": ">"
+                        },
+                        {
+                          "palette": "white_on_yellow",
+                          "value": 4000,
+                          "comparator": ">="
+                        },
+                        {
+                          "palette": "white_on_green",
+                          "value": 4000,
+                          "comparator": "<"
+                        }
+                      ],
+                      "limit": {
+                        "count": 500,
+                        "order": "desc"
+                      },
+                      "cell_display_mode": "number",
+                      "formula": "query1"
+                    },
+                    {
+                      "alias": "median",
+                      "conditional_formats": [
+                        {
+                          "palette": "white_on_red",
+                          "value": 5000,
+                          "comparator": ">"
+                        },
+                        {
+                          "palette": "white_on_yellow",
+                          "value": 4000,
+                          "comparator": ">="
+                        },
+                        {
+                          "palette": "white_on_green",
+                          "value": 4000,
+                          "comparator": "<"
+                        }
+                      ],
+                      "cell_display_mode": "number",
+                      "formula": "query2"
+                    },
+                    {
+                      "alias": "min",
+                      "conditional_formats": [
+                        {
+                          "palette": "white_on_red",
+                          "value": 5000,
+                          "comparator": ">"
+                        },
+                        {
+                          "palette": "white_on_yellow",
+                          "value": 4000,
+                          "comparator": ">="
+                        },
+                        {
+                          "palette": "white_on_green",
+                          "value": 4000,
+                          "comparator": "<"
+                        }
+                      ],
+                      "cell_display_mode": "number",
+                      "formula": "query3"
+                    },
+                    {
+                      "alias": "p95",
+                      "conditional_formats": [
+                        {
+                          "palette": "white_on_red",
+                          "value": 5000,
+                          "comparator": ">"
+                        },
+                        {
+                          "palette": "white_on_yellow",
+                          "value": 4000,
+                          "comparator": ">="
+                        },
+                        {
+                          "palette": "white_on_green",
+                          "value": 4000,
+                          "comparator": "<"
+                        }
+                      ],
+                      "cell_display_mode": "number",
+                      "formula": "query4"
+                    },
+                    {
+                      "alias": "p99",
+                      "conditional_formats": [
+                        {
+                          "palette": "white_on_red",
+                          "value": 5000,
+                          "comparator": ">"
+                        },
+                        {
+                          "palette": "white_on_yellow",
+                          "value": 4000,
+                          "comparator": ">="
+                        },
+                        {
+                          "palette": "white_on_green",
+                          "value": 4000,
+                          "comparator": "<"
+                        }
+                      ],
+                      "cell_display_mode": "number",
+                      "formula": "query5"
+                    }
+                  ],
+                  "response_format": "scalar",
+                  "queries": [
+                    {
+                      "query": "avg:artillery.plugins.datadog_advanced_metrics.response_time_max.avg{*} by {url}",
+                      "data_source": "metrics",
+                      "name": "query1",
+                      "aggregator": "avg"
+                    },
+                    {
+                      "query": "avg:artillery.plugins.datadog_advanced_metrics.response_time_median.avg{*} by {url}",
+                      "data_source": "metrics",
+                      "name": "query2",
+                      "aggregator": "avg"
+                    },
+                    {
+                      "query": "avg:artillery.plugins.datadog_advanced_metrics.response_time_min.avg{*} by {url}",
+                      "data_source": "metrics",
+                      "name": "query3",
+                      "aggregator": "avg"
+                    },
+                    {
+                      "query": "avg:artillery.plugins.datadog_advanced_metrics.response_time_p95.avg{*} by {url}",
+                      "data_source": "metrics",
+                      "name": "query4",
+                      "aggregator": "avg"
+                    },
+                    {
+                      "query": "avg:artillery.plugins.datadog_advanced_metrics.response_time_p95.avg{*} by {url}",
+                      "data_source": "metrics",
+                      "name": "query5",
+                      "aggregator": "avg"
+                    }
+                  ]
+                }
+              ],
+              "has_search_bar": "auto"
+            },
+            "layout": {
+              "x": 0,
+              "y": 0,
+              "width": 5,
+              "height": 4
+            }
+          },
+          {
+            "id": 5845167043929364,
+            "definition": {
+              "title": "Response Time by Endpoint, ms",
+              "title_size": "16",
+              "title_align": "left",
+              "show_legend": true,
+              "legend_layout": "vertical",
+              "legend_columns": [
+                "avg",
+                "min",
+                "max",
+                "value",
+                "sum"
+              ],
+              "type": "timeseries",
+              "requests": [
+                {
+                  "formulas": [
+                    {
+                      "alias": "max",
+                      "formula": "query1"
+                    }
+                  ],
+                  "response_format": "timeseries",
+                  "queries": [
+                    {
+                      "query": "avg:artillery.plugins.datadog_advanced_metrics.response_time_max.avg{*} by {url}",
+                      "data_source": "metrics",
+                      "name": "query1"
+                    }
+                  ],
+                  "style": {
+                    "palette": "dog_classic",
+                    "line_type": "solid",
+                    "line_width": "normal"
+                  },
+                  "display_type": "line"
+                }
+              ],
+              "yaxis": {
+                "include_zero": true,
+                "scale": "linear",
+                "label": "",
+                "min": "auto",
+                "max": "auto"
+              },
+              "markers": [
+
+              ]
+            },
+            "layout": {
+              "x": 5,
+              "y": 0,
+              "width": 7,
+              "height": 4
+            }
+          },
+          {
+            "id": 4839241743329700,
+            "definition": {
+              "title": "Status Codes By Endpoint",
+              "title_size": "16",
+              "title_align": "left",
+              "type": "query_table",
+              "requests": [
+                {
+                  "formulas": [
+                    {
+                      "alias": "count",
+                      "conditional_formats": [
+
+                      ],
+                      "limit": {
+                        "count": 500,
+                        "order": "desc"
+                      },
+                      "cell_display_mode": "bar",
+                      "formula": "query1"
+                    }
+                  ],
+                  "response_format": "scalar",
+                  "queries": [
+                    {
+                      "query": "avg:artillery.plugins.datadog_advanced_metrics.codes{*} by {url,code}.as_count()",
+                      "data_source": "metrics",
+                      "name": "query1",
+                      "aggregator": "sum"
+                    }
+                  ]
+                }
+              ],
+              "has_search_bar": "auto"
+            },
+            "layout": {
+              "x": 0,
+              "y": 4,
+              "width": 5,
+              "height": 4
+            }
+          },
+          {
+            "id": 6079516263912876,
+            "definition": {
+              "title": "Errors",
+              "title_size": "16",
+              "title_align": "left",
+              "time": {
+
+              },
+              "type": "query_table",
+              "requests": [
+                {
+                  "queries": [
+                    {
+                      "data_source": "metrics",
+                      "name": "query1",
+                      "query": "avg:artillery.plugins.datadog_advanced_metrics.errors{*} by {error}.as_count()",
+                      "aggregator": "sum"
+                    }
+                  ],
+                  "formulas": [
+                    {
+                      "conditional_formats": [
+
+                      ],
+                      "cell_display_mode": "bar",
+                      "alias": "count",
+                      "formula": "query1",
+                      "limit": {
+                        "count": 500,
+                        "order": "desc"
+                      }
+                    }
+                  ],
+                  "response_format": "scalar"
+                }
+              ],
+              "has_search_bar": "auto"
+            },
+            "layout": {
+              "x": 5,
+              "y": 4,
+              "width": 5,
+              "height": 4
+            }
+          }
+        ]
+      },
+      "layout": {
+        "x": 0,
+        "y": 13,
+        "width": 12,
+        "height": 9
+      }
+    }
+  ],
+  "template_variables": [
+    {
+      "name": "mode",
+      "default": "*",
+      "prefix": "mode",
+      "available_values": [
+
+      ]
+    },
+    {
+      "name": "env",
+      "default": "*",
+      "prefix": "env",
+      "available_values": [
+
+      ]
+    },
+    {
+      "name": "scenario",
+      "default": "*",
+      "prefix": "scenario",
+      "available_values": [
+
+      ]
+    }
+  ],
+  "layout_type": "ordered",
+  "is_read_only": false,
+  "notify_list": [
+
+  ],
+  "reflow_type": "fixed",
+  "id": "9c6-6jp-ibv"
+}

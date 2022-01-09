@@ -1,0 +1,141 @@
+version: '3.8'
+services:
+
+  grafana:
+    image: grafana/grafana:8.2.3 #7.2.1
+    container_name: grafana
+    hostname: grafana
+    depends_on:
+      - influxdb
+    links:
+      - influxdb
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_USERS_ALLOW_ORG_CREATE=false
+      - GF_INSTALL_PLUGINS=michaeldmoore-multistat-panel,grafana-piechart-panel,yesoreyeram-boomtable-panel
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/datasources:/etc/grafana/provisioning/datasources
+      - ./grafana/dashboards:/etc/grafana/provisioning/dashboards
+    restart: always
+
+  influxdb:
+    image: influxdb:1.8
+    container_name: influxdb
+    restart: unless-stopped
+    environment:
+      - INFLUXDB_CONFIG_PATH=/tmp/influxdb/influxdb.conf
+      - INFLUXDB_DB=testdb
+      #- INFLUXDB_USER=test
+      #- INFLUXDB_ADMIN_ENABLED=true
+      #- INFLUXDB_ADMIN_USER=admin
+      #- INFLUXDB_ADMIN_PASSWORD=Welcome1
+    volumes:
+      - ./influxdb:/tmp/influxdb
+      - influx_data:/var/lib/influxdb
+    ports:
+      - "8086:8086"
+      - "2004:2003"
+      - "8089:8089/udp"
+
+  telegraf:
+    image: telegraf
+    container_name: telegraf
+    restart: unless-stopped
+    depends_on:
+      - influxdb
+    links:
+      - influxdb
+    #extra_hosts:
+      #- "influxdb:172.0.0.1"
+    environment:
+      - HOST_PROC=/rootfs/proc
+      - HOST_SYS=/rootfs/sys
+      - HOST_ETC=/rootfs/etc
+    volumes:
+      - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /sys:/rootfs/sys:ro
+      - /proc:/rootfs/proc:ro
+      - /etc:/rootfs/etc:ro
+    ports:
+      - "8125:8125/udp"
+
+  prometheus:
+    image: prom/prometheus:v2.22.0
+    container_name: prometheus
+    restart: always
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=90d'
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus/rules/hosts_rules.yml:/etc/prometheus/hosts_rules.yml
+      - prometheus_data:/prometheus
+    ports:
+      - "9090:9090"
+    depends_on:
+      - cadvisor
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    # image: 'google/cadvisor:latest'
+    # image: gcr.io/google-containers/cadvisor:v0.34.0
+    container_name: cadvisor
+    restart: unless-stopped
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk:/dev/disk/:ro
+    ports:
+      - "8080:8080"
+
+  node_exporter:
+    image: quay.io/prometheus/node-exporter:latest
+    container_name: node_exporter
+    command:
+      - '--path.rootfs=/host'
+    restart: unless-stopped
+    volumes:
+      - '/:/host:ro,rslave'
+    ports:
+      - "9100:9100"
+
+  pushgateway:
+    image: prom/pushgateway
+    container_name: pushgateway
+    ports:
+      - "9091:9091"
+
+#  portainer:
+#    image: portainer/portainer:1.24.1
+#    container_name: portainer
+#    restart: unless-stopped
+#    command: -H unix:///var/run/docker.sock
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock
+#      - portainer:/data
+#    ports:
+#      - 9000:9000
+#      - 8000:8000
+
+networks:
+  default:
+    name: artillery-sandbox
+
+volumes:
+  influx_data: {}
+  grafana_data: {}
+  prometheus_data: {}
+  # portainer: {}

@@ -1,0 +1,6 @@
+init_config:
+instances:
+  - host: artillery
+  tags:
+    - instance-type:artillery
+    - host:artillery

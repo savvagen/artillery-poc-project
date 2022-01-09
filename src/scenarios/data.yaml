@@ -1,0 +1,57 @@
+config:
+  target: "http://localhost:3001"
+  phases:
+    - duration: 20
+      arrivalCount: 5
+  ensure:
+    maxErrorRate: 1
+  http:
+    timeout: 60
+    extendedMetrics: true
+  processor: "../processors/main.js"
+  plugins:
+    expect: {}
+    metrics-by-endpoint:
+      useOnlyRequestNames: true
+  variables:
+    commentsNumber: 2
+  defaults:
+    headers:
+      Content-Type: "application/json"
+      Accept: "application/json"
+
+before:
+  flow:
+    - log: "Creating 'people.csv' file."
+    - function: "createPeopleCsv"
+
+scenarios:
+  - name: Users Creation Scenario
+    flow:
+      - log: "Authenticate and get token"
+      - get:
+          url: "/get_token"
+          name: "GET/get_token"
+          auth:
+            user: "test"
+            pass: "test"
+          capture:
+            - json: "$.token"
+              as: token
+          expect:
+            - statusCode: 200
+      - log: "Found Token: {{ token }}"
+      - think: 0.5
+      - post:
+          url: "/users"
+          name: "POST/users"
+          headers:
+            Authorization: "Bearer {{ token }}"
+          expect:
+            - statusCode: 201
+            - hasProperty: id
+          beforeRequest: "userBody"
+          afterResponse: "saveUserId"
+      - log: "Found User: {{ userId }} {{ userEmail }}"
+      - function: "saveUsersData"
+      - function: "writeUsersDataToCsv"

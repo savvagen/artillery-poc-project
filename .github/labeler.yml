@@ -1,0 +1,13 @@
+theme:workflow:
+  - ".github/**"
+
+theme:config:
+  - "src/config/**"
+  - "package.json"
+  - ".gitignore"
+
+theme:core:
+  - "src/processors/*"
+
+theme:test:
+  - "src/scenarios/*"

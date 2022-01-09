@@ -1,0 +1,151 @@
+name: Performance Test
+
+on:
+  #push:
+  #  branches: '*'
+    #branches: [ master, main, fix ]
+  #pull_request:
+  #  branches: [ master ]
+  #schedule:
+  #  - cron: 0 0 * * 0 ### weekly
+  workflow_dispatch:
+    inputs:
+      scenarioName:
+        default: 'system'
+        required: true
+        description: 'Scenario name (default: system)'
+      config:
+        default: 'debug'
+        required: true
+        description: 'Configuration name from src/config/<name>.config.yaml (default: debug)'
+      environment:
+        default: 'local'
+        required: true
+        description: 'Env. name (default: local)'
+      statsdServerAddress:
+        default: 'datadog'
+        required: true
+        description: 'StatsdServer Address (default: datadog)'
+      statsdServerPort:
+        default: '8125'
+        required: true
+        description: 'StatsdServer Port (default: 8125).'
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    env:
+      SCENARIO_NAME: 'system'
+      CONFIG: 'debug'
+      ENVIRONMENT: "local"
+    outputs:
+      scenarioName: ${{ steps.setup_step.outputs.scenarioName }}
+      config: ${{ steps.setup_step.outputs.config }}
+      environment: ${{ steps.setup_step.outputs.environment }}
+    steps:
+      - name: Overwrite Variables
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          echo "SCENARIO_NAME=${{ github.event.inputs.scenarioName }}" >> $GITHUB_ENV
+          echo "CONFIG=${{ github.event.inputs.config }}" >> $GITHUB_ENV
+          echo "ENVIRONMENT=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
+      - name: Setup Variables
+        id: setup_step
+        run: |
+          echo "Starting Performance Test with configurations:"
+          echo "SCENARIO_NAME = ${{ env.SCENARIO_NAME }}"
+          echo "CONFIG = ${{ env.CONFIG }}"
+          echo "ENVIRONMENT = ${{ env.ENVIRONMENT }}"
+          echo "::set-output name=scenarioName::${{ env.SCENARIO_NAME }}"
+          echo "::set-output name=config::${{ env.CONFIG }}"
+          echo "::set-output name=environment::${{ env.ENVIRONMENT }}"
+
+  artillery:
+    runs-on: ubuntu-latest
+    container: artilleryio/artillery:latest
+    name: artillery
+    timeout-minutes: 180
+    needs:
+      - setup
+    services:
+      datadog:
+        image: datadog/agent:latest
+        env:
+          DOCKER_CONTENT_TRUST: 1
+          DD_SITE: datadoghq.com
+          DD_API_KEY: "${{ env.DD_API_KEY }}"
+          DD_DOGSTATSD_NON_LOCAL_TRAFFIC: 1
+          DD_DOCKER_LABELS_AS_TAGS: '{"my.custom.label.project":"artillery","my.custom.label.version":"1.0"}'
+          DD_TAGS: "tool:artillery mode:${{ env.CONFIG }} scenario:${{ env.SCENARIO_NAME }} env:${{ env.ENVIRONMENT }}"
+        volumes:
+          - ${{ github.workspace }}/compose/metrics/datadog/conf.yaml:/conf.d/conf.yaml
+          - /var/run/docker.sock:/var/run/docker.sock
+          - /proc/:/host/proc/
+          - /sys/fs/cgroup/:/host/sys/fs/cgroup
+        ports:
+          - '8125:8125/udp'
+        options: '--hostname=datadog --name=dd_agent'
+      json-server:
+        image: savvagenchevskiy/json-server:latest
+        ports:
+          - '3001:3000'
+    env:
+      DOCKER_CONTENT_TRUST: 1
+      SCENARIO_NAME: "${{ needs.setup.outputs.scenarioName }}"
+      CONFIG: "${{ needs.setup.outputs.config }}"
+      ENVIRONMENT: "${{ needs.setup.outputs.environment }}"
+      STATSD_SERVER_ADDRESS: 'datadog' # "${{ github.event.inputs.statsdServerAddress }}"
+      STATSD_SERVER_PORT: 8125
+      STATSD_PREFIX: "artillery.statsd_plugin"
+      DD_API_KEY: "${{ secrets.DATADOG_API_KEY }}"
+      DEBUG: plugin:datadog-advanced-metrics,plugin:publish-metrics:datadog-statsd
+    steps:
+      - name: Checkout repository 🛎️
+        uses: actions/checkout@v2
+
+      - name: Install Deps 🔧
+        run: |
+          apk add git python3 py3-pip yarn
+          npm install
+
+      - name: Data Preparation
+        run: |
+          ./node_modules/.bin/artillery run --environment ${{ env.ENVIRONMENT }} src/scenarios/data_preparation.yaml
+          cat src/data/people.csv
+
+      - name: Make reports directory
+        run: mkdir -p reports
+
+      - name: Run Performance Test Manually 🧪️
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          echo "STATSD_SERVER_ADDRESS=${{ github.event.inputs.statsdServerAddress }}" >> $GITHUB_ENV
+          echo "STATSD_SERVER_PORT=${{ github.event.inputs.statsdServerPort }}" >> $GITHUB_ENV
+          echo "STATSD_PREFIX=${{ github.event.inputs.statsdPrefix }}" >> $GITHUB_ENV
+          ./node_modules/.bin/artillery run --config src/config/${{ github.event.inputs.config }}.config.yaml --environment ${{ github.event.inputs.environment }} src/scenarios/${{ github.event.inputs.scenarioName }}.yaml --output reports/report.json
+        continue-on-error: true
+
+      - name: Run Performance Test 🧪️
+        if: ${{ github.event_name == 'push' || github.event_name == 'pull_request' }} # ${{ github.event_name == 'push' || (github.event_name == 'pull_request' && github.head_ref == 'master' ) }}
+        run: ./node_modules/.bin/artillery run --config src/config/${{ env.CONFIG }}.config.yaml --environment ${{ env.ENVIRONMENT }} src/scenarios/${{ env.SCENARIO_NAME }}.yaml --output reports/report.json
+        continue-on-error: true
+
+      - name: Generate HTML report
+        run: ./node_modules/.bin/artillery report --output reports/index.html reports/report.json
+
+      - name: Archive test report
+        uses: actions/upload-artifact@v2
+        if: success()
+        with:
+          name: artillery-test-report
+          path: reports/*
+          retention-days: 15
+
+      - name: Deploy Report to GitHub Pages 🚀
+        if: success() # always()
+        uses: crazy-max/ghaction-github-pages@v2
+        with:
+          target_branch: gh-pages
+          build_dir: reports
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

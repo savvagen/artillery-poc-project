@@ -1,0 +1,99 @@
+config:
+  target: "http://localhost:3001"
+  phases:
+    - duration: 60
+      arrivalCount: 30
+      name: "My Load Stage"
+  ensure:
+    maxErrorRate: 1
+  http:
+    timeout: 60
+    extendedMetrics: true
+  processor: "../processors/main.js"
+  variables:
+    commentsNumber: 2
+  payload:
+    path: "./../data/people.csv"
+    fields:
+      - "userId"
+      - "userName"
+      - "userEmail"
+    order: sequence  # sequence # random
+    skipHeader: true
+  defaults:
+    headers:
+      Content-Type: "application/json"
+      Accept: "application/json"
+  statsInterval: 5
+  plugins:
+    expect: {}
+    metrics-by-endpoint:
+      useOnlyRequestNames: true
+    statsd: # https://github.com/artilleryio/artillery-plugin-statsd
+      host: "localhost"
+      port: 8126
+      # Prefix Format: "artillery.<SCENARIO_NAME>.<CONFIG_NAME>"
+      # Set: "artillery.statsd_plugin" when publishing metrics to Datadog (using agent)
+      prefix: "artillery.statsd_plugin"
+    ########################
+    # Use Only with "metrics-by-endpoint" plugin!!!
+    ########################
+    datadog-advanced-metrics:
+      host: 'localhost' # statsd server host
+      port: 8126 # statsd port
+      prefix: "artillery" # metrics prefix. Metrics path will be: {prefix}.plugins.datadog_statsd_endpoint_metrics.
+
+
+scenarios:
+  - name: Post Reader Scenario
+    flow:
+      #- log: "Get posts"
+      #- log: "Found user {{ userId }} {{ userName }}"
+      - get:
+          url: "/posts"
+          name: "GET/posts"
+          expect:
+            - statusCode: 200
+          afterResponse: "getPosts"
+      #- log: "Found Posts: {{ postIds }}"
+      #- log: "Found Post: {{ postId }}"
+      - think: 1
+      - loop:
+          - get:
+              url: "/posts/{{ $loopElement }}"
+              name: "GET/posts/ID"
+              expect:
+                - statusCode: 200
+                - hasProperty: id
+        over: postIds
+      - think: 1
+      - get:
+          url: "/posts/{{ postId }}"
+          name: "GET/posts/ID"
+          expect:
+            - statusCode: 200
+            - hasProperty: id
+          afterResponse: "getComments"
+      #- log: "Found Comment Ids: {{ commentIds }}"
+      - loop:
+          - get:
+              url: "/comments/{{ $loopElement }}"
+              name: "GET/comments/ID"
+              expect:
+                - statusCode: 200
+                - hasProperty: id
+        over: commentIds
+      - think: 1
+      # write new comment
+      #- function: "getRandomEmail"
+      #- log: "Writing comment from {{ userEmail }}"
+      - post:
+          url: "/comments"
+          name: "POST/comments"
+          capture:
+            - json: "$.id"
+              as: "commentId"
+          expect:
+            - statusCode: 201
+            - hasProperty: id
+          beforeRequest: "commentBody"

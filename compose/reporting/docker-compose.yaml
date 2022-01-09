@@ -1,0 +1,22 @@
+# Report Viewer
+# v1
+# https://github.com/artilleryio/report-viewer
+# v2
+# https://github.com/cfryerdev/report-viewer-beta
+# https://hub.docker.com/r/cfryerdev/artilleryio-report-viewer
+#
+version: '3.8'
+services:
+  report_viewer:
+    container_name: report-viewer
+    image: cfryerdev/artilleryio-report-viewer
+    environment:
+      - LOADER_ENABLED=true
+      - LOADER_ENFORCEWHITELIST=true
+      - WHITELIST_PROTOCOLS=https,http
+      - WHITELIST_HOSTS=pastebin.com,bucket.artillery.io,**.blob.core.windows.net,**.s3-**.amazonaws.com
+      - RATELIMITER_ENABLED=true
+      - RATELIMITER_IP_HITS_PER_MINUTES=100
+      - RATELIMITER_MINUTES=10
+    ports:
+      - '8080:80'

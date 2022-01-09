@@ -1,0 +1,36 @@
+global:
+  scrape_interval: 5s # Time interval for metrics gathering
+  scrape_timeout: 5s # Timeout after 5 seconds
+  evaluation_interval: 15s # Checks interval
+
+#alerting:
+#  alertmanagers:
+#    - scheme: http
+#      static_configs:
+#        - targets:
+#            - 'alertmanager:9093'
+
+rule_files:
+  - "hosts_rules.yml"
+  #- "containers_rules.yml"
+  #- "services_rules.yml"
+
+scrape_configs:
+
+  - job_name: cadvisor
+    static_configs:
+      - targets:
+          - cadvisor:8080
+
+  - job_name: node_exporter
+    static_configs:
+      - targets:
+          - node_exporter:9100
+      # https://stackoverflow.com/questions/53295711/multiple-targets-on-prometheus
+      #- targets: [ '192.168.x.x:9100','192.168.x.y:9100' ]
+
+  - job_name: 'pushgateway'
+    scrape_interval: 5s
+    honor_labels: true
+    static_configs:
+      - targets: ['pushgateway:9091']
