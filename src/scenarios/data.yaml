@@ -4,10 +4,11 @@ config:
     - duration: 20
       arrivalCount: 5
   environments:
-    target: "http://json-server:3001"
-    phases:
-      - duration: 20
-        arrivalCount: 5
+    local:
+      target: "http://json-server:3001"
+      phases:
+        - duration: 30
+          arrivalCount: 10
   ensure:
     maxErrorRate: 1
   http:
