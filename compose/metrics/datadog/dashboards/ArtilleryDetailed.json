@@ -1220,6 +1220,9 @@
               "title": "Endpoint response times, ms",
               "title_size": "16",
               "title_align": "left",
+              "time": {
+
+              },
               "type": "query_table",
               "requests": [
                 {
@@ -1243,12 +1246,12 @@
                           "comparator": "<"
                         }
                       ],
+                      "cell_display_mode": "number",
+                      "formula": "query1",
                       "limit": {
                         "count": 500,
                         "order": "desc"
-                      },
-                      "cell_display_mode": "number",
-                      "formula": "query1"
+                      }
                     },
                     {
                       "alias": "median",
@@ -1342,31 +1345,31 @@
                   "response_format": "scalar",
                   "queries": [
                     {
-                      "query": "avg:artillery.plugins.datadog_advanced_metrics.response_time_max.avg{*} by {url}",
+                      "query": "avg:artillery.plugins.datadog_advanced_metrics.response_time_max.avg{mode:$mode.value,env:$env.value,scenario:$scenario.value} by {url}",
                       "data_source": "metrics",
                       "name": "query1",
                       "aggregator": "avg"
                     },
                     {
-                      "query": "avg:artillery.plugins.datadog_advanced_metrics.response_time_median.avg{*} by {url}",
+                      "query": "avg:artillery.plugins.datadog_advanced_metrics.response_time_median.avg{mode:$mode.value,env:$env.value,scenario:$scenario.value} by {url}",
                       "data_source": "metrics",
                       "name": "query2",
                       "aggregator": "avg"
                     },
                     {
-                      "query": "avg:artillery.plugins.datadog_advanced_metrics.response_time_min.avg{*} by {url}",
+                      "query": "avg:artillery.plugins.datadog_advanced_metrics.response_time_min.avg{mode:$mode.value,env:$env.value,scenario:$scenario.value} by {url}",
                       "data_source": "metrics",
                       "name": "query3",
                       "aggregator": "avg"
                     },
                     {
-                      "query": "avg:artillery.plugins.datadog_advanced_metrics.response_time_p95.avg{*} by {url}",
+                      "query": "avg:artillery.plugins.datadog_advanced_metrics.response_time_p95.avg{mode:$mode.value,env:$env.value,scenario:$scenario.value} by {url}",
                       "data_source": "metrics",
                       "name": "query4",
                       "aggregator": "avg"
                     },
                     {
-                      "query": "avg:artillery.plugins.datadog_advanced_metrics.response_time_p95.avg{*} by {url}",
+                      "query": "avg:artillery.plugins.datadog_advanced_metrics.response_time_p95.avg{mode:$mode.value,env:$env.value,scenario:$scenario.value} by {url}",
                       "data_source": "metrics",
                       "name": "query5",
                       "aggregator": "avg"
@@ -1398,6 +1401,9 @@
                 "value",
                 "sum"
               ],
+              "time": {
+
+              },
               "type": "timeseries",
               "requests": [
                 {
@@ -1407,14 +1413,14 @@
                       "formula": "query1"
                     }
                   ],
-                  "response_format": "timeseries",
                   "queries": [
                     {
-                      "query": "avg:artillery.plugins.datadog_advanced_metrics.response_time_max.avg{*} by {url}",
+                      "query": "avg:artillery.plugins.datadog_advanced_metrics.response_time_max.avg{mode:$mode.value,env:$env.value,scenario:$scenario.value} by {url}",
                       "data_source": "metrics",
                       "name": "query1"
                     }
                   ],
+                  "response_format": "timeseries",
                   "style": {
                     "palette": "dog_classic",
                     "line_type": "solid",
@@ -1447,6 +1453,9 @@
               "title": "Status Codes By Endpoint",
               "title_size": "16",
               "title_align": "left",
+              "time": {
+
+              },
               "type": "query_table",
               "requests": [
                 {
@@ -1456,18 +1465,18 @@
                       "conditional_formats": [
 
                       ],
+                      "cell_display_mode": "bar",
+                      "formula": "query1",
                       "limit": {
                         "count": 500,
                         "order": "desc"
-                      },
-                      "cell_display_mode": "bar",
-                      "formula": "query1"
+                      }
                     }
                   ],
                   "response_format": "scalar",
                   "queries": [
                     {
-                      "query": "avg:artillery.plugins.datadog_advanced_metrics.codes{*} by {url,code}.as_count()",
+                      "query": "avg:artillery.plugins.datadog_advanced_metrics.codes{mode:$mode.value,env:$env.value,scenario:$scenario.value} by {code,url}.as_count()",
                       "data_source": "metrics",
                       "name": "query1",
                       "aggregator": "sum"
@@ -1496,21 +1505,13 @@
               "type": "query_table",
               "requests": [
                 {
-                  "queries": [
-                    {
-                      "data_source": "metrics",
-                      "name": "query1",
-                      "query": "avg:artillery.plugins.datadog_advanced_metrics.errors{*} by {error}.as_count()",
-                      "aggregator": "sum"
-                    }
-                  ],
                   "formulas": [
                     {
+                      "alias": "count",
                       "conditional_formats": [
 
                       ],
                       "cell_display_mode": "bar",
-                      "alias": "count",
                       "formula": "query1",
                       "limit": {
                         "count": 500,
@@ -1518,7 +1519,15 @@
                       }
                     }
                   ],
-                  "response_format": "scalar"
+                  "response_format": "scalar",
+                  "queries": [
+                    {
+                      "query": "avg:artillery.plugins.datadog_advanced_metrics.errors{mode:$mode.value,env:$env.value,scenario:$scenario.value} by {error}.as_count()",
+                      "data_source": "metrics",
+                      "name": "query1",
+                      "aggregator": "sum"
+                    }
+                  ]
                 }
               ],
               "has_search_bar": "auto"
