@@ -90,7 +90,6 @@ jobs:
         ports:
           - '3000:3000'
         options: '--hostname=json_server --name=json_server'
-
     env:
       DOCKER_CONTENT_TRUST: 1
       SCENARIO_NAME: "${{ needs.setup.outputs.scenarioName }}"
@@ -99,6 +98,7 @@ jobs:
       STATSD_SERVER_ADDRESS: 'datadog' # "${{ github.event.inputs.statsdServerAddress }}"
       STATSD_SERVER_PORT: 8125
       DD_API_KEY: "${{ secrets.DATADOG_API_KEY }}"
+      ARTILLERY_PLUGIN_PATH: "${{ github.workspace }}/src/plugins"  #`pwd`/src/plugins/
       DEBUG: plugin:datadog-advanced-metrics #,plugin:publish-metrics:datadog-statsd
     steps:
       - name: Checkout repository 🛎️

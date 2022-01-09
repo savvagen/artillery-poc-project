@@ -50,6 +50,7 @@ config:
   http:
     timeout: 60
     extendedMetrics: true
+  statsInterval: 5
   processor: "../processors/main.js"
   variables:
     commentsNumber: 2
