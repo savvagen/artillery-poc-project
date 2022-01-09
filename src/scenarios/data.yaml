@@ -7,7 +7,7 @@ config:
     local:
       target: "http://json_server:3000"
       phases:
-        - duration: 30
+        - duration: 20
           arrivalCount: 10
   ensure:
     maxErrorRate: 1
