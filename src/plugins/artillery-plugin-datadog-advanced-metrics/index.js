@@ -2,6 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+// https://www.artillery.io/blog/extend-artillery-by-creating-your-own-plugins
+
 'use strict';
 
 const {stats} = require("artillery/core");
@@ -54,7 +56,6 @@ function ArtilleryDatadogAdvancedMetricsPlugin(script, events) {
     debug('Setting event handlers...')
     //events.on('stats', printStats)
     this.events.on('stats', (statsObject) => {
-        printStats(statsObject)
         sendStatsDetailedMetrics(statsObject, statsd)
     })
 
@@ -110,15 +111,24 @@ function printStats(statsObject) {
     debug("Stats\n" + JSON.stringify(stats))
 }
 
+function printEndpointMetrics(req, res, userContext, events, next) {
+    const metricName = `${userContext.vars.statsdPrefix}.plugins.datadog_advanced_metrics.${req.name}`
+    debug(metricName)
+    debug(req.url)
+    debug(req.name)
+    return next();
+}
+
 function sendStatsDetailedMetrics(statsObject, statsd) {
     const stats = statsObject.report()
-    debug("Stats\n" + JSON.stringify(stats))
+    debug("🖥️ Sending endpoint stats to Datadog.")
+    //debug("Stats\n" + JSON.stringify(stats))
     // Handle Response Time Stats
     let endpointNames = Object.keys(stats.customStats).map(k => k.match(/plugins.metrics-by-endpoint.response_time.(.*)/)[1])
     let endpointValues = Object.values(stats.customStats)
-    debug("Sending response time metrics:")
-    debug(endpointNames)
-    debug(endpointValues)
+    //debug("Sending response time metrics:")
+    //debug(endpointNames)
+    //debug(endpointValues)
     for (let i = 0; i < endpointNames.length; i++) {
         statsd.timing("response_time_min", endpointValues[i].min,[`url:${endpointNames[i]}`])
         statsd.timing("response_time_max", endpointValues[i].max,[`url:${endpointNames[i]}`])
@@ -130,9 +140,9 @@ function sendStatsDetailedMetrics(statsObject, statsd) {
     let codeUrls = Object.keys(stats.counters).map(k => k.match(/plugins.metrics-by-endpoint.(.*).codes.(.*)/)[1])
     let codeNames = Object.keys(stats.counters).map(k => k.match(/plugins.metrics-by-endpoint.(.*).codes.(.*)/)[2])
     let codeValues = Object.values(stats.counters)
-    debug("Sending status code metrics:")
-    debug(codeUrls)
-    debug(codeNames)
+    //debug("Sending status code metrics:")
+    //debug(codeUrls)
+    //debug(codeNames)
     for (let i = 0; i < codeUrls.length; i++) {
         statsd.increment("codes", codeValues[i], [`url:${codeUrls[i]}`, `code:${codeNames[i]}`])
     }
@@ -144,14 +154,6 @@ function sendStatsDetailedMetrics(statsObject, statsd) {
     })
 }
 
-
-function printEndpointMetrics(req, res, userContext, events, next) {
-    const metricName = `${userContext.vars.statsdPrefix}.plugins.datadog_advanced_metrics.${req.name}`
-    debug(metricName)
-    debug(req.url)
-    debug(req.name)
-    return next();
-}
 
 
 
