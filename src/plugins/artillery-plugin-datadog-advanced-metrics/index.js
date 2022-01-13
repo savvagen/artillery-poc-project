@@ -122,26 +122,32 @@ function printEndpointMetrics(req, res, userContext, events, next) {
 function sendStatsDetailedMetrics(statsObject, statsd) {
     const stats = statsObject.report()
     debug("🖥️ Sending endpoint stats to Datadog.")
-    //debug("Stats\n" + JSON.stringify(stats))
+    //debug("Stats JSON:\n" + JSON.stringify(stats))
     // Handle Response Time Stats
-    let endpointNames = Object.keys(stats.customStats).map(k => k.match(/plugins.metrics-by-endpoint.response_time.(.*)/)[1])
-    let endpointValues = Object.values(stats.customStats)
+    let endpointNames = Object.keys(stats.customStats)
+        .map(k => {
+            if (k.match(/plugins.metrics-by-endpoint.response_time.(.*)/) !== null){
+                return k.match(/plugins.metrics-by-endpoint.response_time.(.*)/)[1]
+            }
+        })
+        .filter(url => url !== undefined)
     //debug("Sending response time metrics:")
     //debug(endpointNames)
-    //debug(endpointValues)
     for (let i = 0; i < endpointNames.length; i++) {
-        statsd.timing("response_time_min", endpointValues[i].min,[`url:${endpointNames[i]}`])
-        statsd.timing("response_time_max", endpointValues[i].max,[`url:${endpointNames[i]}`])
-        statsd.timing("response_time_median", endpointValues[i].median,[`url:${endpointNames[i]}`])
-        statsd.timing("response_time_p95", endpointValues[i].p95,[`url:${endpointNames[i]}`])
-        statsd.timing("response_time_p99", endpointValues[i].p99, [`url:${endpointNames[i]}`])
+        const respTimeObj = stats.customStats[`plugins.metrics-by-endpoint.response_time.${endpointNames[i]}`]
+        //debug(respTimeObj)
+        statsd.timing("response_time_min", respTimeObj.min,[`url:${endpointNames[i]}`])
+        statsd.timing("response_time_max", respTimeObj.max,[`url:${endpointNames[i]}`])
+        statsd.timing("response_time_median", respTimeObj.median,[`url:${endpointNames[i]}`])
+        statsd.timing("response_time_p95", respTimeObj.p95,[`url:${endpointNames[i]}`])
+        statsd.timing("response_time_p99", respTimeObj.p99, [`url:${endpointNames[i]}`])
     }
     // Handle Status Code Stats
     let codeUrls = Object.keys(stats.counters).map(k => k.match(/plugins.metrics-by-endpoint.(.*).codes.(.*)/)[1])
     let codeNames = Object.keys(stats.counters).map(k => k.match(/plugins.metrics-by-endpoint.(.*).codes.(.*)/)[2])
     let codeValues = Object.values(stats.counters)
     //debug("Sending status code metrics:")
-    //debug(codeUrls)
+    debug(codeUrls)
     //debug(codeNames)
     for (let i = 0; i < codeUrls.length; i++) {
         statsd.increment("codes", codeValues[i], [`url:${codeUrls[i]}`, `code:${codeNames[i]}`])
@@ -153,6 +159,7 @@ function sendStatsDetailedMetrics(statsObject, statsd) {
         statsd.increment("errors", errorCounts[i], [`error:${value}`])
     })
 }
+
 
 
 
