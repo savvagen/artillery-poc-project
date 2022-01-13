@@ -22,6 +22,12 @@ function ArtilleryDatadogAdvancedMetricsPlugin(script, events) {
     //     return;
     // }
 
+    if (script.config.plugins['metrics-by-endpoint'] === undefined){
+        const message = "Not running. Cause: plugin metrics-by-endpoint is not installed."
+        debug(message)
+        return;
+    }
+
     // This is the entirety of the test script - config and
     // scenarios
     this.script = script;
@@ -37,12 +43,6 @@ function ArtilleryDatadogAdvancedMetricsPlugin(script, events) {
     this.statsdPrefix = pluginConfig.prefix || 'artillery'
 
     const self = this;
-
-    if (script.config.plugins['metrics-by-endpoint'] === undefined){
-        const message = "WARN: Plugin metrics-by-endpoint NOT_FOUND. Please connect 'metrics-by-endpoint' to artillery."
-        console.warn(message)
-        debug(message)
-    }
 
     // Initialize statsd client
     debug("Initializing plugin:datadog-advanced-metrics")
