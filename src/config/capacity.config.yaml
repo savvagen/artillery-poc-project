@@ -50,7 +50,6 @@ config:
   http:
     timeout: 60
     extendedMetrics: true
-  statsInterval: 5 # works just for artillery@1.7.9
   processor: "../processors/main.js"
   variables:
     commentsNumber: 2

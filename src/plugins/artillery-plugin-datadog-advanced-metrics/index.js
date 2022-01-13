@@ -10,11 +10,18 @@ const debug = require('debug')('plugin:datadog-advanced-metrics');
 let StatsD = require('node-statsd')
 
 
-//module.exports.Plugin = ArtilleryDatadogAdvancedMetricsPlugin;
-module.exports = { Plugin: ArtilleryDatadogAdvancedMetricsPlugin }
+module.exports.Plugin = ArtilleryDatadogAdvancedMetricsPlugin;
+//module.exports = { Plugin: ArtilleryDatadogAdvancedMetricsPlugin }
 
 
 function ArtilleryDatadogAdvancedMetricsPlugin(script, events) {
+
+    // If running in Artillery v2, the plugin should only load in workers
+    // if (global.artillery && Number(global.artillery.version.slice(0, 1)) > 1 && typeof process.env.LOCAL_WORKER_ID === 'undefined') {
+    //     debug('Not running in a worker, exiting');
+    //     return;
+    // }
+
     // This is the entirety of the test script - config and
     // scenarios
     this.script = script;
@@ -38,27 +45,28 @@ function ArtilleryDatadogAdvancedMetricsPlugin(script, events) {
     }
 
     // Initialize statsd client
-    debug("Initializing Datadog-Advanced-Metrics plugin...")
+    debug("Initializing plugin:datadog-advanced-metrics")
     const statsd = new StatsD(this.statsdHost, this.statsdPort, `${this.statsdPrefix}.plugins.datadog_advanced_metrics.`)
     script.config.variables['statsdPrefix'] = this.statsdPrefix
-    debug("Connected to statsd server: \n" + "host:" + this.statsdHost + "\nport:" + this.statsdPort)
+    //debug("Connected to statsd server: \n" + "host:" + this.statsdHost + "\nport:" + this.statsdPort)
 
     // Set event handlers
     debug('Setting event handlers...')
     //events.on('stats', printStats)
     this.events.on('stats', (statsObject) => {
+        printStats(statsObject)
         sendStatsDetailedMetrics(statsObject, statsd)
     })
+
 
     // But we could also read anything else defined in the test
     // script, e.g.:
     // debug('Sending Endpoint Stats. to Datadog:', pluginConfig.host);
     // debug('prefix is:', script.config.plugins.statsd.prefix);
 
-
     //
     // Let's attach a beforeRequest hook to all scenarios
-    // which will print a greeting before a request is made
+    // which will send metrics after each http response
     //
     // Create processor object if needed to hold our custom function:
     script.config.processor = script.config.processor || {};

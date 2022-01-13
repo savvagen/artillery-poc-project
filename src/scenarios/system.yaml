@@ -10,7 +10,6 @@ config:
   http:
     timeout: 60
     extendedMetrics: true
-  statsInterval: 5 # works just for artillery@1.7.9
   processor: "../processors/main.js"
   variables:
     commentsNumber: 2
@@ -28,6 +27,7 @@ config:
       Accept: "application/json"
   plugins:
     expect: {}
+      # outputFormat: prettyError # works on artillery v2
     metrics-by-endpoint:
       useOnlyRequestNames: true
     statsd: # https://github.com/artilleryio/artillery-plugin-statsd
