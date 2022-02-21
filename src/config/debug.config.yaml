@@ -11,6 +11,12 @@ config:
         - duration: 120
           arrivalCount: 60
           name: "My Load Stage"
+    remote:
+      target: "{{ $processEnvironment.BASE_URL }}"
+      phases:
+        - duration: 120
+          arrivalCount: 60
+          name: "My Load Stage"
   ensure:
     maxErrorRate: 1
   http:
