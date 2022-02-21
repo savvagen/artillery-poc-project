@@ -1,4 +1,4 @@
-## Run Json Server in Docker container
+## Run Json Server using Docker
 
 
 ### 1. Build and run your own json-server microservice

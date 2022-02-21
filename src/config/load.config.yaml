@@ -6,19 +6,42 @@ config:
       name: "My Load Stage"
   environments:
     local:
-      target: "http://json_server:3000"
+      target:  "http://json_server:3000"
       phases:
         - duration: 10
           arrivalRate: 1
           maxVusers: 1
           name: "Heating Stage"
         - duration: 120
-          arrivalRate: 3
+          arrivalRate: 4
           maxVusers: 5
           name: "RampUp Stage"
         - duration: 120
-          arrivalRate: 5
+          arrivalRate: 7
           maxVusers: 10
+          name: "Load Stage"
+    remote:
+      target: "{{ $processEnvironment.BASE_URL }}"
+      phases:
+        - duration: 10
+          arrivalRate: 1
+          maxVusers: 1
+          name: "Heating Stage"
+        - duration: 120
+          arrivalRate: 4
+          maxVusers: 5
+          name: "RampUp Stage"
+        - duration: 120
+          arrivalRate: 7
+          maxVusers: 10
+          name: "RampUp Stage"
+        - duration: 120
+          arrivalRate: 12
+          maxVusers: 15
+          name: "RampUp Stage"
+        - duration: 300
+          arrivalRate: 15
+          maxVusers: 20
           name: "Load Stage"
   ensure:
     maxErrorRate: 10

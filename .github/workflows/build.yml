@@ -17,19 +17,23 @@ on:
       config:
         default: 'debug'
         required: true
-        description: 'Configuration name from src/config/<name>.config.yaml (default: debug)'
+        description: 'Configuration name from src/config/<name>.config.yaml'
       environment:
         default: 'local'
         required: true
-        description: 'Env. name (default: local)'
+        description: 'environment name (local / remote)'
       statsdServerAddress:
         default: 'datadog'
         required: true
-        description: 'StatsdServer Address (default: datadog)'
+        description: 'StatsdServer Address'
       statsdServerPort:
         default: '8125'
         required: true
-        description: 'StatsdServer Port (default: 8125).'
+        description: 'StatsdServer Port.'
+      baseUrl:
+        default: 'http://json_server:3000'
+        required: true
+        description: 'Base Url'
 
 jobs:
   setup:
@@ -38,10 +42,12 @@ jobs:
       SCENARIO_NAME: 'system'
       CONFIG: 'debug'
       ENVIRONMENT: "local"
+      BASE_URL: "http://json_server:3000"
     outputs:
       scenarioName: ${{ steps.setup_step.outputs.scenarioName }}
       config: ${{ steps.setup_step.outputs.config }}
       environment: ${{ steps.setup_step.outputs.environment }}
+      baseUrl: ${{ steps.setup_step.outputs.baseUrl }}
     steps:
       - name: Overwrite Variables
         if: github.event_name == 'workflow_dispatch'
@@ -49,6 +55,7 @@ jobs:
           echo "SCENARIO_NAME=${{ github.event.inputs.scenarioName }}" >> $GITHUB_ENV
           echo "CONFIG=${{ github.event.inputs.config }}" >> $GITHUB_ENV
           echo "ENVIRONMENT=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
+          echo "BASE_URL=${{ github.event.inputs.baseUrl }}" >> $GITHUB_ENV
       - name: Setup Variables
         id: setup_step
         run: |
@@ -59,6 +66,7 @@ jobs:
           echo "::set-output name=scenarioName::${{ env.SCENARIO_NAME }}"
           echo "::set-output name=config::${{ env.CONFIG }}"
           echo "::set-output name=environment::${{ env.ENVIRONMENT }}"
+          echo "::set-output name=baseUrl::${{ env.BASE_URL }}"
 
   artillery:
     runs-on: ubuntu-latest
@@ -95,6 +103,7 @@ jobs:
       SCENARIO_NAME: "${{ needs.setup.outputs.scenarioName }}"
       CONFIG: "${{ needs.setup.outputs.config }}"
       ENVIRONMENT: "${{ needs.setup.outputs.environment }}"
+      BASE_URL: "${{ needs.setup.outputs.baseUrl }}"
       STATSD_SERVER_ADDRESS: 'datadog' # "${{ github.event.inputs.statsdServerAddress }}"
       STATSD_SERVER_PORT: 8125
       DD_API_KEY: "${{ secrets.DATADOG_API_KEY }}"
