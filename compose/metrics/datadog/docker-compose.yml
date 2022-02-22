@@ -11,7 +11,7 @@ services:
       - DD_API_KEY=${DD_API_KEY}
       - DD_DOGSTATSD_NON_LOCAL_TRAFFIC=1
       #- DD_DOGSTATSD_PORT=<NEW_DOGSTATSD_PORT>
-      - DD_DOCKER_LABELS_AS_TAGS={"my.custom.label.project":"globalid","my.custom.label.version":"1.0"}
+      - DD_DOCKER_LABELS_AS_TAGS={"my.custom.label.project":"artillery","my.custom.label.version":"1.0"}
       - DD_TAGS="tool:artillery mode:load scenario:system env:local"
     volumes:
       - ./conf.yaml:/conf.d/conf.yaml

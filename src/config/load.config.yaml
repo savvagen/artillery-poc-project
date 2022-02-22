@@ -23,23 +23,15 @@ config:
     remote:
       target: "{{ $processEnvironment.BASE_URL }}"
       phases:
-        - duration: 10
+        - duration: 5
           arrivalRate: 1
           maxVusers: 1
           name: "Heating Stage"
-        - duration: 120
-          arrivalRate: 4
-          maxVusers: 5
-          name: "RampUp Stage"
-        - duration: 120
+        - duration: 60
           arrivalRate: 7
           maxVusers: 10
           name: "RampUp Stage"
-        - duration: 120
-          arrivalRate: 12
-          maxVusers: 15
-          name: "RampUp Stage"
-        - duration: 300
+        - duration: 180
           arrivalRate: 15
           maxVusers: 20
           name: "Load Stage"
