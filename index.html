@@ -1,0 +1,3255 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Artillery report</title>
+  <script src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.0/d3.min.js' charset='utf-8'></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/metrics-graphics/2.6.0/metricsgraphics.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/metrics-graphics/2.6.0/metricsgraphics.min.js"></script>
+
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=PT+Serif:400,700,400italic' rel='stylesheet' type='text/css'>
+  <link href='https://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css' rel='stylesheet' type='text/css'>
+  <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ace.js" charset="utf-8"></script>
+
+  <style>
+  body, p, li {
+    font-family: sans-serif;
+    font-size: 10pt;
+  }
+
+  h1 {
+    font-size: 18pt;
+    font-weight: bold;
+  }
+
+  #errorsContainer > p {
+    color: #009900;
+  }
+
+  #footer {
+    padding: 1em;
+    font-size: 0.8em;
+    color: #999;
+    text-align: center;
+    margin-top: 1em;
+    background-color: #eee;
+  }
+  #editor {
+    font-size: 8pt;
+    height: 20em;
+  }
+  </style>
+
+  <script>
+  window.Report = {
+  "aggregate": {
+    "timestamp": "2022-02-23T10:30:20.086Z",
+    "scenariosCreated": 790,
+    "scenariosCompleted": 790,
+    "requestsCompleted": 8075,
+    "latency": {
+      "min": 87,
+      "max": 122,
+      "median": 92,
+      "p95": 97,
+      "p99": 104
+    },
+    "rps": {
+      "count": 8075,
+      "mean": 31.98
+    },
+    "scenarioDuration": {
+      "min": 4189.6,
+      "max": 7302.2,
+      "median": 4447,
+      "p95": 7266,
+      "p99": 7279.2
+    },
+    "scenarioCounts": {
+      "Post Writer Scenario": 262,
+      "Post Reader Scenario": 528
+    },
+    "errors": {},
+    "codes": {
+      "200": 6499,
+      "201": 1576
+    },
+    "matches": 0,
+    "customStats": {
+      "plugins.metrics-by-endpoint.response_time.GET/get_token": {
+        "min": 88,
+        "max": 111,
+        "median": 91,
+        "p95": 96.4,
+        "p99": 101.9
+      },
+      "plugins.metrics-by-endpoint.response_time.POST/users": {
+        "min": 88,
+        "max": 109,
+        "median": 92,
+        "p95": 96,
+        "p99": 101
+      },
+      "plugins.metrics-by-endpoint.response_time.POST/posts": {
+        "min": 89,
+        "max": 115,
+        "median": 92,
+        "p95": 96,
+        "p99": 107.8
+      },
+      "plugins.metrics-by-endpoint.response_time.POST/comments": {
+        "min": 88,
+        "max": 115,
+        "median": 93,
+        "p95": 98,
+        "p99": 105
+      },
+      "plugins.metrics-by-endpoint.response_time.PUT/posts/ID": {
+        "min": 88,
+        "max": 115,
+        "median": 92,
+        "p95": 96.3,
+        "p99": 105.3
+      },
+      "plugins.metrics-by-endpoint.response_time.GET/posts": {
+        "min": 91,
+        "max": 122,
+        "median": 96,
+        "p95": 101,
+        "p99": 110
+      },
+      "plugins.metrics-by-endpoint.response_time.GET/posts/ID": {
+        "min": 87,
+        "max": 120,
+        "median": 92,
+        "p95": 96,
+        "p99": 103
+      }
+    },
+    "counters": {
+      "plugins.metrics-by-endpoint.GET/get_token.codes.200": 262,
+      "plugins.metrics-by-endpoint.POST/users.codes.201": 262,
+      "plugins.metrics-by-endpoint.POST/posts.codes.201": 262,
+      "plugins.metrics-by-endpoint.POST/comments.codes.201": 1052,
+      "plugins.metrics-by-endpoint.PUT/posts/ID.codes.200": 524,
+      "plugins.metrics-by-endpoint.GET/posts.codes.200": 528,
+      "plugins.metrics-by-endpoint.GET/posts/ID.codes.200": 5185
+    },
+    "scenariosAvoided": 2390,
+    "phases": [
+      {
+        "duration": 5,
+        "arrivalCount": 60,
+        "name": "Heating Stage",
+        "arrivalRate": 1,
+        "maxVusers": 1
+      },
+      {
+        "duration": 60,
+        "arrivalRate": 7,
+        "maxVusers": 10,
+        "name": "RampUp Stage"
+      },
+      {
+        "duration": 180,
+        "arrivalRate": 15,
+        "maxVusers": 20,
+        "name": "Load Stage"
+      }
+    ]
+  },
+  "intermediate": [
+    {
+      "timestamp": "2022-02-23T10:26:17.525Z",
+      "scenariosCreated": 14,
+      "scenariosCompleted": 5,
+      "requestsCompleted": 98,
+      "latency": {
+        "min": 89,
+        "max": 113,
+        "median": 93,
+        "p95": 103.2,
+        "p99": 112
+      },
+      "rps": {
+        "count": 100,
+        "mean": 10.07
+      },
+      "scenarioDuration": {
+        "min": 4319.5,
+        "max": 7284.9,
+        "median": 4348.2,
+        "p95": 7284.9,
+        "p99": 7284.9
+      },
+      "scenarioCounts": {
+        "Post Writer Scenario": 4,
+        "Post Reader Scenario": 10
+      },
+      "errors": {},
+      "codes": {
+        "200": 85,
+        "201": 13
+      },
+      "matches": 0,
+      "customStats": {
+        "plugins.metrics-by-endpoint.response_time.GET/get_token": {
+          "min": 91,
+          "max": 95,
+          "median": 93.5,
+          "p95": 95,
+          "p99": 95
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/users": {
+          "min": 89,
+          "max": 94,
+          "median": 93,
+          "p95": 94,
+          "p99": 94
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/posts": {
+          "min": 91,
+          "max": 96,
+          "median": 93,
+          "p95": 96,
+          "p99": 96
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/comments": {
+          "min": 92,
+          "max": 102,
+          "median": 95.5,
+          "p95": 102,
+          "p99": 102
+        },
+        "plugins.metrics-by-endpoint.response_time.PUT/posts/ID": {
+          "min": 91,
+          "max": 91,
+          "median": 91,
+          "p95": 91,
+          "p99": 91
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/posts": {
+          "min": 94,
+          "max": 111,
+          "median": 101,
+          "p95": 111,
+          "p99": 111
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/posts/ID": {
+          "min": 89,
+          "max": 113,
+          "median": 93,
+          "p95": 96,
+          "p99": 111.4
+        }
+      },
+      "counters": {
+        "plugins.metrics-by-endpoint.GET/get_token.codes.200": 4,
+        "plugins.metrics-by-endpoint.POST/users.codes.201": 4,
+        "plugins.metrics-by-endpoint.POST/posts.codes.201": 3,
+        "plugins.metrics-by-endpoint.POST/comments.codes.201": 6,
+        "plugins.metrics-by-endpoint.PUT/posts/ID.codes.200": 2,
+        "plugins.metrics-by-endpoint.GET/posts.codes.200": 9,
+        "plugins.metrics-by-endpoint.GET/posts/ID.codes.200": 70
+      },
+      "concurrency": 9,
+      "pendingRequests": 2,
+      "scenariosAvoided": 80
+    },
+    {
+      "timestamp": "2022-02-23T10:26:27.505Z",
+      "scenariosCreated": 22,
+      "scenariosCompleted": 21,
+      "requestsCompleted": 217,
+      "latency": {
+        "min": 88,
+        "max": 110,
+        "median": 92,
+        "p95": 98,
+        "p99": 102.3
+      },
+      "rps": {
+        "count": 218,
+        "mean": 21.87
+      },
+      "scenarioDuration": {
+        "min": 4195.3,
+        "max": 7271.3,
+        "median": 4336.8,
+        "p95": 7269.7,
+        "p99": 7271.3
+      },
+      "scenarioCounts": {
+        "Post Reader Scenario": 18,
+        "Post Writer Scenario": 4
+      },
+      "errors": {},
+      "codes": {
+        "200": 184,
+        "201": 33
+      },
+      "matches": 0,
+      "customStats": {
+        "plugins.metrics-by-endpoint.response_time.POST/comments": {
+          "min": 90,
+          "max": 98,
+          "median": 94,
+          "p95": 98,
+          "p99": 98
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/posts": {
+          "min": 91,
+          "max": 110,
+          "median": 95,
+          "p95": 106,
+          "p99": 110
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/posts": {
+          "min": 93,
+          "max": 95,
+          "median": 93,
+          "p95": 95,
+          "p99": 95
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/get_token": {
+          "min": 90,
+          "max": 94,
+          "median": 93.5,
+          "p95": 94,
+          "p99": 94
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/posts/ID": {
+          "min": 88,
+          "max": 105,
+          "median": 91,
+          "p95": 96.9,
+          "p99": 101
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/users": {
+          "min": 90,
+          "max": 94,
+          "median": 91.5,
+          "p95": 94,
+          "p99": 94
+        },
+        "plugins.metrics-by-endpoint.response_time.PUT/posts/ID": {
+          "min": 93,
+          "max": 101,
+          "median": 93,
+          "p95": 101,
+          "p99": 101
+        }
+      },
+      "counters": {
+        "plugins.metrics-by-endpoint.POST/comments.codes.201": 26,
+        "plugins.metrics-by-endpoint.GET/posts.codes.200": 19,
+        "plugins.metrics-by-endpoint.POST/posts.codes.201": 3,
+        "plugins.metrics-by-endpoint.GET/get_token.codes.200": 4,
+        "plugins.metrics-by-endpoint.GET/posts/ID.codes.200": 151,
+        "plugins.metrics-by-endpoint.POST/users.codes.201": 4,
+        "plugins.metrics-by-endpoint.PUT/posts/ID.codes.200": 10
+      },
+      "concurrency": 10,
+      "pendingRequests": 3,
+      "scenariosAvoided": 48
+    },
+    {
+      "timestamp": "2022-02-23T10:26:37.505Z",
+      "scenariosCreated": 17,
+      "scenariosCompleted": 18,
+      "requestsCompleted": 210,
+      "latency": {
+        "min": 89,
+        "max": 106,
+        "median": 93,
+        "p95": 97,
+        "p99": 103.8
+      },
+      "rps": {
+        "count": 207,
+        "mean": 20.78
+      },
+      "scenarioDuration": {
+        "min": 4254.9,
+        "max": 7264.5,
+        "median": 4338.8,
+        "p95": 7262.5,
+        "p99": 7264.5
+      },
+      "scenarioCounts": {
+        "Post Reader Scenario": 12,
+        "Post Writer Scenario": 5
+      },
+      "errors": {},
+      "codes": {
+        "200": 175,
+        "201": 35
+      },
+      "matches": 0,
+      "customStats": {
+        "plugins.metrics-by-endpoint.response_time.GET/posts/ID": {
+          "min": 89,
+          "max": 106,
+          "median": 93,
+          "p95": 98.1,
+          "p99": 105
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/posts": {
+          "min": 90,
+          "max": 93,
+          "median": 90.5,
+          "p95": 93,
+          "p99": 93
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/comments": {
+          "min": 90,
+          "max": 101,
+          "median": 92,
+          "p95": 96.8,
+          "p99": 101
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/posts": {
+          "min": 92,
+          "max": 98,
+          "median": 94,
+          "p95": 97.9,
+          "p99": 98
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/get_token": {
+          "min": 89,
+          "max": 96,
+          "median": 93,
+          "p95": 96,
+          "p99": 96
+        },
+        "plugins.metrics-by-endpoint.response_time.PUT/posts/ID": {
+          "min": 89,
+          "max": 93,
+          "median": 91,
+          "p95": 93,
+          "p99": 93
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/users": {
+          "min": 89,
+          "max": 93,
+          "median": 91,
+          "p95": 93,
+          "p99": 93
+        }
+      },
+      "counters": {
+        "plugins.metrics-by-endpoint.GET/posts/ID.codes.200": 148,
+        "plugins.metrics-by-endpoint.POST/posts.codes.201": 6,
+        "plugins.metrics-by-endpoint.POST/comments.codes.201": 24,
+        "plugins.metrics-by-endpoint.GET/posts.codes.200": 12,
+        "plugins.metrics-by-endpoint.GET/get_token.codes.200": 5,
+        "plugins.metrics-by-endpoint.PUT/posts/ID.codes.200": 10,
+        "plugins.metrics-by-endpoint.POST/users.codes.201": 5
+      },
+      "concurrency": 9,
+      "pendingRequests": 0,
+      "scenariosAvoided": 53
+    },
+    {
+      "timestamp": "2022-02-23T10:26:47.506Z",
+      "scenariosCreated": 23,
+      "scenariosCompleted": 22,
+      "requestsCompleted": 239,
+      "latency": {
+        "min": 89,
+        "max": 112,
+        "median": 91,
+        "p95": 96,
+        "p99": 104.5
+      },
+      "rps": {
+        "count": 242,
+        "mean": 24.22
+      },
+      "scenarioDuration": {
+        "min": 4189.6,
+        "max": 7276.5,
+        "median": 4306.4,
+        "p95": 7273.5,
+        "p99": 7276.5
+      },
+      "scenarioCounts": {
+        "Post Reader Scenario": 20,
+        "Post Writer Scenario": 3
+      },
+      "errors": {},
+      "codes": {
+        "200": 211,
+        "201": 28
+      },
+      "matches": 0,
+      "customStats": {
+        "plugins.metrics-by-endpoint.response_time.GET/posts": {
+          "min": 92,
+          "max": 112,
+          "median": 95,
+          "p95": 108,
+          "p99": 112
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/posts/ID": {
+          "min": 89,
+          "max": 109,
+          "median": 91,
+          "p95": 94.4,
+          "p99": 101.7
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/posts": {
+          "min": 93,
+          "max": 94,
+          "median": 93.5,
+          "p95": 94,
+          "p99": 94
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/comments": {
+          "min": 89,
+          "max": 99,
+          "median": 92.5,
+          "p95": 98.3,
+          "p99": 99
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/get_token": {
+          "min": 90,
+          "max": 93,
+          "median": 92,
+          "p95": 93,
+          "p99": 93
+        },
+        "plugins.metrics-by-endpoint.response_time.PUT/posts/ID": {
+          "min": 93,
+          "max": 103,
+          "median": 94.5,
+          "p95": 103,
+          "p99": 103
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/users": {
+          "min": 90,
+          "max": 93,
+          "median": 91.5,
+          "p95": 93,
+          "p99": 93
+        }
+      },
+      "counters": {
+        "plugins.metrics-by-endpoint.GET/posts.codes.200": 19,
+        "plugins.metrics-by-endpoint.GET/posts/ID.codes.200": 183,
+        "plugins.metrics-by-endpoint.POST/posts.codes.201": 2,
+        "plugins.metrics-by-endpoint.POST/comments.codes.201": 24,
+        "plugins.metrics-by-endpoint.GET/get_token.codes.200": 3,
+        "plugins.metrics-by-endpoint.PUT/posts/ID.codes.200": 6,
+        "plugins.metrics-by-endpoint.POST/users.codes.201": 2
+      },
+      "concurrency": 10,
+      "pendingRequests": 3,
+      "scenariosAvoided": 47
+    },
+    {
+      "timestamp": "2022-02-23T10:26:57.504Z",
+      "scenariosCreated": 17,
+      "scenariosCompleted": 17,
+      "requestsCompleted": 170,
+      "latency": {
+        "min": 88,
+        "max": 109,
+        "median": 93,
+        "p95": 99,
+        "p99": 106.6
+      },
+      "rps": {
+        "count": 172,
+        "mean": 17.22
+      },
+      "scenarioDuration": {
+        "min": 4283.5,
+        "max": 7278.5,
+        "median": 4338.9,
+        "p95": 7274.5,
+        "p99": 7278.5
+      },
+      "scenarioCounts": {
+        "Post Writer Scenario": 8,
+        "Post Reader Scenario": 9
+      },
+      "errors": {},
+      "codes": {
+        "200": 130,
+        "201": 40
+      },
+      "matches": 0,
+      "customStats": {
+        "plugins.metrics-by-endpoint.response_time.GET/posts/ID": {
+          "min": 88,
+          "max": 102,
+          "median": 93,
+          "p95": 99.6,
+          "p99": 102
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/posts": {
+          "min": 92,
+          "max": 107,
+          "median": 96,
+          "p95": 107,
+          "p99": 107
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/comments": {
+          "min": 90,
+          "max": 109,
+          "median": 93,
+          "p95": 100,
+          "p99": 109
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/users": {
+          "min": 90,
+          "max": 94,
+          "median": 91,
+          "p95": 94,
+          "p99": 94
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/get_token": {
+          "min": 89,
+          "max": 96,
+          "median": 90,
+          "p95": 96,
+          "p99": 96
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/posts": {
+          "min": 89,
+          "max": 96,
+          "median": 92,
+          "p95": 96,
+          "p99": 96
+        },
+        "plugins.metrics-by-endpoint.response_time.PUT/posts/ID": {
+          "min": 89,
+          "max": 94,
+          "median": 91,
+          "p95": 94,
+          "p99": 94
+        }
+      },
+      "counters": {
+        "plugins.metrics-by-endpoint.GET/posts/ID.codes.200": 99,
+        "plugins.metrics-by-endpoint.GET/posts.codes.200": 10,
+        "plugins.metrics-by-endpoint.POST/comments.codes.201": 25,
+        "plugins.metrics-by-endpoint.POST/users.codes.201": 7,
+        "plugins.metrics-by-endpoint.GET/get_token.codes.200": 7,
+        "plugins.metrics-by-endpoint.POST/posts.codes.201": 8,
+        "plugins.metrics-by-endpoint.PUT/posts/ID.codes.200": 14
+      },
+      "concurrency": 10,
+      "pendingRequests": 5,
+      "scenariosAvoided": 53
+    },
+    {
+      "timestamp": "2022-02-23T10:27:07.503Z",
+      "scenariosCreated": 18,
+      "scenariosCompleted": 19,
+      "requestsCompleted": 193,
+      "latency": {
+        "min": 88,
+        "max": 105,
+        "median": 93,
+        "p95": 97.9,
+        "p99": 105
+      },
+      "rps": {
+        "count": 191,
+        "mean": 19.1
+      },
+      "scenarioDuration": {
+        "min": 4238.4,
+        "max": 7271.5,
+        "median": 4344.9,
+        "p95": 7270.1,
+        "p99": 7271.5
+      },
+      "scenarioCounts": {
+        "Post Reader Scenario": 13,
+        "Post Writer Scenario": 5
+      },
+      "errors": {},
+      "codes": {
+        "200": 157,
+        "201": 36
+      },
+      "matches": 0,
+      "customStats": {
+        "plugins.metrics-by-endpoint.response_time.GET/posts/ID": {
+          "min": 88,
+          "max": 105,
+          "median": 92,
+          "p95": 96,
+          "p99": 105
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/get_token": {
+          "min": 90,
+          "max": 102,
+          "median": 91.5,
+          "p95": 102,
+          "p99": 102
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/users": {
+          "min": 90,
+          "max": 94,
+          "median": 92,
+          "p95": 94,
+          "p99": 94
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/posts": {
+          "min": 92,
+          "max": 101,
+          "median": 93,
+          "p95": 100.6,
+          "p99": 101
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/comments": {
+          "min": 90,
+          "max": 97,
+          "median": 94,
+          "p95": 96.3,
+          "p99": 97
+        },
+        "plugins.metrics-by-endpoint.response_time.PUT/posts/ID": {
+          "min": 89,
+          "max": 105,
+          "median": 92.5,
+          "p95": 103.9,
+          "p99": 105
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/posts": {
+          "min": 91,
+          "max": 102,
+          "median": 94,
+          "p95": 102,
+          "p99": 102
+        }
+      },
+      "counters": {
+        "plugins.metrics-by-endpoint.GET/posts/ID.codes.200": 126,
+        "plugins.metrics-by-endpoint.GET/get_token.codes.200": 6,
+        "plugins.metrics-by-endpoint.POST/users.codes.201": 7,
+        "plugins.metrics-by-endpoint.GET/posts.codes.200": 13,
+        "plugins.metrics-by-endpoint.POST/comments.codes.201": 24,
+        "plugins.metrics-by-endpoint.PUT/posts/ID.codes.200": 12,
+        "plugins.metrics-by-endpoint.POST/posts.codes.201": 5
+      },
+      "concurrency": 9,
+      "pendingRequests": 3,
+      "scenariosAvoided": 52
+    },
+    {
+      "timestamp": "2022-02-23T10:27:17.505Z",
+      "scenariosCreated": 37,
+      "scenariosCompleted": 27,
+      "requestsCompleted": 304,
+      "latency": {
+        "min": 88,
+        "max": 106,
+        "median": 91,
+        "p95": 96,
+        "p99": 103.5
+      },
+      "rps": {
+        "count": 304,
+        "mean": 30.4
+      },
+      "scenarioDuration": {
+        "min": 4360.1,
+        "max": 7268.7,
+        "median": 4379.3,
+        "p95": 7252.6,
+        "p99": 7268.7
+      },
+      "scenarioCounts": {
+        "Post Reader Scenario": 28,
+        "Post Writer Scenario": 9
+      },
+      "errors": {},
+      "codes": {
+        "200": 256,
+        "201": 48
+      },
+      "matches": 0,
+      "customStats": {
+        "plugins.metrics-by-endpoint.response_time.GET/posts/ID": {
+          "min": 88,
+          "max": 105,
+          "median": 90,
+          "p95": 95,
+          "p99": 101.7
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/comments": {
+          "min": 89,
+          "max": 97,
+          "median": 92,
+          "p95": 96,
+          "p99": 97
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/get_token": {
+          "min": 89,
+          "max": 95,
+          "median": 92,
+          "p95": 95,
+          "p99": 95
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/posts": {
+          "min": 91,
+          "max": 106,
+          "median": 94,
+          "p95": 104.6,
+          "p99": 106
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/posts": {
+          "min": 89,
+          "max": 95,
+          "median": 90,
+          "p95": 95,
+          "p99": 95
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/users": {
+          "min": 90,
+          "max": 95,
+          "median": 91.5,
+          "p95": 95,
+          "p99": 95
+        },
+        "plugins.metrics-by-endpoint.response_time.PUT/posts/ID": {
+          "min": 88,
+          "max": 101,
+          "median": 90,
+          "p95": 101,
+          "p99": 101
+        }
+      },
+      "counters": {
+        "plugins.metrics-by-endpoint.GET/posts/ID.codes.200": 213,
+        "plugins.metrics-by-endpoint.POST/comments.codes.201": 31,
+        "plugins.metrics-by-endpoint.GET/get_token.codes.200": 9,
+        "plugins.metrics-by-endpoint.GET/posts.codes.200": 24,
+        "plugins.metrics-by-endpoint.POST/posts.codes.201": 9,
+        "plugins.metrics-by-endpoint.POST/users.codes.201": 8,
+        "plugins.metrics-by-endpoint.PUT/posts/ID.codes.200": 8
+      },
+      "concurrency": 19,
+      "pendingRequests": 3,
+      "scenariosAvoided": 73
+    },
+    {
+      "timestamp": "2022-02-23T10:27:27.505Z",
+      "scenariosCreated": 34,
+      "scenariosCompleted": 34,
+      "requestsCompleted": 391,
+      "latency": {
+        "min": 88,
+        "max": 109,
+        "median": 91,
+        "p95": 96,
+        "p99": 102
+      },
+      "rps": {
+        "count": 394,
+        "mean": 39.44
+      },
+      "scenarioDuration": {
+        "min": 4266.8,
+        "max": 7260.2,
+        "median": 4407.6,
+        "p95": 7258.7,
+        "p99": 7260.2
+      },
+      "scenarioCounts": {
+        "Post Writer Scenario": 12,
+        "Post Reader Scenario": 22
+      },
+      "errors": {},
+      "codes": {
+        "200": 318,
+        "201": 73
+      },
+      "matches": 0,
+      "customStats": {
+        "plugins.metrics-by-endpoint.response_time.GET/posts": {
+          "min": 91,
+          "max": 109,
+          "median": 93.5,
+          "p95": 99.4,
+          "p99": 109
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/posts/ID": {
+          "min": 88,
+          "max": 104,
+          "median": 91,
+          "p95": 95.6,
+          "p99": 101.9
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/get_token": {
+          "min": 88,
+          "max": 95,
+          "median": 91.5,
+          "p95": 94.8,
+          "p99": 95
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/posts": {
+          "min": 89,
+          "max": 93,
+          "median": 91,
+          "p95": 93,
+          "p99": 93
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/comments": {
+          "min": 88,
+          "max": 103,
+          "median": 92,
+          "p95": 95,
+          "p99": 103
+        },
+        "plugins.metrics-by-endpoint.response_time.PUT/posts/ID": {
+          "min": 89,
+          "max": 96,
+          "median": 90,
+          "p95": 95.3,
+          "p99": 96
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/users": {
+          "min": 90,
+          "max": 99,
+          "median": 92,
+          "p95": 98.6,
+          "p99": 99
+        }
+      },
+      "counters": {
+        "plugins.metrics-by-endpoint.GET/posts.codes.200": 26,
+        "plugins.metrics-by-endpoint.GET/posts/ID.codes.200": 257,
+        "plugins.metrics-by-endpoint.GET/get_token.codes.200": 12,
+        "plugins.metrics-by-endpoint.POST/posts.codes.201": 10,
+        "plugins.metrics-by-endpoint.POST/comments.codes.201": 50,
+        "plugins.metrics-by-endpoint.PUT/posts/ID.codes.200": 25,
+        "plugins.metrics-by-endpoint.POST/users.codes.201": 13
+      },
+      "concurrency": 19,
+      "pendingRequests": 6,
+      "scenariosAvoided": 116
+    },
+    {
+      "timestamp": "2022-02-23T10:27:37.513Z",
+      "scenariosCreated": 38,
+      "scenariosCompleted": 37,
+      "requestsCompleted": 405,
+      "latency": {
+        "min": 88,
+        "max": 122,
+        "median": 92,
+        "p95": 97,
+        "p99": 109.5
+      },
+      "rps": {
+        "count": 402,
+        "mean": 40.2
+      },
+      "scenarioDuration": {
+        "min": 4312.6,
+        "max": 7279.7,
+        "median": 4409.1,
+        "p95": 7271.7,
+        "p99": 7279.7
+      },
+      "scenarioCounts": {
+        "Post Reader Scenario": 27,
+        "Post Writer Scenario": 11
+      },
+      "errors": {},
+      "codes": {
+        "200": 337,
+        "201": 68
+      },
+      "matches": 0,
+      "customStats": {
+        "plugins.metrics-by-endpoint.response_time.GET/posts/ID": {
+          "min": 88,
+          "max": 115,
+          "median": 92,
+          "p95": 97,
+          "p99": 109.7
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/posts": {
+          "min": 89,
+          "max": 94,
+          "median": 93,
+          "p95": 93.9,
+          "p99": 94
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/posts": {
+          "min": 91,
+          "max": 122,
+          "median": 95,
+          "p95": 104.4,
+          "p99": 122
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/get_token": {
+          "min": 89,
+          "max": 99,
+          "median": 91,
+          "p95": 98.8,
+          "p99": 99
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/comments": {
+          "min": 89,
+          "max": 108,
+          "median": 93,
+          "p95": 99.2,
+          "p99": 108
+        },
+        "plugins.metrics-by-endpoint.response_time.PUT/posts/ID": {
+          "min": 89,
+          "max": 98,
+          "median": 91,
+          "p95": 95.8,
+          "p99": 98
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/users": {
+          "min": 89,
+          "max": 104,
+          "median": 91,
+          "p95": 103.5,
+          "p99": 104
+        }
+      },
+      "counters": {
+        "plugins.metrics-by-endpoint.GET/posts/ID.codes.200": 279,
+        "plugins.metrics-by-endpoint.POST/posts.codes.201": 11,
+        "plugins.metrics-by-endpoint.GET/posts.codes.200": 26,
+        "plugins.metrics-by-endpoint.GET/get_token.codes.200": 11,
+        "plugins.metrics-by-endpoint.POST/comments.codes.201": 46,
+        "plugins.metrics-by-endpoint.PUT/posts/ID.codes.200": 21,
+        "plugins.metrics-by-endpoint.POST/users.codes.201": 11
+      },
+      "concurrency": 20,
+      "pendingRequests": 3,
+      "scenariosAvoided": 112
+    },
+    {
+      "timestamp": "2022-02-23T10:27:47.504Z",
+      "scenariosCreated": 38,
+      "scenariosCompleted": 39,
+      "requestsCompleted": 411,
+      "latency": {
+        "min": 89,
+        "max": 111,
+        "median": 92,
+        "p95": 98,
+        "p99": 107.4
+      },
+      "rps": {
+        "count": 411,
+        "mean": 41.18
+      },
+      "scenarioDuration": {
+        "min": 4322.6,
+        "max": 7268.9,
+        "median": 4414,
+        "p95": 7267.8,
+        "p99": 7268.9
+      },
+      "scenarioCounts": {
+        "Post Reader Scenario": 29,
+        "Post Writer Scenario": 9
+      },
+      "errors": {},
+      "codes": {
+        "200": 338,
+        "201": 73
+      },
+      "matches": 0,
+      "customStats": {
+        "plugins.metrics-by-endpoint.response_time.GET/posts/ID": {
+          "min": 89,
+          "max": 108,
+          "median": 92,
+          "p95": 98.8,
+          "p99": 107.8
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/posts": {
+          "min": 89,
+          "max": 96,
+          "median": 93,
+          "p95": 96,
+          "p99": 96
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/comments": {
+          "min": 90,
+          "max": 111,
+          "median": 93,
+          "p95": 99.5,
+          "p99": 110.8
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/posts": {
+          "min": 92,
+          "max": 98,
+          "median": 95,
+          "p95": 98,
+          "p99": 98
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/get_token": {
+          "min": 89,
+          "max": 95,
+          "median": 92,
+          "p95": 95,
+          "p99": 95
+        },
+        "plugins.metrics-by-endpoint.response_time.PUT/posts/ID": {
+          "min": 89,
+          "max": 98,
+          "median": 91,
+          "p95": 95.9,
+          "p99": 98
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/users": {
+          "min": 90,
+          "max": 96,
+          "median": 93,
+          "p95": 96,
+          "p99": 96
+        }
+      },
+      "counters": {
+        "plugins.metrics-by-endpoint.GET/posts/ID.codes.200": 275,
+        "plugins.metrics-by-endpoint.POST/posts.codes.201": 11,
+        "plugins.metrics-by-endpoint.POST/comments.codes.201": 53,
+        "plugins.metrics-by-endpoint.GET/posts.codes.200": 29,
+        "plugins.metrics-by-endpoint.GET/get_token.codes.200": 9,
+        "plugins.metrics-by-endpoint.PUT/posts/ID.codes.200": 24,
+        "plugins.metrics-by-endpoint.POST/users.codes.201": 9
+      },
+      "concurrency": 19,
+      "pendingRequests": 3,
+      "scenariosAvoided": 112
+    },
+    {
+      "timestamp": "2022-02-23T10:27:57.503Z",
+      "scenariosCreated": 39,
+      "scenariosCompleted": 38,
+      "requestsCompleted": 359,
+      "latency": {
+        "min": 87,
+        "max": 106,
+        "median": 92,
+        "p95": 97,
+        "p99": 101
+      },
+      "rps": {
+        "count": 360,
+        "mean": 36
+      },
+      "scenarioDuration": {
+        "min": 4269.8,
+        "max": 7264.2,
+        "median": 4415.7,
+        "p95": 7262.3,
+        "p99": 7264.2
+      },
+      "scenarioCounts": {
+        "Post Writer Scenario": 17,
+        "Post Reader Scenario": 22
+      },
+      "errors": {},
+      "codes": {
+        "200": 284,
+        "201": 75
+      },
+      "matches": 0,
+      "customStats": {
+        "plugins.metrics-by-endpoint.response_time.GET/posts": {
+          "min": 91,
+          "max": 97,
+          "median": 95,
+          "p95": 97,
+          "p99": 97
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/posts/ID": {
+          "min": 87,
+          "max": 106,
+          "median": 92,
+          "p95": 97,
+          "p99": 101.2
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/comments": {
+          "min": 89,
+          "max": 102,
+          "median": 93,
+          "p95": 96.3,
+          "p99": 102
+        },
+        "plugins.metrics-by-endpoint.response_time.PUT/posts/ID": {
+          "min": 89,
+          "max": 101,
+          "median": 93,
+          "p95": 98,
+          "p99": 101
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/get_token": {
+          "min": 89,
+          "max": 97,
+          "median": 91,
+          "p95": 96.4,
+          "p99": 97
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/users": {
+          "min": 89,
+          "max": 93,
+          "median": 90,
+          "p95": 93,
+          "p99": 93
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/posts": {
+          "min": 90,
+          "max": 101,
+          "median": 92,
+          "p95": 99.3,
+          "p99": 101
+        }
+      },
+      "counters": {
+        "plugins.metrics-by-endpoint.GET/posts.codes.200": 23,
+        "plugins.metrics-by-endpoint.GET/posts/ID.codes.200": 226,
+        "plugins.metrics-by-endpoint.POST/comments.codes.201": 45,
+        "plugins.metrics-by-endpoint.PUT/posts/ID.codes.200": 20,
+        "plugins.metrics-by-endpoint.GET/get_token.codes.200": 16,
+        "plugins.metrics-by-endpoint.POST/users.codes.201": 15,
+        "plugins.metrics-by-endpoint.POST/posts.codes.201": 15
+      },
+      "concurrency": 20,
+      "pendingRequests": 4,
+      "scenariosAvoided": 111
+    },
+    {
+      "timestamp": "2022-02-23T10:28:07.505Z",
+      "scenariosCreated": 34,
+      "scenariosCompleted": 34,
+      "requestsCompleted": 362,
+      "latency": {
+        "min": 88,
+        "max": 110,
+        "median": 92,
+        "p95": 97,
+        "p99": 105.8
+      },
+      "rps": {
+        "count": 363,
+        "mean": 36.45
+      },
+      "scenarioDuration": {
+        "min": 4310.2,
+        "max": 7283.1,
+        "median": 4419.4,
+        "p95": 7264,
+        "p99": 7283.1
+      },
+      "scenarioCounts": {
+        "Post Reader Scenario": 23,
+        "Post Writer Scenario": 11
+      },
+      "errors": {},
+      "codes": {
+        "200": 285,
+        "201": 77
+      },
+      "matches": 0,
+      "customStats": {
+        "plugins.metrics-by-endpoint.response_time.GET/posts/ID": {
+          "min": 88,
+          "max": 110,
+          "median": 92,
+          "p95": 95,
+          "p99": 103.3
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/users": {
+          "min": 89,
+          "max": 101,
+          "median": 92.5,
+          "p95": 100.5,
+          "p99": 101
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/get_token": {
+          "min": 89,
+          "max": 94,
+          "median": 92,
+          "p95": 94,
+          "p99": 94
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/posts": {
+          "min": 89,
+          "max": 95,
+          "median": 93,
+          "p95": 94.9,
+          "p99": 95
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/comments": {
+          "min": 90,
+          "max": 106,
+          "median": 93,
+          "p95": 96,
+          "p99": 105.9
+        },
+        "plugins.metrics-by-endpoint.response_time.PUT/posts/ID": {
+          "min": 89,
+          "max": 108,
+          "median": 92,
+          "p95": 104.8,
+          "p99": 108
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/posts": {
+          "min": 92,
+          "max": 103,
+          "median": 96,
+          "p95": 100,
+          "p99": 103
+        }
+      },
+      "counters": {
+        "plugins.metrics-by-endpoint.GET/posts/ID.codes.200": 217,
+        "plugins.metrics-by-endpoint.POST/users.codes.201": 12,
+        "plugins.metrics-by-endpoint.GET/get_token.codes.200": 12,
+        "plugins.metrics-by-endpoint.POST/posts.codes.201": 12,
+        "plugins.metrics-by-endpoint.POST/comments.codes.201": 53,
+        "plugins.metrics-by-endpoint.PUT/posts/ID.codes.200": 33,
+        "plugins.metrics-by-endpoint.GET/posts.codes.200": 22
+      },
+      "concurrency": 20,
+      "pendingRequests": 5,
+      "scenariosAvoided": 116
+    },
+    {
+      "timestamp": "2022-02-23T10:28:17.510Z",
+      "scenariosCreated": 37,
+      "scenariosCompleted": 39,
+      "requestsCompleted": 401,
+      "latency": {
+        "min": 88,
+        "max": 108,
+        "median": 92,
+        "p95": 97,
+        "p99": 103
+      },
+      "rps": {
+        "count": 400,
+        "mean": 40
+      },
+      "scenarioDuration": {
+        "min": 4278.9,
+        "max": 7277.8,
+        "median": 4405.2,
+        "p95": 7269.1,
+        "p99": 7277.8
+      },
+      "scenarioCounts": {
+        "Post Reader Scenario": 23,
+        "Post Writer Scenario": 14
+      },
+      "errors": {},
+      "codes": {
+        "200": 329,
+        "201": 72
+      },
+      "matches": 0,
+      "customStats": {
+        "plugins.metrics-by-endpoint.response_time.POST/posts": {
+          "min": 89,
+          "max": 108,
+          "median": 92,
+          "p95": 107.3,
+          "p99": 108
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/posts/ID": {
+          "min": 88,
+          "max": 103,
+          "median": 92,
+          "p95": 96,
+          "p99": 102.3
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/posts": {
+          "min": 92,
+          "max": 107,
+          "median": 95,
+          "p95": 105.6,
+          "p99": 107
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/comments": {
+          "min": 90,
+          "max": 100,
+          "median": 92,
+          "p95": 96.1,
+          "p99": 100
+        },
+        "plugins.metrics-by-endpoint.response_time.PUT/posts/ID": {
+          "min": 89,
+          "max": 94,
+          "median": 90.5,
+          "p95": 94,
+          "p99": 94
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/users": {
+          "min": 88,
+          "max": 96,
+          "median": 91,
+          "p95": 95.9,
+          "p99": 96
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/get_token": {
+          "min": 89,
+          "max": 94,
+          "median": 91,
+          "p95": 94,
+          "p99": 94
+        }
+      },
+      "counters": {
+        "plugins.metrics-by-endpoint.POST/posts.codes.201": 11,
+        "plugins.metrics-by-endpoint.GET/posts/ID.codes.200": 272,
+        "plugins.metrics-by-endpoint.GET/posts.codes.200": 24,
+        "plugins.metrics-by-endpoint.POST/comments.codes.201": 48,
+        "plugins.metrics-by-endpoint.PUT/posts/ID.codes.200": 20,
+        "plugins.metrics-by-endpoint.POST/users.codes.201": 13,
+        "plugins.metrics-by-endpoint.GET/get_token.codes.200": 14
+      },
+      "concurrency": 18,
+      "pendingRequests": 4,
+      "scenariosAvoided": 113
+    },
+    {
+      "timestamp": "2022-02-23T10:28:27.509Z",
+      "scenariosCreated": 40,
+      "scenariosCompleted": 38,
+      "requestsCompleted": 365,
+      "latency": {
+        "min": 88,
+        "max": 109,
+        "median": 92,
+        "p95": 97,
+        "p99": 101.9
+      },
+      "rps": {
+        "count": 363,
+        "mean": 36.34
+      },
+      "scenarioDuration": {
+        "min": 4278.9,
+        "max": 7279.7,
+        "median": 4410.1,
+        "p95": 7272.5,
+        "p99": 7279.7
+      },
+      "scenarioCounts": {
+        "Post Reader Scenario": 29,
+        "Post Writer Scenario": 11
+      },
+      "errors": {},
+      "codes": {
+        "200": 289,
+        "201": 76
+      },
+      "matches": 0,
+      "customStats": {
+        "plugins.metrics-by-endpoint.response_time.PUT/posts/ID": {
+          "min": 89,
+          "max": 109,
+          "median": 91.5,
+          "p95": 103.6,
+          "p99": 109
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/comments": {
+          "min": 89,
+          "max": 103,
+          "median": 93,
+          "p95": 100,
+          "p99": 103
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/posts/ID": {
+          "min": 88,
+          "max": 102,
+          "median": 91,
+          "p95": 94,
+          "p99": 98
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/get_token": {
+          "min": 89,
+          "max": 95,
+          "median": 90,
+          "p95": 94.9,
+          "p99": 95
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/posts": {
+          "min": 92,
+          "max": 99,
+          "median": 96,
+          "p95": 98.1,
+          "p99": 99
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/users": {
+          "min": 89,
+          "max": 94,
+          "median": 90,
+          "p95": 93.9,
+          "p99": 94
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/posts": {
+          "min": 89,
+          "max": 101,
+          "median": 90,
+          "p95": 99.6,
+          "p99": 101
+        }
+      },
+      "counters": {
+        "plugins.metrics-by-endpoint.PUT/posts/ID.codes.200": 28,
+        "plugins.metrics-by-endpoint.POST/comments.codes.201": 50,
+        "plugins.metrics-by-endpoint.GET/posts/ID.codes.200": 221,
+        "plugins.metrics-by-endpoint.GET/get_token.codes.200": 11,
+        "plugins.metrics-by-endpoint.GET/posts.codes.200": 29,
+        "plugins.metrics-by-endpoint.POST/users.codes.201": 12,
+        "plugins.metrics-by-endpoint.POST/posts.codes.201": 14
+      },
+      "concurrency": 20,
+      "pendingRequests": 2,
+      "scenariosAvoided": 110
+    },
+    {
+      "timestamp": "2022-02-23T10:28:37.505Z",
+      "scenariosCreated": 36,
+      "scenariosCompleted": 36,
+      "requestsCompleted": 415,
+      "latency": {
+        "min": 88,
+        "max": 113,
+        "median": 92,
+        "p95": 97,
+        "p99": 103
+      },
+      "rps": {
+        "count": 414,
+        "mean": 41.48
+      },
+      "scenarioDuration": {
+        "min": 4266.2,
+        "max": 7268.9,
+        "median": 4404.7,
+        "p95": 7260.7,
+        "p99": 7268.9
+      },
+      "scenarioCounts": {
+        "Post Reader Scenario": 25,
+        "Post Writer Scenario": 11
+      },
+      "errors": {},
+      "codes": {
+        "200": 348,
+        "201": 67
+      },
+      "matches": 0,
+      "customStats": {
+        "plugins.metrics-by-endpoint.response_time.GET/posts/ID": {
+          "min": 88,
+          "max": 103,
+          "median": 92,
+          "p95": 96,
+          "p99": 102.6
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/comments": {
+          "min": 90,
+          "max": 113,
+          "median": 93,
+          "p95": 100.2,
+          "p99": 113
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/get_token": {
+          "min": 89,
+          "max": 95,
+          "median": 91,
+          "p95": 94.9,
+          "p99": 95
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/users": {
+          "min": 88,
+          "max": 97,
+          "median": 92,
+          "p95": 96.6,
+          "p99": 97
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/posts": {
+          "min": 92,
+          "max": 105,
+          "median": 96,
+          "p95": 103.5,
+          "p99": 105
+        },
+        "plugins.metrics-by-endpoint.response_time.PUT/posts/ID": {
+          "min": 90,
+          "max": 100,
+          "median": 91,
+          "p95": 98,
+          "p99": 100
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/posts": {
+          "min": 89,
+          "max": 99,
+          "median": 92.5,
+          "p95": 99,
+          "p99": 99
+        }
+      },
+      "counters": {
+        "plugins.metrics-by-endpoint.GET/posts/ID.codes.200": 292,
+        "plugins.metrics-by-endpoint.POST/comments.codes.201": 47,
+        "plugins.metrics-by-endpoint.GET/get_token.codes.200": 11,
+        "plugins.metrics-by-endpoint.POST/users.codes.201": 12,
+        "plugins.metrics-by-endpoint.GET/posts.codes.200": 25,
+        "plugins.metrics-by-endpoint.PUT/posts/ID.codes.200": 20,
+        "plugins.metrics-by-endpoint.POST/posts.codes.201": 8
+      },
+      "concurrency": 20,
+      "pendingRequests": 1,
+      "scenariosAvoided": 114
+    },
+    {
+      "timestamp": "2022-02-23T10:28:47.506Z",
+      "scenariosCreated": 36,
+      "scenariosCompleted": 37,
+      "requestsCompleted": 300,
+      "latency": {
+        "min": 89,
+        "max": 102,
+        "median": 92,
+        "p95": 97.5,
+        "p99": 102
+      },
+      "rps": {
+        "count": 302,
+        "mean": 30.23
+      },
+      "scenarioDuration": {
+        "min": 4266.4,
+        "max": 7268.7,
+        "median": 4419.6,
+        "p95": 7261.5,
+        "p99": 7268.7
+      },
+      "scenarioCounts": {
+        "Post Writer Scenario": 17,
+        "Post Reader Scenario": 19
+      },
+      "errors": {},
+      "codes": {
+        "200": 210,
+        "201": 90
+      },
+      "matches": 0,
+      "customStats": {
+        "plugins.metrics-by-endpoint.response_time.GET/posts/ID": {
+          "min": 89,
+          "max": 102,
+          "median": 92,
+          "p95": 94,
+          "p99": 102
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/comments": {
+          "min": 89,
+          "max": 102,
+          "median": 94,
+          "p95": 99,
+          "p99": 102
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/get_token": {
+          "min": 89,
+          "max": 93,
+          "median": 91,
+          "p95": 93,
+          "p99": 93
+        },
+        "plugins.metrics-by-endpoint.response_time.PUT/posts/ID": {
+          "min": 89,
+          "max": 100,
+          "median": 91,
+          "p95": 98,
+          "p99": 100
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/posts": {
+          "min": 89,
+          "max": 95,
+          "median": 92,
+          "p95": 94.6,
+          "p99": 95
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/posts": {
+          "min": 92,
+          "max": 101,
+          "median": 95,
+          "p95": 100.2,
+          "p99": 101
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/users": {
+          "min": 89,
+          "max": 101,
+          "median": 92,
+          "p95": 98.6,
+          "p99": 101
+        }
+      },
+      "counters": {
+        "plugins.metrics-by-endpoint.GET/posts/ID.codes.200": 141,
+        "plugins.metrics-by-endpoint.POST/comments.codes.201": 54,
+        "plugins.metrics-by-endpoint.GET/get_token.codes.200": 17,
+        "plugins.metrics-by-endpoint.PUT/posts/ID.codes.200": 34,
+        "plugins.metrics-by-endpoint.POST/posts.codes.201": 19,
+        "plugins.metrics-by-endpoint.GET/posts.codes.200": 18,
+        "plugins.metrics-by-endpoint.POST/users.codes.201": 17
+      },
+      "concurrency": 19,
+      "pendingRequests": 3,
+      "scenariosAvoided": 114
+    },
+    {
+      "timestamp": "2022-02-23T10:28:57.505Z",
+      "scenariosCreated": 38,
+      "scenariosCompleted": 37,
+      "requestsCompleted": 408,
+      "latency": {
+        "min": 88,
+        "max": 108,
+        "median": 92,
+        "p95": 97,
+        "p99": 102.8
+      },
+      "rps": {
+        "count": 410,
+        "mean": 41
+      },
+      "scenarioDuration": {
+        "min": 4264.6,
+        "max": 7275.9,
+        "median": 4493,
+        "p95": 7264.3,
+        "p99": 7275.9
+      },
+      "scenarioCounts": {
+        "Post Writer Scenario": 7,
+        "Post Reader Scenario": 31
+      },
+      "errors": {},
+      "codes": {
+        "200": 341,
+        "201": 67
+      },
+      "matches": 0,
+      "customStats": {
+        "plugins.metrics-by-endpoint.response_time.GET/posts/ID": {
+          "min": 88,
+          "max": 108,
+          "median": 92,
+          "p95": 97,
+          "p99": 102
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/comments": {
+          "min": 89,
+          "max": 104,
+          "median": 93,
+          "p95": 96.1,
+          "p99": 104
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/get_token": {
+          "min": 89,
+          "max": 93,
+          "median": 89,
+          "p95": 93,
+          "p99": 93
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/posts": {
+          "min": 92,
+          "max": 100,
+          "median": 96,
+          "p95": 100,
+          "p99": 100
+        },
+        "plugins.metrics-by-endpoint.response_time.PUT/posts/ID": {
+          "min": 88,
+          "max": 105,
+          "median": 91,
+          "p95": 98.3,
+          "p99": 105
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/posts": {
+          "min": 89,
+          "max": 95,
+          "median": 90,
+          "p95": 94.9,
+          "p99": 95
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/users": {
+          "min": 89,
+          "max": 94,
+          "median": 92,
+          "p95": 94,
+          "p99": 94
+        }
+      },
+      "counters": {
+        "plugins.metrics-by-endpoint.GET/posts/ID.codes.200": 278,
+        "plugins.metrics-by-endpoint.POST/comments.codes.201": 49,
+        "plugins.metrics-by-endpoint.GET/get_token.codes.200": 7,
+        "plugins.metrics-by-endpoint.GET/posts.codes.200": 30,
+        "plugins.metrics-by-endpoint.PUT/posts/ID.codes.200": 25,
+        "plugins.metrics-by-endpoint.POST/posts.codes.201": 11,
+        "plugins.metrics-by-endpoint.POST/users.codes.201": 7
+      },
+      "concurrency": 20,
+      "pendingRequests": 5,
+      "scenariosAvoided": 112
+    },
+    {
+      "timestamp": "2022-02-23T10:29:07.504Z",
+      "scenariosCreated": 37,
+      "scenariosCompleted": 37,
+      "requestsCompleted": 380,
+      "latency": {
+        "min": 88,
+        "max": 112,
+        "median": 92,
+        "p95": 97,
+        "p99": 105
+      },
+      "rps": {
+        "count": 379,
+        "mean": 37.94
+      },
+      "scenarioDuration": {
+        "min": 4280.6,
+        "max": 7266.5,
+        "median": 4449.7,
+        "p95": 7258.3,
+        "p99": 7266.5
+      },
+      "scenarioCounts": {
+        "Post Reader Scenario": 21,
+        "Post Writer Scenario": 16
+      },
+      "errors": {},
+      "codes": {
+        "200": 303,
+        "201": 77
+      },
+      "matches": 0,
+      "customStats": {
+        "plugins.metrics-by-endpoint.response_time.GET/posts/ID": {
+          "min": 88,
+          "max": 112,
+          "median": 91,
+          "p95": 97,
+          "p99": 105.2
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/posts": {
+          "min": 93,
+          "max": 99,
+          "median": 96.5,
+          "p95": 98.4,
+          "p99": 99
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/comments": {
+          "min": 89,
+          "max": 109,
+          "median": 92,
+          "p95": 97.8,
+          "p99": 109
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/get_token": {
+          "min": 88,
+          "max": 101,
+          "median": 91,
+          "p95": 99.8,
+          "p99": 101
+        },
+        "plugins.metrics-by-endpoint.response_time.PUT/posts/ID": {
+          "min": 88,
+          "max": 95,
+          "median": 91,
+          "p95": 94.6,
+          "p99": 95
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/users": {
+          "min": 88,
+          "max": 97,
+          "median": 91,
+          "p95": 96.1,
+          "p99": 97
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/posts": {
+          "min": 89,
+          "max": 94,
+          "median": 91,
+          "p95": 94,
+          "p99": 94
+        }
+      },
+      "counters": {
+        "plugins.metrics-by-endpoint.GET/posts/ID.codes.200": 247,
+        "plugins.metrics-by-endpoint.GET/posts.codes.200": 22,
+        "plugins.metrics-by-endpoint.POST/comments.codes.201": 48,
+        "plugins.metrics-by-endpoint.GET/get_token.codes.200": 16,
+        "plugins.metrics-by-endpoint.PUT/posts/ID.codes.200": 19,
+        "plugins.metrics-by-endpoint.POST/users.codes.201": 16,
+        "plugins.metrics-by-endpoint.POST/posts.codes.201": 13
+      },
+      "concurrency": 20,
+      "pendingRequests": 4,
+      "scenariosAvoided": 113
+    },
+    {
+      "timestamp": "2022-02-23T10:29:17.507Z",
+      "scenariosCreated": 35,
+      "scenariosCompleted": 36,
+      "requestsCompleted": 322,
+      "latency": {
+        "min": 88,
+        "max": 115,
+        "median": 92,
+        "p95": 97,
+        "p99": 106.4
+      },
+      "rps": {
+        "count": 320,
+        "mean": 32.13
+      },
+      "scenarioDuration": {
+        "min": 4360.8,
+        "max": 7280.8,
+        "median": 5874.5,
+        "p95": 7259.6,
+        "p99": 7280.8
+      },
+      "scenarioCounts": {
+        "Post Writer Scenario": 20,
+        "Post Reader Scenario": 15
+      },
+      "errors": {},
+      "codes": {
+        "200": 237,
+        "201": 85
+      },
+      "matches": 0,
+      "customStats": {
+        "plugins.metrics-by-endpoint.response_time.GET/posts/ID": {
+          "min": 88,
+          "max": 105,
+          "median": 92,
+          "p95": 96,
+          "p99": 102.7
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/comments": {
+          "min": 89,
+          "max": 100,
+          "median": 93,
+          "p95": 97,
+          "p99": 99.9
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/posts": {
+          "min": 92,
+          "max": 110,
+          "median": 95.5,
+          "p95": 106.1,
+          "p99": 110
+        },
+        "plugins.metrics-by-endpoint.response_time.PUT/posts/ID": {
+          "min": 88,
+          "max": 115,
+          "median": 91,
+          "p95": 95.4,
+          "p99": 115
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/posts": {
+          "min": 89,
+          "max": 115,
+          "median": 91,
+          "p95": 109.8,
+          "p99": 115
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/get_token": {
+          "min": 89,
+          "max": 97,
+          "median": 90,
+          "p95": 97,
+          "p99": 97
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/users": {
+          "min": 89,
+          "max": 95,
+          "median": 91,
+          "p95": 95,
+          "p99": 95
+        }
+      },
+      "counters": {
+        "plugins.metrics-by-endpoint.GET/posts/ID.codes.200": 167,
+        "plugins.metrics-by-endpoint.POST/comments.codes.201": 54,
+        "plugins.metrics-by-endpoint.GET/posts.codes.200": 16,
+        "plugins.metrics-by-endpoint.PUT/posts/ID.codes.200": 36,
+        "plugins.metrics-by-endpoint.POST/posts.codes.201": 15,
+        "plugins.metrics-by-endpoint.GET/get_token.codes.200": 18,
+        "plugins.metrics-by-endpoint.POST/users.codes.201": 16
+      },
+      "concurrency": 19,
+      "pendingRequests": 2,
+      "scenariosAvoided": 115
+    },
+    {
+      "timestamp": "2022-02-23T10:29:27.519Z",
+      "scenariosCreated": 32,
+      "scenariosCompleted": 31,
+      "requestsCompleted": 326,
+      "latency": {
+        "min": 87,
+        "max": 115,
+        "median": 92,
+        "p95": 97,
+        "p99": 102.2
+      },
+      "rps": {
+        "count": 330,
+        "mean": 32.97
+      },
+      "scenarioDuration": {
+        "min": 4360,
+        "max": 7269.8,
+        "median": 7229.9,
+        "p95": 7261.9,
+        "p99": 7269.8
+      },
+      "scenarioCounts": {
+        "Post Reader Scenario": 19,
+        "Post Writer Scenario": 13
+      },
+      "errors": {},
+      "codes": {
+        "200": 245,
+        "201": 81
+      },
+      "matches": 0,
+      "customStats": {
+        "plugins.metrics-by-endpoint.response_time.GET/get_token": {
+          "min": 90,
+          "max": 99,
+          "median": 92,
+          "p95": 98.2,
+          "p99": 99
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/comments": {
+          "min": 90,
+          "max": 115,
+          "median": 93,
+          "p95": 98.3,
+          "p99": 115
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/posts/ID": {
+          "min": 87,
+          "max": 103,
+          "median": 92,
+          "p95": 95.7,
+          "p99": 101.7
+        },
+        "plugins.metrics-by-endpoint.response_time.PUT/posts/ID": {
+          "min": 89,
+          "max": 97,
+          "median": 91,
+          "p95": 94.8,
+          "p99": 97
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/users": {
+          "min": 89,
+          "max": 95,
+          "median": 92,
+          "p95": 94.7,
+          "p99": 95
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/posts": {
+          "min": 89,
+          "max": 95,
+          "median": 92.5,
+          "p95": 94.7,
+          "p99": 95
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/posts": {
+          "min": 94,
+          "max": 101,
+          "median": 96,
+          "p95": 100.6,
+          "p99": 101
+        }
+      },
+      "counters": {
+        "plugins.metrics-by-endpoint.GET/get_token.codes.200": 14,
+        "plugins.metrics-by-endpoint.POST/comments.codes.201": 49,
+        "plugins.metrics-by-endpoint.GET/posts/ID.codes.200": 177,
+        "plugins.metrics-by-endpoint.PUT/posts/ID.codes.200": 35,
+        "plugins.metrics-by-endpoint.POST/users.codes.201": 16,
+        "plugins.metrics-by-endpoint.POST/posts.codes.201": 16,
+        "plugins.metrics-by-endpoint.GET/posts.codes.200": 19
+      },
+      "concurrency": 20,
+      "pendingRequests": 6,
+      "scenariosAvoided": 118
+    },
+    {
+      "timestamp": "2022-02-23T10:29:37.513Z",
+      "scenariosCreated": 38,
+      "scenariosCompleted": 38,
+      "requestsCompleted": 389,
+      "latency": {
+        "min": 87,
+        "max": 120,
+        "median": 92,
+        "p95": 100,
+        "p99": 109
+      },
+      "rps": {
+        "count": 389,
+        "mean": 38.94
+      },
+      "scenarioDuration": {
+        "min": 4351.6,
+        "max": 7302.2,
+        "median": 4495.8,
+        "p95": 7276.8,
+        "p99": 7302.2
+      },
+      "scenarioCounts": {
+        "Post Writer Scenario": 9,
+        "Post Reader Scenario": 29
+      },
+      "errors": {},
+      "codes": {
+        "200": 322,
+        "201": 67
+      },
+      "matches": 0,
+      "customStats": {
+        "plugins.metrics-by-endpoint.response_time.GET/posts/ID": {
+          "min": 87,
+          "max": 120,
+          "median": 91,
+          "p95": 98,
+          "p99": 108.5
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/comments": {
+          "min": 88,
+          "max": 106,
+          "median": 94,
+          "p95": 101.4,
+          "p99": 106
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/posts": {
+          "min": 89,
+          "max": 109,
+          "median": 92,
+          "p95": 108.4,
+          "p99": 109
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/get_token": {
+          "min": 89,
+          "max": 111,
+          "median": 92,
+          "p95": 111,
+          "p99": 111
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/users": {
+          "min": 89,
+          "max": 109,
+          "median": 92,
+          "p95": 109,
+          "p99": 109
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/posts": {
+          "min": 94,
+          "max": 102,
+          "median": 96,
+          "p95": 100.3,
+          "p99": 102
+        },
+        "plugins.metrics-by-endpoint.response_time.PUT/posts/ID": {
+          "min": 89,
+          "max": 109,
+          "median": 93,
+          "p95": 100.6,
+          "p99": 109
+        }
+      },
+      "counters": {
+        "plugins.metrics-by-endpoint.GET/posts/ID.codes.200": 262,
+        "plugins.metrics-by-endpoint.POST/comments.codes.201": 47,
+        "plugins.metrics-by-endpoint.POST/posts.codes.201": 11,
+        "plugins.metrics-by-endpoint.GET/get_token.codes.200": 10,
+        "plugins.metrics-by-endpoint.POST/users.codes.201": 9,
+        "plugins.metrics-by-endpoint.GET/posts.codes.200": 27,
+        "plugins.metrics-by-endpoint.PUT/posts/ID.codes.200": 22
+      },
+      "concurrency": 20,
+      "pendingRequests": 6,
+      "scenariosAvoided": 112
+    },
+    {
+      "timestamp": "2022-02-23T10:29:47.507Z",
+      "scenariosCreated": 39,
+      "scenariosCompleted": 39,
+      "requestsCompleted": 386,
+      "latency": {
+        "min": 88,
+        "max": 107,
+        "median": 92,
+        "p95": 98,
+        "p99": 102
+      },
+      "rps": {
+        "count": 384,
+        "mean": 38.44
+      },
+      "scenarioDuration": {
+        "min": 4360.9,
+        "max": 7272.5,
+        "median": 4477.5,
+        "p95": 7261.4,
+        "p99": 7272.5
+      },
+      "scenarioCounts": {
+        "Post Reader Scenario": 26,
+        "Post Writer Scenario": 13
+      },
+      "errors": {},
+      "codes": {
+        "200": 310,
+        "201": 76
+      },
+      "matches": 0,
+      "customStats": {
+        "plugins.metrics-by-endpoint.response_time.GET/posts/ID": {
+          "min": 88,
+          "max": 107,
+          "median": 91,
+          "p95": 97,
+          "p99": 102
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/posts": {
+          "min": 89,
+          "max": 106,
+          "median": 92.5,
+          "p95": 104.9,
+          "p99": 106
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/comments": {
+          "min": 90,
+          "max": 101,
+          "median": 93,
+          "p95": 98.9,
+          "p99": 101
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/posts": {
+          "min": 93,
+          "max": 101,
+          "median": 97,
+          "p95": 100.2,
+          "p99": 101
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/users": {
+          "min": 89,
+          "max": 96,
+          "median": 92,
+          "p95": 95.7,
+          "p99": 96
+        },
+        "plugins.metrics-by-endpoint.response_time.PUT/posts/ID": {
+          "min": 89,
+          "max": 95,
+          "median": 92,
+          "p95": 94.4,
+          "p99": 95
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/get_token": {
+          "min": 89,
+          "max": 95,
+          "median": 92,
+          "p95": 94.7,
+          "p99": 95
+        }
+      },
+      "counters": {
+        "plugins.metrics-by-endpoint.GET/posts/ID.codes.200": 250,
+        "plugins.metrics-by-endpoint.POST/posts.codes.201": 12,
+        "plugins.metrics-by-endpoint.POST/comments.codes.201": 51,
+        "plugins.metrics-by-endpoint.GET/posts.codes.200": 26,
+        "plugins.metrics-by-endpoint.POST/users.codes.201": 13,
+        "plugins.metrics-by-endpoint.PUT/posts/ID.codes.200": 21,
+        "plugins.metrics-by-endpoint.GET/get_token.codes.200": 13
+      },
+      "concurrency": 20,
+      "pendingRequests": 4,
+      "scenariosAvoided": 111
+    },
+    {
+      "timestamp": "2022-02-23T10:29:57.508Z",
+      "scenariosCreated": 38,
+      "scenariosCompleted": 38,
+      "requestsCompleted": 384,
+      "latency": {
+        "min": 87,
+        "max": 105,
+        "median": 92,
+        "p95": 97,
+        "p99": 102.7
+      },
+      "rps": {
+        "count": 382,
+        "mean": 38.31
+      },
+      "scenarioDuration": {
+        "min": 4353.1,
+        "max": 7268.7,
+        "median": 4477.2,
+        "p95": 7260,
+        "p99": 7268.7
+      },
+      "scenarioCounts": {
+        "Post Reader Scenario": 25,
+        "Post Writer Scenario": 13
+      },
+      "errors": {},
+      "codes": {
+        "200": 312,
+        "201": 72
+      },
+      "matches": 0,
+      "customStats": {
+        "plugins.metrics-by-endpoint.response_time.GET/posts/ID": {
+          "min": 87,
+          "max": 105,
+          "median": 91,
+          "p95": 96,
+          "p99": 100
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/users": {
+          "min": 89,
+          "max": 96,
+          "median": 90.5,
+          "p95": 95.8,
+          "p99": 96
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/posts": {
+          "min": 93,
+          "max": 105,
+          "median": 96,
+          "p95": 102.6,
+          "p99": 105
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/comments": {
+          "min": 90,
+          "max": 105,
+          "median": 93,
+          "p95": 97.4,
+          "p99": 105
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/posts": {
+          "min": 90,
+          "max": 95,
+          "median": 92,
+          "p95": 94.9,
+          "p99": 95
+        },
+        "plugins.metrics-by-endpoint.response_time.PUT/posts/ID": {
+          "min": 90,
+          "max": 99,
+          "median": 93,
+          "p95": 97.9,
+          "p99": 99
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/get_token": {
+          "min": 89,
+          "max": 98,
+          "median": 90,
+          "p95": 97.4,
+          "p99": 98
+        }
+      },
+      "counters": {
+        "plugins.metrics-by-endpoint.GET/posts/ID.codes.200": 252,
+        "plugins.metrics-by-endpoint.POST/users.codes.201": 12,
+        "plugins.metrics-by-endpoint.GET/posts.codes.200": 26,
+        "plugins.metrics-by-endpoint.POST/comments.codes.201": 47,
+        "plugins.metrics-by-endpoint.POST/posts.codes.201": 13,
+        "plugins.metrics-by-endpoint.PUT/posts/ID.codes.200": 21,
+        "plugins.metrics-by-endpoint.GET/get_token.codes.200": 13
+      },
+      "concurrency": 20,
+      "pendingRequests": 2,
+      "scenariosAvoided": 112
+    },
+    {
+      "timestamp": "2022-02-23T10:30:07.505Z",
+      "scenariosCreated": 31,
+      "scenariosCompleted": 31,
+      "requestsCompleted": 352,
+      "latency": {
+        "min": 88,
+        "max": 111,
+        "median": 91,
+        "p95": 98,
+        "p99": 102
+      },
+      "rps": {
+        "count": 353,
+        "mean": 35.34
+      },
+      "scenarioDuration": {
+        "min": 4362.6,
+        "max": 7266,
+        "median": 4467.5,
+        "p95": 7263.1,
+        "p99": 7266
+      },
+      "scenarioCounts": {
+        "Post Writer Scenario": 12,
+        "Post Reader Scenario": 19
+      },
+      "errors": {},
+      "codes": {
+        "200": 272,
+        "201": 80
+      },
+      "matches": 0,
+      "customStats": {
+        "plugins.metrics-by-endpoint.response_time.GET/posts/ID": {
+          "min": 88,
+          "max": 111,
+          "median": 90,
+          "p95": 96,
+          "p99": 107.7
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/users": {
+          "min": 90,
+          "max": 101,
+          "median": 92,
+          "p95": 100.7,
+          "p99": 101
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/posts": {
+          "min": 94,
+          "max": 102,
+          "median": 96.5,
+          "p95": 101,
+          "p99": 102
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/get_token": {
+          "min": 89,
+          "max": 97,
+          "median": 91,
+          "p95": 96.7,
+          "p99": 97
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/comments": {
+          "min": 90,
+          "max": 100,
+          "median": 93,
+          "p95": 96,
+          "p99": 99.9
+        },
+        "plugins.metrics-by-endpoint.response_time.PUT/posts/ID": {
+          "min": 89,
+          "max": 99,
+          "median": 92,
+          "p95": 96.9,
+          "p99": 99
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/posts": {
+          "min": 90,
+          "max": 98,
+          "median": 91,
+          "p95": 96.8,
+          "p99": 98
+        }
+      },
+      "counters": {
+        "plugins.metrics-by-endpoint.GET/posts/ID.codes.200": 208,
+        "plugins.metrics-by-endpoint.POST/users.codes.201": 13,
+        "plugins.metrics-by-endpoint.GET/posts.codes.200": 20,
+        "plugins.metrics-by-endpoint.GET/get_token.codes.200": 12,
+        "plugins.metrics-by-endpoint.POST/comments.codes.201": 52,
+        "plugins.metrics-by-endpoint.PUT/posts/ID.codes.200": 33,
+        "plugins.metrics-by-endpoint.POST/posts.codes.201": 15
+      },
+      "concurrency": 20,
+      "pendingRequests": 3,
+      "scenariosAvoided": 119
+    },
+    {
+      "timestamp": "2022-02-23T10:30:17.508Z",
+      "scenariosCreated": 22,
+      "scenariosCompleted": 39,
+      "requestsCompleted": 282,
+      "latency": {
+        "min": 88,
+        "max": 117,
+        "median": 92,
+        "p95": 99,
+        "p99": 104
+      },
+      "rps": {
+        "count": 279,
+        "mean": 27.9
+      },
+      "scenarioDuration": {
+        "min": 4358.1,
+        "max": 7271.8,
+        "median": 4503.9,
+        "p95": 7269.1,
+        "p99": 7271.8
+      },
+      "scenarioCounts": {
+        "Post Reader Scenario": 14,
+        "Post Writer Scenario": 8
+      },
+      "errors": {},
+      "codes": {
+        "200": 218,
+        "201": 64
+      },
+      "matches": 0,
+      "customStats": {
+        "plugins.metrics-by-endpoint.response_time.GET/posts/ID": {
+          "min": 88,
+          "max": 111,
+          "median": 92,
+          "p95": 96,
+          "p99": 103.3
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/comments": {
+          "min": 90,
+          "max": 99,
+          "median": 94,
+          "p95": 98,
+          "p99": 99
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/users": {
+          "min": 90,
+          "max": 94,
+          "median": 92,
+          "p95": 94,
+          "p99": 94
+        },
+        "plugins.metrics-by-endpoint.response_time.PUT/posts/ID": {
+          "min": 89,
+          "max": 97,
+          "median": 92,
+          "p95": 95.8,
+          "p99": 97
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/posts": {
+          "min": 93,
+          "max": 117,
+          "median": 98,
+          "p95": 114.2,
+          "p99": 117
+        },
+        "plugins.metrics-by-endpoint.response_time.GET/get_token": {
+          "min": 89,
+          "max": 104,
+          "median": 91,
+          "p95": 104,
+          "p99": 104
+        },
+        "plugins.metrics-by-endpoint.response_time.POST/posts": {
+          "min": 89,
+          "max": 104,
+          "median": 92,
+          "p95": 104,
+          "p99": 104
+        }
+      },
+      "counters": {
+        "plugins.metrics-by-endpoint.GET/posts/ID.codes.200": 174,
+        "plugins.metrics-by-endpoint.POST/comments.codes.201": 46,
+        "plugins.metrics-by-endpoint.POST/users.codes.201": 9,
+        "plugins.metrics-by-endpoint.PUT/posts/ID.codes.200": 22,
+        "plugins.metrics-by-endpoint.GET/posts.codes.200": 14,
+        "plugins.metrics-by-endpoint.GET/get_token.codes.200": 8,
+        "plugins.metrics-by-endpoint.POST/posts.codes.201": 9
+      },
+      "concurrency": 3,
+      "pendingRequests": 0,
+      "scenariosAvoided": 54
+    },
+    {
+      "timestamp": "2022-02-23T10:30:20.021Z",
+      "scenariosCreated": 0,
+      "scenariosCompleted": 3,
+      "requestsCompleted": 6,
+      "latency": {
+        "min": 90,
+        "max": 94,
+        "median": 91.5,
+        "p95": 94,
+        "p99": 94
+      },
+      "rps": {
+        "count": 6,
+        "mean": 2.49
+      },
+      "scenarioDuration": {
+        "min": 7235.2,
+        "max": 7258.4,
+        "median": 7238.3,
+        "p95": 7258.4,
+        "p99": 7258.4
+      },
+      "scenarioCounts": {},
+      "errors": {},
+      "codes": {
+        "200": 3,
+        "201": 3
+      },
+      "matches": 0,
+      "customStats": {
+        "plugins.metrics-by-endpoint.response_time.POST/comments": {
+          "min": 91,
+          "max": 94,
+          "median": 92,
+          "p95": 94,
+          "p99": 94
+        },
+        "plugins.metrics-by-endpoint.response_time.PUT/posts/ID": {
+          "min": 90,
+          "max": 93,
+          "median": 91,
+          "p95": 93,
+          "p99": 93
+        }
+      },
+      "counters": {
+        "plugins.metrics-by-endpoint.POST/comments.codes.201": 3,
+        "plugins.metrics-by-endpoint.PUT/posts/ID.codes.200": 3
+      },
+      "concurrency": 0,
+      "pendingRequests": 0,
+      "scenariosAvoided": 0
+    }
+  ]
+};
+  </script>
+
+  <style>
+      h1 {
+        line-height: 200%;
+      }
+
+      body {
+          background-color: #fcfcfc;
+      }
+
+      .container {
+          width: 100%;
+          min-width: 960px;
+      }
+  </style>
+
+
+</head>
+<body>
+
+<div class="container">
+
+<div class="row" id="header">
+  <div class="col-lg-4 col-lg-offset-4">
+    <pre style="font-size: 5pt; background-color: #fcfcfc; border: none;">
+            _   _ _ _                                                _
+  __ _ _ __| |_(_) | | ___ _ __ _   _      _ __ ___ _ __   ___  _ __| |_
+ / _` | '__| __| | | |/ _ \ '__| | | |    | '__/ _ \ '_ \ / _ \| '__| __|
+| (_| | |  | |_| | | |  __/ |  | |_| |    | | |  __/ |_) | (_) | |  | |_
+ \__,_|_|   \__|_|_|_|\___|_|   \__, |    |_|  \___| .__/ \___/|_|   \__|
+                                |___/              |_|
+
+    </pre>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <h1 class="text-center" id="page-title">Test run on <span id="timestamp">date</span></h1>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-3">
+    <p><strong>Summary</strong></p>
+    <table class="table table-bordered table-hover table-condensed">
+      <tbody>
+        <tr>
+          <td>Test duration</td>
+          <td><span id="testDuration">0</span> sec</td>
+        </tr>
+        <tr>
+          <td>Scenarios created</td>
+          <td><span id="scenariosCreated">0</span></td>
+        </tr>
+
+        <tr>
+          <td>Scenarios completed</td>
+          <td><span id="scenariosCompleted">0</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="col-lg-5" id="scenarioCountsContainer">
+    <div>
+      <strong>Scenario counts:</strong>
+
+      <p></p>
+
+      <table class="table table-bordered table-hover table-condensed" id="scenarioCounts">
+      </table>
+    </div>
+  </div>
+
+  <div class="col-lg-1">
+    <div id="codesContainer">
+      <strong>Codes</strong>
+
+      <p></p>
+
+      <table class="table table-bordered table-hover table-condensed" id="codes">
+      </table>
+    </div>
+  </div>
+
+  <div class="col-lg-3">
+    <div id="errorsContainer">
+      <strong>Errors</strong>
+
+      <p></p>
+
+      <table class="table table-bordered table-hover table-condensed" id="errors">
+      </table>
+    </div>
+  </div>
+</div> <!-- /.row -->
+
+<div class="row">
+  <div class="text-center col-lg-12">
+    <h2>Charts</h2>
+  </div>
+</div>
+
+<div class="row">
+  <div class="latency-histogram text-center col-lg-12"></div>
+</div>
+
+<div class="row">
+  <div class="latency text-center col-lg-12"></div>
+</div>
+
+<div class="latency-legend"></div>
+
+<div class="row">
+
+</div>
+
+<div class="row">
+  <div class="concurrency text-center col-lg-12"></div>
+</div>
+
+<div class="row">
+  <div class="rps-mean text-center col-lg-12"></div>
+</div>
+<div class="row">
+  <div class="rps-count text-center col-lg-12"></div>
+</div>
+
+<div class="row">
+  <div class="codes-line text-center col-lg-12"></div>
+</div>
+<div class="row">
+  <div class="errors-line text-center col-lg-12"></div>
+</div>
+
+
+  
+    
+    <div class="row">
+      <div class="id_2468 text-center col-lg-12"></div>
+      <script>
+      var histogramData = _.map(Report.aggregate.customStats['plugins.metrics-by-endpoint.response_time.GET/get_token'], function(v, k) { return {bin: k, value: v} });
+      MG.data_graphic({
+        chart_type: 'bar',
+        x_label: 'Percentile',
+        y_label: '(ms)',
+        animate_on_load: true,
+        title: 'plugins.metrics-by-endpoint.response_time.GET/get_token distribution',
+        description: 'Distribution of plugins.metrics-by-endpoint.response_time.GET/get_token',
+        target: '.id_2468',
+        data: histogramData,
+        x_accessor: 'bin',
+        y_accessor: 'value',
+        binned: true,
+        height: 250,
+        interpolate: 'monotone',
+        padding_percentage: 0,
+        bar_orientation: 'vertical',
+        width: 450
+      });
+      </script>
+    </div>
+  
+    
+    <div class="row">
+      <div class="id_5661 text-center col-lg-12"></div>
+      <script>
+      var histogramData = _.map(Report.aggregate.customStats['plugins.metrics-by-endpoint.response_time.POST/users'], function(v, k) { return {bin: k, value: v} });
+      MG.data_graphic({
+        chart_type: 'bar',
+        x_label: 'Percentile',
+        y_label: '(ms)',
+        animate_on_load: true,
+        title: 'plugins.metrics-by-endpoint.response_time.POST/users distribution',
+        description: 'Distribution of plugins.metrics-by-endpoint.response_time.POST/users',
+        target: '.id_5661',
+        data: histogramData,
+        x_accessor: 'bin',
+        y_accessor: 'value',
+        binned: true,
+        height: 250,
+        interpolate: 'monotone',
+        padding_percentage: 0,
+        bar_orientation: 'vertical',
+        width: 450
+      });
+      </script>
+    </div>
+  
+    
+    <div class="row">
+      <div class="id_5216 text-center col-lg-12"></div>
+      <script>
+      var histogramData = _.map(Report.aggregate.customStats['plugins.metrics-by-endpoint.response_time.POST/posts'], function(v, k) { return {bin: k, value: v} });
+      MG.data_graphic({
+        chart_type: 'bar',
+        x_label: 'Percentile',
+        y_label: '(ms)',
+        animate_on_load: true,
+        title: 'plugins.metrics-by-endpoint.response_time.POST/posts distribution',
+        description: 'Distribution of plugins.metrics-by-endpoint.response_time.POST/posts',
+        target: '.id_5216',
+        data: histogramData,
+        x_accessor: 'bin',
+        y_accessor: 'value',
+        binned: true,
+        height: 250,
+        interpolate: 'monotone',
+        padding_percentage: 0,
+        bar_orientation: 'vertical',
+        width: 450
+      });
+      </script>
+    </div>
+  
+    
+    <div class="row">
+      <div class="id_4663 text-center col-lg-12"></div>
+      <script>
+      var histogramData = _.map(Report.aggregate.customStats['plugins.metrics-by-endpoint.response_time.POST/comments'], function(v, k) { return {bin: k, value: v} });
+      MG.data_graphic({
+        chart_type: 'bar',
+        x_label: 'Percentile',
+        y_label: '(ms)',
+        animate_on_load: true,
+        title: 'plugins.metrics-by-endpoint.response_time.POST/comments distribution',
+        description: 'Distribution of plugins.metrics-by-endpoint.response_time.POST/comments',
+        target: '.id_4663',
+        data: histogramData,
+        x_accessor: 'bin',
+        y_accessor: 'value',
+        binned: true,
+        height: 250,
+        interpolate: 'monotone',
+        padding_percentage: 0,
+        bar_orientation: 'vertical',
+        width: 450
+      });
+      </script>
+    </div>
+  
+    
+    <div class="row">
+      <div class="id_1443 text-center col-lg-12"></div>
+      <script>
+      var histogramData = _.map(Report.aggregate.customStats['plugins.metrics-by-endpoint.response_time.PUT/posts/ID'], function(v, k) { return {bin: k, value: v} });
+      MG.data_graphic({
+        chart_type: 'bar',
+        x_label: 'Percentile',
+        y_label: '(ms)',
+        animate_on_load: true,
+        title: 'plugins.metrics-by-endpoint.response_time.PUT/posts/ID distribution',
+        description: 'Distribution of plugins.metrics-by-endpoint.response_time.PUT/posts/ID',
+        target: '.id_1443',
+        data: histogramData,
+        x_accessor: 'bin',
+        y_accessor: 'value',
+        binned: true,
+        height: 250,
+        interpolate: 'monotone',
+        padding_percentage: 0,
+        bar_orientation: 'vertical',
+        width: 450
+      });
+      </script>
+    </div>
+  
+    
+    <div class="row">
+      <div class="id_7206 text-center col-lg-12"></div>
+      <script>
+      var histogramData = _.map(Report.aggregate.customStats['plugins.metrics-by-endpoint.response_time.GET/posts'], function(v, k) { return {bin: k, value: v} });
+      MG.data_graphic({
+        chart_type: 'bar',
+        x_label: 'Percentile',
+        y_label: '(ms)',
+        animate_on_load: true,
+        title: 'plugins.metrics-by-endpoint.response_time.GET/posts distribution',
+        description: 'Distribution of plugins.metrics-by-endpoint.response_time.GET/posts',
+        target: '.id_7206',
+        data: histogramData,
+        x_accessor: 'bin',
+        y_accessor: 'value',
+        binned: true,
+        height: 250,
+        interpolate: 'monotone',
+        padding_percentage: 0,
+        bar_orientation: 'vertical',
+        width: 450
+      });
+      </script>
+    </div>
+  
+    
+    <div class="row">
+      <div class="id_3536 text-center col-lg-12"></div>
+      <script>
+      var histogramData = _.map(Report.aggregate.customStats['plugins.metrics-by-endpoint.response_time.GET/posts/ID'], function(v, k) { return {bin: k, value: v} });
+      MG.data_graphic({
+        chart_type: 'bar',
+        x_label: 'Percentile',
+        y_label: '(ms)',
+        animate_on_load: true,
+        title: 'plugins.metrics-by-endpoint.response_time.GET/posts/ID distribution',
+        description: 'Distribution of plugins.metrics-by-endpoint.response_time.GET/posts/ID',
+        target: '.id_3536',
+        data: histogramData,
+        x_accessor: 'bin',
+        y_accessor: 'value',
+        binned: true,
+        height: 250,
+        interpolate: 'monotone',
+        padding_percentage: 0,
+        bar_orientation: 'vertical',
+        width: 450
+      });
+      </script>
+    </div>
+  
+
+
+</div>
+
+<div class="row">
+  <div class="col-lg-8 col-lg-offset-2">
+    <h3 class="text-center">Raw report data</h3>
+    <p>This is the raw JSON stats output that the report was generated from.</p>
+    <div id="editor">
+    </div>
+  </div>
+</div>
+
+<script>
+var editor = ace.edit("editor");
+editor.getSession().setMode("ace/mode/javascript");
+editor.setValue(JSON.stringify(Report, null, 2));
+editor.gotoLine(1);editor.setHighlightActiveLine(false);
+
+var l = _;
+
+$('#timestamp').html(moment(Report.aggregate.timestamp).format('DD MMM YYYY HH:mm:SS'));
+$('#testDuration').html(l.size(Report.intermediate) * 10);
+$('#scenariosCompleted').html(Report.aggregate.scenariosCompleted);
+$('#scenariosCreated').html(Report.aggregate.scenariosCreated);
+
+var markers = [];
+if(l.size(Report.phases) > 0) {
+  markers = l.foldl(Report.phases, function(acc, phase, index) {
+    var label = phase.name || 'Phase ' + (index + 1);
+    var timestamp = (index === 0) ? 0 : Report.phases[index - 1].duration + acc[index - 1].timestamp;
+
+    acc.push({
+      timestamp: timestamp,
+      label: label
+    });
+
+    return acc;
+  }, []);
+}
+
+if (l.size(Report.aggregate.scenarioCounts) > 0) {
+  l.each(Report.aggregate.scenarioCounts, function(count, name) {
+    var $tdName = $('<td>' + name + '</td>');
+    var percentage = Math.round(count / Report.aggregate.scenariosCreated * 100 * 1000) / 1000;
+    var $tdCount = $('<td>' + count + ' (' + percentage + '%)' + '</td>');
+    var $el = $('<tr></tr>')
+      .append($tdName)
+      .append($tdCount)
+      .appendTo($('#scenarioCounts'));
+  });
+} else {
+  $('#scenarioCountsContainer').hide();
+}
+
+if (l.size(Report.aggregate.codes) > 0) {
+  l.each(Report.aggregate.codes, function(count, code) {
+    var anchor = '';
+    if (code >= 100 && code < 200) {
+      anchor = '#1xx_Informational';
+    } else if (code >= 200 && code < 300) {
+      anchor = '#2xx_Success';
+    } else if (code >= 300 && code < 400) {
+      anchor = '#3xx_Redirection';
+    } else if (code >= 400 && code < 500) {
+      anchor = '#4xx_Client_Error';
+    } else if (code >= 500 && code < 600) {
+      anchor = '#5xx_Server_Error';
+    }
+
+    var $a = $('<a>' + code + '</a>').attr('href', 'https://en.wikipedia.org/wiki/List_of_HTTP_status_codes' + anchor);
+    var $td = $('<td></td>').append($a);
+    var $el = $('<tr></tr>')
+      .append($td)
+      .append($('<td>' + count + '</td>'))
+      .appendTo($('#codes'));
+  });
+} else {
+  $('#codesContainer').hide();
+}
+
+if (l.size(Report.aggregate.errors) > 0) {
+  l.each(Report.aggregate.errors, function(count, code) {
+    var $el = $('<tr></tr>')
+      .append($('<td>' + code + '</td>'))
+      .append($('<td>' + count + '</td>'))
+      .appendTo($('#errors'));
+  });
+} else {
+  $('#errorsContainer > p').html('&#10004; Test completed without network or OS errors.');
+}
+
+var histogramData = l.map(Report.aggregate.latency, function(v, k) { return {bin: k, value: v} });
+
+MG.data_graphic({
+  chart_type: 'bar',
+  x_label: 'Percentile',
+  y_label: '(ms)',
+  animate_on_load: true,
+  title: 'Overall Latency Distribution',
+  description: 'Distribution of all observed response latencies',
+  target: '.latency-histogram',
+  data: histogramData,
+  x_accessor: 'bin',
+  y_accessor: 'value',
+  binned: true,
+  height: 250,
+  interpolate: 'monotone',
+  padding_percentage: 0,
+  bar_orientation: 'vertical',
+  width: 450
+});
+
+var chartData = l.map(
+  window.Report.intermediate,
+  function(o,i) {
+    return {
+      timestamp: i*10+10,
+
+      rpsMean: o.rps.mean,
+      rpsCount: o.rps.count,
+      concurrency: o.concurrency,
+      latencyMax: o.latency.max,
+      latencyp99: o.latency.p99,
+      latencyp95: o.latency.p95,
+      latencyMedian: o.latency.median,
+      latencyMin: o.latency.min
+    }
+  });
+
+//
+// Response codes
+//
+
+if (l.size(Report.aggregate.codes) > 0) {
+  var codesData = l.foldl(Report.intermediate, function(acc, o, i) {
+    var res = {};
+    res.timestamp = i*10+10;
+    l.each(o.codes, function(count, code) {
+      res[code] = count;
+    });
+    acc.push(res);
+    return acc;
+  }, []);
+  var uniqueCodes = l.foldl(Report.intermediate, function(acc, o) {
+    l.each(o.codes, function(count, code) {
+      if (l.indexOf(acc, code) === -1) {
+        acc.push(code);
+      }
+    });
+    return acc;
+  }, []);
+
+  MG.data_graphic({
+    x_label: 'Time',
+    y_label: 'Count',
+    title: 'HTTP codes',
+    description: 'Occurence of HTTP response codes',
+    target: '.codes-line',
+    data: codesData,
+    x_accessor: 'timestamp',
+    y_accessor: uniqueCodes,
+    legend: uniqueCodes,
+    right: 50,
+    chart_type: 'line',
+    area: false,
+    markers: markers,
+    width: 900
+  });
+}
+
+//
+// Errors
+//
+
+if (l.size(Report.aggregate.errors) > 0) {
+  var errorData = l.foldl(Report.intermediate, function(acc, o, i) {
+    var res = {};
+    res.timestamp = i*10+10;
+    l.each(o.errors, function(count, name) {
+      res[name] = count;
+    });
+    acc.push(res);
+    return acc;
+  }, []);
+  var uniqueErrors = l.foldl(Report.intermediate, function(acc, o) {
+    l.each(o.errors, function(count, name) {
+      if (l.indexOf(acc, name) === -1) {
+        acc.push(name);
+      }
+    });
+    return acc;
+  }, []);
+
+  MG.data_graphic({
+    title: 'Error Codes',
+    description: 'Occurence of error codes',
+    target: '.errors-line',
+    data: errorData,
+    x_accessor: 'timestamp',
+    y_accessor: uniqueErrors,
+    chart_type: 'line',
+    area: false,
+    markers: markers
+  });
+
+}
+
+//
+// Latency
+//
+MG.data_graphic({
+  chart_type: 'line',
+  x_label: 'Time',
+  y_label: '(ms)',
+  animate_on_load: true,
+  area: false,
+  title: "Latency At Intervals",
+  description: "Latency values at different points during the test run",
+  data: chartData,
+  target: '.latency',
+  width: 900,
+  x_accessor: 'timestamp',
+  y_accessor: ['latencyMin', 'latencyMedian', 'latencyp95', 'latencyMax'],
+  legend: ['min', 'p50', 'p95', 'max'],
+  //legend_target: '.latency-legend',
+  right: 50,
+  interpolate: 'monotone',
+  mouseover: function(d, i) {
+  },
+  markers: markers
+        });
+
+            MG.data_graphic({
+            animate_on_load: true,
+            area: false,
+            y_label: 'Count',
+            x_label: 'Time',
+            title: 'Concurrent users',
+            description: 'Concurrent users',
+            data: chartData,
+            target: '.concurrency',
+            x_accessor: 'timestamp',
+            y_accessor: ['concurrency'],
+            interpolate: 'monotone',
+            markers: markers,
+            width: 900
+            });
+
+MG.data_graphic({
+  animate_on_load: true,
+  area: false,
+  y_label: 'Count',
+  x_label: 'Time',
+  title: 'Mean RPS',
+  description: 'Mean requests per second',
+  data: chartData,
+  target: '.rps-mean',
+  x_accessor: 'timestamp',
+  y_accessor: ['rpsMean'],
+  interpolate: 'monotone',
+  markers: markers,
+  width: 900
+});
+
+MG.data_graphic({
+  animate_on_load: true,
+  area: false,
+  y_label: 'Count',
+  x_label: 'Time',
+  title: 'RPS Count',
+  description: 'Count of requests per second',
+  data: chartData,
+  target: '.rps-count',
+  x_accessor: 'timestamp',
+  y_accessor: ['rpsCount'],
+  interpolate: 'monotone',
+  markers: markers,
+  width: 900
+});
+</script>
+<div id="footer">
+  <footer>This report was created with <a href="https://artillery.io">Artillery</a> - free open-source load-testing for HTTP and WebSockets</footer>
+</div>
+</body>
+</html>
