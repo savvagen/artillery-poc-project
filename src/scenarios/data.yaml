@@ -9,6 +9,11 @@ config:
       phases:
         - duration: 20
           arrivalCount: 10
+    remote:
+      target: "{{ $processEnvironment.BASE_URL }}"
+      phases:
+        - duration: 20
+          arrivalCount: 10
   ensure:
     maxErrorRate: 1
   http:
