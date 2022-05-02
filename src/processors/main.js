@@ -1,4 +1,4 @@
-const faker = require('faker/locale/en_US')
+const faker = require('@faker-js/faker/locale/en_US')
 const {
     dateTimeNow,
     randomPost,
@@ -136,5 +136,6 @@ module.exports = {
     commentsUpdateBody: commentsUpdateBody,
     getPosts: getPosts,
     getRandomEmail: getRandomEmail,
-    getComments: getComments
+    getComments: getComments,
+    customStats: customStats
 }

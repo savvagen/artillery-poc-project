@@ -6,7 +6,6 @@ config:
       name: "My Load Stage"
   ensure:
     maxErrorRate: 1
-  timeout: 60
   http:
     timeout: 60
     extendedMetrics: true
@@ -26,16 +25,16 @@ config:
       Content-Type: "application/json"
       Accept: "application/json"
   plugins:
-    expect: {}
-      # outputFormat: prettyError # works on artillery v2
+    expect:
+      outputFormat: pretty # prettyError # pretty # silent
     metrics-by-endpoint:
-      useOnlyRequestNames: true
-    statsd: # https://github.com/artilleryio/artillery-plugin-statsd
-      host: "localhost"
-      port: 8126
-      # Prefix Format: "artillery.<SCENARIO_NAME>.<CONFIG_NAME>"
-      # Set: "artillery.statsd_plugin" when publishing metrics to Datadog (using agent)
-      prefix: "artillery.statsd_plugin"
+      useOnlyRequestNames: false
+#    statsd: # https://github.com/artilleryio/artillery-plugin-statsd
+#      host: "localhost"
+#      port: 8126
+#      # Prefix Format: "artillery.<SCENARIO_NAME>.<CONFIG_NAME>"
+#      # Set: "artillery.statsd_plugin" when publishing metrics to Datadog (using agent)
+#      prefix: "artillery.statsd_plugin"
     ########################
     # Use Only with "metrics-by-endpoint" plugin!!!
     ########################

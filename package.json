@@ -4,31 +4,31 @@
   "description": "",
   "main": "src/plugins/artillery-plugin-hello-world/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "artillery run src/scenarios/system.yaml",
+    "test:plugin": "ARTILLERY_PLUGIN_PATH=`pwd`/src/plugins/ DEBUG=plugin:datadog-advanced-metrics artillery run src/scenarios/system.yaml",
+    "test:load": "artillery run --config src/config/load.config.yaml --environemnt=local src/scenarios/system.yaml"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@faker-js/faker": "^6.2.0",
     "@fast-csv/format": "^4.3.5",
     "@fast-csv/parse": "^4.3.6",
-    "artillery": "1.7.9",
-    "artillery-engine-playwright": "^0.0.5",
-    "artillery-engine-sql": "^1.0.1",
-    "artillery-plugin-datadog": "^0.2.0",
-    "artillery-plugin-expect": "^1.5.0",
-    "artillery-plugin-http-file-uploads": "^0.0.0",
-    "artillery-plugin-influxdb": "^0.9.0",
-    "artillery-plugin-metrics-by-endpoint": "^1.0.2",
-    "artillery-plugin-publish-metrics": "^1.4.0",
-    "artillery-plugin-statsd": "^2.2.1",
-    "artillery-plugin-telegraf": "^1.0.3",
+    "artillery": "2.0.0-14",
+    "artillery-engine-playwright": "^0.0.6",
     "csv-writer": "^1.6.0",
-    "debug": "^4.3.1",
+    "debug": "^4.3.4",
     "dogapi": "^2.8.4",
-    "faker": "^5.5.3",
     "fast-csv": "^4.3.6",
     "node-statsd": "^0.1.1",
     "statsd-client": "^0.4.7"
+  },
+  "devDependencies": {
+    "artillery-plugin-datadog": "^0.2.0",
+    "artillery-plugin-http-file-uploads": "^0.0.0",
+    "artillery-plugin-influxdb": "^0.9.0",
+    "artillery-plugin-statsd": "^2.2.1",
+    "artillery-plugin-telegraf": "^1.0.3"
   }
 }

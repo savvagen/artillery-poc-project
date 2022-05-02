@@ -1,4 +1,4 @@
-const faker = require('faker/locale/en_US')
+const faker = require('@faker-js/faker/locale/en_US')
 
 dateTimeNow = () => new Date().toISOString().slice(0, 19) + "Z"
 let categories = ["cats", "dogs", "test"]
