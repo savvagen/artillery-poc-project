@@ -132,7 +132,7 @@ jobs:
           echo "STATSD_SERVER_ADDRESS=${{ github.event.inputs.statsdServerAddress }}" >> $GITHUB_ENV
           echo "STATSD_SERVER_PORT=${{ github.event.inputs.statsdServerPort }}" >> $GITHUB_ENV
           ./node_modules/.bin/artillery run --config src/config/${{ github.event.inputs.config }}.config.yaml --environment ${{ github.event.inputs.environment }} src/scenarios/${{ github.event.inputs.scenarioName }}.yaml --output reports/report.json
-        continue-on-error: true
+        continue-on-error: false
 
       - name: Run Performance Test 🧪️
         if: ${{ github.event_name == 'push' || github.event_name == 'pull_request' }} # ${{ github.event_name == 'push' || (github.event_name == 'pull_request' && github.head_ref == 'master' ) }}
