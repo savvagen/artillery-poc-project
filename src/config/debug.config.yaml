@@ -20,7 +20,7 @@ config:
   ensure:
     maxErrorRate: 1
   http:
-    timeout: 60
+    timeout: 20
     extendedMetrics: true
   processor: "../processors/main.js"
   variables:

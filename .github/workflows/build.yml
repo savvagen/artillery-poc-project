@@ -108,7 +108,7 @@ jobs:
       STATSD_SERVER_PORT: 8125
       DD_API_KEY: "${{ secrets.DATADOG_API_KEY }}"
       ARTILLERY_PLUGIN_PATH: "${{ github.workspace }}/src/plugins"  #`pwd`/src/plugins/
-      DEBUG: plugin:datadog-advanced-metrics #,plugin:publish-metrics:datadog-statsd
+      DEBUG: plugin:advanced-metrics #,plugin:publish-metrics:datadog-statsd
     steps:
       - name: Checkout repository 🛎️
         uses: actions/checkout@v2
