@@ -6,15 +6,15 @@
 
 'use strict';
 
-const debug = require('debug')('plugin:datadog-advanced-metrics');
+const debug = require('debug')('plugin:advanced-metrics');
 
 let StatsD = require('node-statsd')
 
-module.exports = { Plugin: ArtilleryDatadogAdvancedMetricsPlugin }
-//module.exports.Plugin = ArtilleryDatadogAdvancedMetricsPlugin;
+//module.exports = { Plugin: ArtilleryAdvancedMetricsPlugin }
+module.exports.Plugin = ArtilleryAdvancedMetricsPlugin;
 
 
-function ArtilleryDatadogAdvancedMetricsPlugin(script, events) {
+function ArtilleryAdvancedMetricsPlugin(script, events) {
     // This is the entirety of the test script - config and
     // scenarios
     this.script = script;
@@ -24,28 +24,28 @@ function ArtilleryDatadogAdvancedMetricsPlugin(script, events) {
     this.events = events;
 
     // If running in Artillery v2, the plugin should only load in workers
-    // if (global.artillery && Number(global.artillery.version.slice(0, 1)) > 1 && typeof process.env.LOCAL_WORKER_ID === 'undefined') {
+    // if (Number(global.artillery.version.slice(0, 1)) > 1 && typeof process.env.LOCAL_WORKER_ID === 'undefined') {
     //     debug('Not running in a worker, exiting');
     //     return;
     // }
 
-    if (script.config.plugins['metrics-by-endpoint'] === undefined){
-        debug("Not running. Cause: plugin metrics-by-endpoint is not installed.")
-        return;
-    }
+    //
+    // if (script.config.plugins['metrics-by-endpoint'] === undefined){
+    //     debug("Not running. Cause: plugin metrics-by-endpoint is not installed.")
+    //     return;
+    // }
 
     // Read plugin's configuration:
-    const pluginConfig = script.config.plugins['datadog-advanced-metrics'];
+    const pluginConfig = script.config.plugins['advanced-metrics'];
     this.statsdHost = pluginConfig.host || 'localhost';
     this.statsdPort = pluginConfig.port || '8125';
     this.statsdPrefix = pluginConfig.prefix || 'artillery'
 
     // Initialize statsd client
-    debug("Initializing plugin:datadog-advanced-metrics")
-    const statsd = new StatsD(this.statsdHost, this.statsdPort, `${this.statsdPrefix}.plugins.datadog_advanced_metrics.`)
+    debug("Initializing plugin:advanced-metrics")
+    const statsd = new StatsD(this.statsdHost, this.statsdPort, `${this.statsdPrefix}.plugins.advanced_metrics.`)
     script.config.variables['statsdPrefix'] = this.statsdPrefix
     //debug("Connected to statsd server: \n" + "host:" + this.statsdHost + "\nport:" + this.statsdPort)
-
 
     // But we could also read anything else defined in the test
     // script, e.g.:
@@ -68,24 +68,25 @@ function ArtilleryDatadogAdvancedMetricsPlugin(script, events) {
     //     next()
     // }
     //
-    // script.config.processor.printEndpointMetrics = printEndpointMetrics
-
     // Attach the function to every scenario as a scenario-level hook:
     // script.scenarios.forEach((scenario) => {
     //     scenario.afterResponse = scenario.afterResponse || [];
     //     scenario.afterResponse.push('pluginDatadogAdvancedMetricsAfterRespHook');
     // });
 
+    // script.config.processor.getEndpointMetrics = getEndpointMetrics
+    //
     // script.scenarios.forEach((scenario) => {
     //     scenario.afterResponse = scenario.afterResponse || [];
-    //     scenario.afterResponse.push('printEndpointMetrics');
+    //     scenario.afterResponse.push('getEndpointMetrics');
     // });
 
     // Set event handlers
-    debug('Setting event handlers...')
-    //events.on('stats', printStats)
+    // debug('Setting event handlers...')
+    //this.events.on('stats', printStats)
     this.events.on('stats', (stats) => {
-        sendStatsDetailedMetrics(stats, statsd)
+        //sendEndpointMetrics(stats, statsd)
+        sendErrorMetrics(stats, statsd)
     })
 
     return this;
@@ -94,7 +95,7 @@ function ArtilleryDatadogAdvancedMetricsPlugin(script, events) {
 // Artillery will call this before it exits to give plugins
 // a chance to clean up, e.g. by flushing any in-flight data,
 // writing something to disk etc.
-ArtilleryDatadogAdvancedMetricsPlugin.prototype.cleanup = function(done) {
+ArtilleryAdvancedMetricsPlugin.prototype.cleanup = function(done) {
     debug('cleaning up');
     done(null);
 };
@@ -103,19 +104,22 @@ ArtilleryDatadogAdvancedMetricsPlugin.prototype.cleanup = function(done) {
 function printStats(statsObject) {
     const stats = statsObject.report()
     debug("Stats\n" + JSON.stringify(stats, null, 2))
+
 }
 
-function printEndpointMetrics(req, res, context, events, next) {
-    const metricName = `${context.vars.statsdPrefix}.plugins.datadog_advanced_metrics.${req.name}`
-    debug(metricName)
-    debug(req.url)
-    debug(req.name)
-    return next();
+function sendErrorMetrics(statsObject, statsd) {
+    const stats = statsObject.report()
+    debug("🖥️ Sending endpoint stats to Datadog.")
+    debug("Stats JSON:\n" + JSON.stringify(stats, null, 2))
+    // Handle Errors Stats
+    let errorNames = Object.keys(stats.errors)
+    let errorCounts = Object.values(stats.errors)
+    errorNames.forEach(function (value, i) {
+        statsd.increment("errors", errorCounts[i], [`error:${value}`])
+    })
 }
 
-
-
-function sendStatsDetailedMetrics(statsObject, statsd) {
+function sendEndpointMetrics(statsObject, statsd) {
     const stats = statsObject.report()
     debug("🖥️ Sending endpoint stats to Datadog.")
     debug("Stats JSON:\n" + JSON.stringify(stats))
@@ -156,4 +160,13 @@ function sendStatsDetailedMetrics(statsObject, statsd) {
     })
 }
 
+function getEndpointMetrics(req, res, context, events, next) {
+    //debug(req.url)
+    //debug(req.name)
+    //debug(JSON.stringify(res.timings, null, 4))
+    // Create Your own metrics
+    events.emit('histogram', `plugins.advanced_metrics.response_time.${req.name}`, res.timings.phases.firstByte) //(timings.end - timings.start))
+    events.emit('counter', `plugins.advanced_metrics.${req.name}.codes.${res.statusCode}`, 1)
+    return next();
+}
 

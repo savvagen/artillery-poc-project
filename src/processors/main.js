@@ -1,4 +1,4 @@
-const faker = require('@faker-js/faker/locale/en_US')
+const { faker } = require("@faker-js/faker/locale/en_US")
 const {
     dateTimeNow,
     randomPost,
@@ -124,6 +124,13 @@ function getComments(req, res, context, ee, next) {
     next();
 }
 
+function randomFailure(context, ee, next) {
+    let randomCode = faker.random.numeric()
+    if (randomCode % 2 === 0){
+        return next(new Error("Failed Scenario"))
+    } else return next()
+}
+
 module.exports = {
     createPeopleCsv: createPeopleCsv,
     saveUsersData: saveUsersData,
@@ -137,5 +144,5 @@ module.exports = {
     getPosts: getPosts,
     getRandomEmail: getRandomEmail,
     getComments: getComments,
-    customStats: customStats
+    randomFailure: randomFailure
 }

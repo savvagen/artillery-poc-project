@@ -2,12 +2,22 @@ config:
   target: "http://localhost:3001"
   phases:
     - duration: 120
-      arrivalCount: 60
-      name: "My Load Stage"
+      arrivalRate: 5
+      maxVusers: 5
+    - duration: 120
+      arrivalRate: 8
+      maxVusers: 10
+    - duration: 120
+      arrivalRate: 12
+      maxVusers: 15
+    - duration: 120
+      arrivalRate: 18
+      maxVusers: 20
   ensure:
     maxErrorRate: 1
   http:
-    timeout: 60
+    # Responses have to be sent within 20 seconds, or an `ETIMEDOUT` error gets raised.
+    timeout: 20
     extendedMetrics: true
   processor: "../processors/main.js"
   variables:
@@ -26,22 +36,26 @@ config:
       Accept: "application/json"
   plugins:
     expect:
-      outputFormat: pretty # prettyError # pretty # silent
+      outputFormat: prettyError # prettyError # pretty # silent
     metrics-by-endpoint:
-      useOnlyRequestNames: false
-#    statsd: # https://github.com/artilleryio/artillery-plugin-statsd
-#      host: "localhost"
-#      port: 8126
-#      # Prefix Format: "artillery.<SCENARIO_NAME>.<CONFIG_NAME>"
-#      # Set: "artillery.statsd_plugin" when publishing metrics to Datadog (using agent)
-#      prefix: "artillery.statsd_plugin"
-    ########################
-    # Use Only with "metrics-by-endpoint" plugin!!!
-    ########################
-    datadog-advanced-metrics:
+      useOnlyRequestNames: true
+    publish-metrics:
+      - type: datadog
+        host: 127.0.0.1
+        port: 8126
+        prefix: 'artillery.publish_metrics_plugin.'
+        tags:
+          - "env:local"
+          - "type:load"
+          - "scenario:system"
+        event:
+          priority: low
+          tags:
+            - "testId:mytest123"
+    advanced-metrics:
       host: 'localhost' # statsd server host
       port: 8126 # statsd port
-      prefix: "artillery" # metrics prefix. Metrics path will be: {prefix}.plugins.datadog_statsd_endpoint_metrics.
+      prefix: "artillery.publish_metrics_plugin" # metrics prefix. Metrics path will be: {prefix}.plugins.advanced_metrics.errors
 
 before:
   flow:
@@ -111,18 +125,27 @@ scenarios:
               beforeRequest: "commentsUpdateBody"
               afterResponse: "savePost"
           - think: 1
-        count: "{{ commentsNumber }}"
+        #count: "{{ commentsNumber }}"
+        count: 3
 
   - name: Post Reader Scenario
     weight: 2
     flow:
       #- log: "Get posts"
       #- log: "Found user {{ userId }} {{ userName }}"
+      #- function: "randomFailure" # 50% of all the scenarios will fail with error: "Failed Scenario"
       - get:
           url: "/posts"
           name: "GET/posts"
+          capture:
+            - json: "$[0].id"
+              as: postId
           expect:
             - statusCode: 200
+            - hasProperty: "[0].id"
+            - equals:
+                - "{{postId}}"
+                - "1"
           afterResponse: "getPosts"
       #- log: "Found Posts: {{ postIds }}"
       #- log: "Found Post: {{ postId }}"
@@ -147,7 +170,7 @@ scenarios:
       - loop:
           - get:
               url: "/comments/{{ $loopElement }}"
-              name: "GET/posts/ID"
+              name: "GET/comments/ID"
               expect:
                 - statusCode: 200
                 - hasProperty: id

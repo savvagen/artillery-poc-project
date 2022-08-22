@@ -7,7 +7,7 @@ services:
     restart: unless-stopped
     environment:
       - DOCKER_CONTENT_TRUST=1
-      - DD_SITE=datadoghq.eu
+      - DD_SITE=${DD_HOST} #datadoghq.eu
       - DD_API_KEY=${DD_API_KEY}
       - DD_DOGSTATSD_NON_LOCAL_TRAFFIC=1
       #- DD_DOGSTATSD_PORT=<NEW_DOGSTATSD_PORT>
