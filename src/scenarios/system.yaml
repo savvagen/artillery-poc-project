@@ -131,6 +131,7 @@ scenarios:
           - think: 1
         #count: "{{ commentsNumber }}"
         count: 3
+      - think: 1
 
   - name: Post Reader Scenario
     weight: 2
@@ -162,7 +163,7 @@ scenarios:
                 - statusCode: 200
                 - hasProperty: id
         over: postIds
-      - think: 1
+      - think: 2
       - get:
           url: "/posts/{{ postId }}"
           name: "GET/posts/ID"
@@ -179,7 +180,7 @@ scenarios:
                 - statusCode: 200
                 - hasProperty: id
         over: commentIds
-      - think: 1
+      - think: 2
       # write new comment
       #- function: "getRandomEmail"
       #- log: "Writing comment from {{ userEmail }}"
@@ -193,3 +194,4 @@ scenarios:
             - statusCode: 201
             - hasProperty: id
           beforeRequest: "commentBody"
+      - think: 1
