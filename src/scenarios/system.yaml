@@ -1,63 +1,63 @@
-config:
-  target: "http://localhost:3001"
-  phases:
-    - duration: 120
-      arrivalRate: 5
-      maxVusers: 5
-      name: "Ramp Up Stage 1"
-    - duration: 120
-      arrivalRate: 8
-      maxVusers: 10
-      name: "Ramp Up Stage 2"
+#config:
+#  target: "http://localhost:3001"
+#  phases:
 #    - duration: 120
-#      arrivalRate: 12
-#      maxVusers: 15
+#      arrivalRate: 5
+#      maxVusers: 5
+#      name: "Ramp Up Stage 1"
 #    - duration: 120
-#      arrivalRate: 18
-#      maxVusers: 20
-  ensure:
-    maxErrorRate: 1
-  http:
-    # Responses have to be sent within 20 seconds, or an `ETIMEDOUT` error gets raised.
-    timeout: 20
-    extendedMetrics: true
-  processor: "../processors/main.js"
-  variables:
-    commentsNumber: 2
-  payload:
-    path: "./../data/people.csv"
-    fields:
-      - "userId"
-      - "userName"
-      - "userEmail"
-    order: sequence  # sequence # random
-    skipHeader: true
-  defaults:
-    headers:
-      Content-Type: "application/json"
-      Accept: "application/json"
-  plugins:
-    expect:
-      outputFormat: prettyError # prettyError # pretty # silent
-    metrics-by-endpoint:
-      useOnlyRequestNames: true
-    publish-metrics:
-      - type: datadog
-        host: 127.0.0.1
-        port: 8126
-        prefix: 'artillery.publish_metrics_plugin.'
-        tags:
-          - "env:local"
-          - "type:load"
-          - "scenario:system"
-        event:
-          priority: low
-          tags:
-            - "testId:mytest123"
-    advanced-metrics:
-      host: 'localhost' # statsd server host
-      port: 8126 # statsd port
-      prefix: "artillery.publish_metrics_plugin" # metrics prefix. Metrics path will be: {prefix}.plugins.advanced_metrics.errors
+#      arrivalRate: 8
+#      maxVusers: 10
+#      name: "Ramp Up Stage 2"
+##    - duration: 120
+##      arrivalRate: 12
+##      maxVusers: 15
+##    - duration: 120
+##      arrivalRate: 18
+##      maxVusers: 20
+#  ensure:
+#    maxErrorRate: 1
+#  http:
+#    # Responses have to be sent within 20 seconds, or an `ETIMEDOUT` error gets raised.
+#    timeout: 20
+#    extendedMetrics: true
+#  processor: "../processors/main.js"
+#  variables:
+#    commentsNumber: 2
+#  payload:
+#    path: "./../data/people.csv"
+#    fields:
+#      - "userId"
+#      - "userName"
+#      - "userEmail"
+#    order: sequence  # sequence # random
+#    skipHeader: true
+#  defaults:
+#    headers:
+#      Content-Type: "application/json"
+#      Accept: "application/json"
+#  plugins:
+#    expect:
+#      outputFormat: prettyError # prettyError # pretty # silent
+#    metrics-by-endpoint:
+#      useOnlyRequestNames: true
+#    publish-metrics:
+#      - type: datadog
+#        host: 127.0.0.1
+#        port: 8126
+#        prefix: 'artillery.publish_metrics_plugin.'
+#        tags:
+#          - "env:local"
+#          - "type:load"
+#          - "scenario:system"
+#        event:
+#          priority: low
+#          tags:
+#            - "testId:mytest123"
+#    advanced-metrics:
+#      host: 'localhost' # statsd server host
+#      port: 8126 # statsd port
+#      prefix: "artillery.publish_metrics_plugin" # metrics prefix. Metrics path will be: {prefix}.plugins.advanced_metrics.errors
 
 before:
   flow:
