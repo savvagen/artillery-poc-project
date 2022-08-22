@@ -38,7 +38,8 @@ config:
       Content-Type: "application/json"
       Accept: "application/json"
   plugins:
-    expect: {}
+    expect:
+      outputFormat: prettyError # prettyError # pretty # silent
     metrics-by-endpoint:
       useOnlyRequestNames: true
     publish-metrics:
