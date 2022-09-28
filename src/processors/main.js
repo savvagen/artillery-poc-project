@@ -1,11 +1,19 @@
 const { faker } = require("@faker-js/faker/locale/en_US")
 const {
+    dateTimeNow,
     randomPost,
     randomUser,
     randomComment
 } = require('../data/data_genrator')
+const fs = require("fs");
+const path = require("path");
+const csv = require("fast-csv")
+const events = require("events");
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 
+Array.prototype.randomIndex = function (){
+    return this[Math.floor(Math.random() * this.length)]
+}
 
 function createPeopleCsv(context, ee, next){
     const path = `${__dirname}/../data/people.csv`;
@@ -39,29 +47,29 @@ function writeUsersDataToCsv(context, ee, next){
     next();
 }
 
-// function readUsersDataFromCsv(context, ee, next) {
-//     context.vars.usersData = []
-//     fs.createReadStream(path.resolve(__dirname, '../data', 'people.csv'))
-//         .pipe(csv.parse({ headers: true, ignoreEmpty: true }))
-//         .on('error', error => console.error(error))
-//         .on('data', row => {
-//             context.vars.usersData.push(row)
-//         })
-//         .on('end', rowCount => {
-//             console.log(`Parsed ${rowCount} rows from file: people.csv`)
-//             context.vars.usersData = context.vars.usersData.filter(user => user.id !== '')
-//         })
-//     next();
-// }
-//
-// function getRandomUserFromData(context, ee, next) {
-//     let usersList = context.vars.usersData.filter((user) => { return user.id !== context.vars.userId })
-//     let randomIndex = Math.floor(Math.random() * usersList.length)
-//     context.vars.targetUserId = usersList[randomIndex].id
-//     context.vars.targetUserName = usersList[randomIndex].userName
-//     context.vars.targetUserEmail = usersList[randomIndex].email
-//     next();
-// }
+function readUsersDataFromCsv(context, ee, next) {
+    context.vars.usersData = []
+    fs.createReadStream(path.resolve(__dirname, '../data', 'people.csv'))
+        .pipe(csv.parse({ headers: true, ignoreEmpty: true }))
+        .on('error', error => console.error(error))
+        .on('data', row => {
+            context.vars.usersData.push(row)
+        })
+        .on('end', rowCount => {
+            console.log(`Parsed ${rowCount} rows from file: people.csv`)
+            context.vars.usersData = context.vars.usersData.filter(user => user.id !== '')
+        })
+    next();
+}
+
+function getRandomUserFromData(context, ee, next) {
+    let usersList = context.vars.usersData.filter((user) => { return user.id !== context.vars.userId })
+    let randomUser = usersList.randomIndex()
+    context.vars.targetUserId = randomUser.id
+    context.vars.targetUserName = randomUser.userName
+    context.vars.targetUserEmail = randomUser.email
+    next();
+}
 
 
 function userBody(req, context, ee, next) {
@@ -104,7 +112,7 @@ function getPosts(req, res, context, ee, next) {
     const posts = JSON.parse(res.body)
     const postList = posts.slice(0, 6).map(post => { return post.id }) // get first 6 post ids
     context.vars.postIds = postList
-    context.vars.postId = postList[Math.floor(Math.random() * postList.length)]
+    context.vars.postId = postList.randomIndex()
     next();
 }
 
