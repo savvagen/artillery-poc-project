@@ -9,14 +9,14 @@ config:
       target: "http://json_server:3000"
       phases:
         - duration: 120
-          arrivalRate: 5
+          arrivalRate: 3
           maxVusers: 5
-        - duration: 120
-          arrivalRate: 8
-          maxVusers: 10
-        - duration: 180
-          arrivalRate: 12
-          maxVusers: 15
+#        - duration: 120
+#          arrivalRate: 8
+#          maxVusers: 10
+#        - duration: 180
+#          arrivalRate: 12
+#          maxVusers: 15
     remote:
       target: "{{ $processEnvironment.BASE_URL }}"
       phases:
@@ -30,10 +30,17 @@ config:
           arrivalRate: 12
           maxVusers: 15
   ensure:
-    maxErrorRate: 1
+    thresholds:
+      - "http.response_time.p99": 15000
+      - "http.response_time.p95": 14000
+    conditions:
+      - expression: vusers.failed == 0
+        strict: true
+        shutdown: true
+    #maxErrorRate: 1
   http:
     timeout: 20
-    extendedMetrics: true
+    extendedMetrics: false
   processor: "../processors/main.js"
   variables:
     commentsNumber: 2
@@ -50,8 +57,10 @@ config:
       Content-Type: "application/json"
       Accept: "application/json"
   plugins:
+    ensure: {}
+    ensure-shutdown: {}
     expect:
-      outputFormat: prettyError # prettyError # pretty # silent
+      outputFormat: pretty # prettyError # pretty # silent
     metrics-by-endpoint:
       useOnlyRequestNames: true
     publish-metrics:
@@ -68,12 +77,6 @@ config:
           priority: low
           tags:
             - "testId:mytest123"
-    #statsd: # https://github.com/artilleryio/artillery-plugin-statsd
-    #  host: "{{ $processEnvironment.STATSD_SERVER_ADDRESS }}" # localhost
-    #  port: "{{ $processEnvironment.STATSD_SERVER_PORT }}" # 8125 or 8126 for datadog
-    #  # Prefix Format: "artillery.<SCENARIO_NAME>.<CONFIG_NAME>"
-    #  # Set: "artillery.statsd_plugin" when publishing metrics to Datadog (using agent)
-    #  prefix: "artillery.statsd_plugin"
     advanced-metrics:
       host: "{{ $processEnvironment.STATSD_SERVER_ADDRESS }}" # statsd server host
       port: "{{ $processEnvironment.STATSD_SERVER_PORT }}" # statsd port

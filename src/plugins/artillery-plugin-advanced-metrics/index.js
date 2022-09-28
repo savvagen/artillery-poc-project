@@ -24,16 +24,10 @@ function ArtilleryAdvancedMetricsPlugin(script, events) {
     this.events = events;
 
     // If running in Artillery v2, the plugin should only load in workers
-    // if (Number(global.artillery.version.slice(0, 1)) > 1 && typeof process.env.LOCAL_WORKER_ID === 'undefined') {
-    //     debug('Not running in a worker, exiting');
-    //     return;
-    // }
-
-    //
-    // if (script.config.plugins['metrics-by-endpoint'] === undefined){
-    //     debug("Not running. Cause: plugin metrics-by-endpoint is not installed.")
-    //     return;
-    // }
+    if (global.artillery && Number(global.artillery.version.slice(0, 1)) > 1 && typeof process.env.LOCAL_WORKER_ID !== 'undefined') {
+        debug('Running in a worker, nothing to do')
+        return;
+    }
 
     // Read plugin's configuration:
     const pluginConfig = script.config.plugins['advanced-metrics'];
@@ -45,7 +39,6 @@ function ArtilleryAdvancedMetricsPlugin(script, events) {
     debug("Initializing plugin:advanced-metrics")
     const statsd = new StatsD(this.statsdHost, this.statsdPort, `${this.statsdPrefix}.plugins.advanced_metrics.`)
     script.config.variables['statsdPrefix'] = this.statsdPrefix
-    //debug("Connected to statsd server: \n" + "host:" + this.statsdHost + "\nport:" + this.statsdPort)
 
     // But we could also read anything else defined in the test
     // script, e.g.:
@@ -133,25 +126,24 @@ function sendEndpointMetrics(statsObject, statsd) {
         .filter(url => url !== undefined)
     debug("Sending response time metrics:")
     debug(endpointNames)
-    for (let i = 0; i < endpointNames.length; i++) {
-        const respTimeObj = stats.customStats[`plugins.metrics-by-endpoint.response_time.${endpointNames[i]}`]
+    endpointNames.forEach((endpoint, i) => {
+        const respTimeObj = stats.customStats[`plugins.metrics-by-endpoint.response_time.${endpoint}`]
         //debug(respTimeObj)
-        statsd.timing("response_time_min", respTimeObj.min,[`url:${endpointNames[i]}`])
-        statsd.timing("response_time_max", respTimeObj.max,[`url:${endpointNames[i]}`])
-        statsd.timing("response_time_median", respTimeObj.median,[`url:${endpointNames[i]}`])
-        statsd.timing("response_time_p95", respTimeObj.p95,[`url:${endpointNames[i]}`])
-        statsd.timing("response_time_p99", respTimeObj.p99, [`url:${endpointNames[i]}`])
-    }
+        statsd.timing("response_time_min", respTimeObj.min,[`url:${endpoint}`])
+        statsd.timing("response_time_max", respTimeObj.max,[`url:${endpoint}`])
+        statsd.timing("response_time_median", respTimeObj.median,[`url:${endpoint}`])
+        statsd.timing("response_time_p95", respTimeObj.p95,[`url:${endpoint}`])
+        statsd.timing("response_time_p99", respTimeObj.p99, [`url:${endpoint}`])
+    })
     // Handle Status Code Stats
     let codeUrls = Object.keys(stats.counters).map(k => k.match(/plugins.metrics-by-endpoint.(.*).codes.(.*)/)[1])
     let codeNames = Object.keys(stats.counters).map(k => k.match(/plugins.metrics-by-endpoint.(.*).codes.(.*)/)[2])
     let codeValues = Object.values(stats.counters)
     debug("Sending status code metrics:")
     debug(codeUrls)
-    //debug(codeNames)
-    for (let i = 0; i < codeUrls.length; i++) {
+    codeUrls.forEach((url, i) =>
         statsd.increment("codes", codeValues[i], [`url:${codeUrls[i]}`, `code:${codeNames[i]}`])
-    }
+    )
     // Handle Errors Stats
     let errorNames = Object.keys(stats.errors)
     let errorCounts = Object.values(stats.errors)
@@ -165,7 +157,7 @@ function getEndpointMetrics(req, res, context, events, next) {
     //debug(req.name)
     //debug(JSON.stringify(res.timings, null, 4))
     // Create Your own metrics
-    events.emit('histogram', `plugins.advanced_metrics.response_time.${req.name}`, res.timings.phases.firstByte) //(timings.end - timings.start))
+    events.emit('histogram', `plugins.advanced_metrics.response_time.${req.name}`, res.timings.phases.firstByte)
     events.emit('counter', `plugins.advanced_metrics.${req.name}.codes.${res.statusCode}`, 1)
     return next();
 }

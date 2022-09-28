@@ -46,7 +46,14 @@ config:
           maxVusers: 20
           name: "RampUp Stage"
   ensure:
-    maxErrorRate: 1
+    thresholds:
+      - "http.response_time.p99": 15000
+      - "http.response_time.p95": 14000
+    conditions:
+      - expression: vusers.failed == 0
+        strict: true
+        shutdown: true
+    #maxErrorRate: 1
   http:
     timeout: 60
     extendedMetrics: true
@@ -66,7 +73,10 @@ config:
       Content-Type: "application/json"
       Accept: "application/json"
   plugins:
-    expect: {}
+    ensure: { }
+    ensure-shutdown: { }
+    expect:
+      outputFormat: prettyError # prettyError # pretty # silent
     metrics-by-endpoint:
       useOnlyRequestNames: true
     statsd: # https://github.com/artilleryio/artillery-plugin-statsd

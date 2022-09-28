@@ -1,7 +1,7 @@
 #config:
 #  target: "http://localhost:3001"
 #  phases:
-#    - duration: 120
+#    - duration: 60
 #      arrivalRate: 3
 #      maxVusers: 5
 #      name: "Ramp Up Stage 1"
@@ -17,13 +17,6 @@
 #      arrivalRate: 12
 #      maxVusers: 20
 #      name: "Ramp Up Stage 4"
-#  ensure:
-#    maxErrorRate: 1
-#  http:
-#    # Responses have to be sent within 20 seconds, or an `ETIMEDOUT` error gets raised.
-#    timeout: 20
-#    extendedMetrics: true
-#  processor: "../processors/main.js"
 #  variables:
 #    commentsNumber: 2
 #  payload:
@@ -38,7 +31,27 @@
 #    headers:
 #      Content-Type: "application/json"
 #      Accept: "application/json"
+#  http:
+#    # Responses have to be sent within 20 seconds, or an `ETIMEDOUT` error gets raised.
+#    timeout: 20
+#    extendedMetrics: false
+#  ensure:
+#    thresholds:
+#      - "http.response_time.p99": 15000
+#        strict: false
+#      - "http.response_time.p95": 14000
+#        strict: false
+#      - "vusers.failed": 20
+#        strict: true
+#        shutdown: true
+#    conditions:
+#      - expression: vusers.failed <= 30
+#        strict: true
+#        shutdown: true
+#  processor: "../processors/main.js"
 #  plugins:
+#    ensure: { }
+#    ensure-shutdown: { }
 #    expect:
 #      outputFormat: prettyError # prettyError # pretty # silent
 #    metrics-by-endpoint:
@@ -56,10 +69,10 @@
 #          priority: low
 #          tags:
 #            - "testId:mytest123"
-#    advanced-metrics:
-#      host: 'localhost' # statsd server host
-#      port: 8126 # statsd port
-#      prefix: "artillery.publish_metrics_plugin" # metrics prefix. Metrics path will be: {prefix}.plugins.advanced_metrics.errors
+##    advanced-metrics:
+##      host: 'localhost' # statsd server host
+##      port: 8126 # statsd port
+##      prefix: "artillery.publish_metrics_plugin" # metrics prefix. Metrics path will be: {prefix}.plugins.advanced_metrics.errors
 
 before:
   flow:
@@ -104,7 +117,7 @@ scenarios:
             - json: "$.comments"
               as: "postComments"
           expect:
-            - statusCode: 201
+            - statusCode: 202
             - hasProperty: id
           beforeRequest: "postBody"
           afterResponse: "savePost"

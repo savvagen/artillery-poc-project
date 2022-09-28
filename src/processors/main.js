@@ -1,13 +1,9 @@
 const { faker } = require("@faker-js/faker/locale/en_US")
 const {
-    dateTimeNow,
     randomPost,
     randomUser,
     randomComment
 } = require('../data/data_genrator')
-const fs = require("fs");
-const path = require("path");
-const csv = require("fast-csv")
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 
 
@@ -78,6 +74,7 @@ function saveUserId(req, res, context, ee, next) {
     context.vars.userId = userJson.id
     context.vars.userEmail = userJson.email
     context.vars.userName = userJson.username
+    ee.emit('counter', 'users_registered', 1)
     next();
 }
 

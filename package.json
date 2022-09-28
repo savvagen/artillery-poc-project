@@ -6,7 +6,7 @@
   "scripts": {
     "test": "artillery run src/scenarios/system.yaml",
     "test:plugin": "ARTILLERY_PLUGIN_PATH=`pwd`/src/plugins/ DEBUG=plugin:datadog-advanced-metrics artillery run src/scenarios/system.yaml",
-    "test:load": "artillery run --config src/config/load.config.yaml --environemnt=local src/scenarios/system.yaml"
+    "test:load": "artillery run --config src/config/load.config.yaml --environment=local src/scenarios/system.yaml"
   },
   "keywords": [],
   "author": "",
@@ -17,13 +17,13 @@
     "@fast-csv/parse": "^4.3.6",
     "artillery": "^2.0.0-23",
     "artillery-engine-playwright": "^0.1.0",
-    "artillery-pro": "^3.0.0-17",
     "csv-writer": "^1.6.0",
     "debug": "^4.3.4",
     "dogapi": "^2.8.4",
     "fast-csv": "^4.3.6",
     "node-statsd": "^0.1.1",
-    "statsd-client": "^0.4.7"
+    "statsd-client": "^0.4.7",
+    "filtrex": "^2.2.3"
   },
   "devDependencies": {
     "artillery-plugin-datadog": "^0.2.0",

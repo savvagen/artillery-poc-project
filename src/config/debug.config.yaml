@@ -38,6 +38,8 @@ config:
       Content-Type: "application/json"
       Accept: "application/json"
   plugins:
+    ensure: { }
+    ensure-shutdown: { }
     expect:
       outputFormat: prettyError # prettyError # pretty # silent
     metrics-by-endpoint:
