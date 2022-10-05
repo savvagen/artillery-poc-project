@@ -88,7 +88,7 @@ config:
     ########################
     # Use Only with "metrics-by-endpoint" plugin!!!
     ########################
-    datadog-advanced-metrics:
+    advanced-metrics:
       host: "{{ $processEnvironment.STATSD_SERVER_ADDRESS }}" # statsd server host
       port: "{{ $processEnvironment.STATSD_SERVER_PORT }}" # statsd port
       prefix: "artillery" # metrics prefix. Metrics path will be: {prefix}.plugins.datadog_statsd_endpoint_metrics.

@@ -7,8 +7,8 @@ services:
     restart: unless-stopped
     environment:
       - DOCKER_CONTENT_TRUST=1
-      - DD_SITE=${DD_HOST} #datadoghq.eu
-      - DD_API_KEY=${DD_API_KEY}
+      - DD_SITE=datadoghq.eu #${DD_HOST} #datadoghq.eu
+      - DD_API_KEY=62eacc9a3c741bfb06fc827605a98548 #${DD_API_KEY}
       - DD_DOGSTATSD_NON_LOCAL_TRAFFIC=1
       #- DD_DOGSTATSD_PORT=<NEW_DOGSTATSD_PORT>
       - DD_DOCKER_LABELS_AS_TAGS={"my.custom.label.project":"artillery","my.custom.label.version":"1.0"}

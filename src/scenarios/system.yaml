@@ -1,22 +1,21 @@
 #config:
 #  target: "http://localhost:3001"
 #  phases:
+#    - duration: 10
+#      arrivalRate: 1
+#      maxVusers: 1
 #    - duration: 60
-#      arrivalRate: 3
+#      arrivalRate: 4
 #      maxVusers: 5
-#      name: "Ramp Up Stage 1"
-#    - duration: 120
-#      arrivalRate: 7
+#    - duration: 60
+#      arrivalRate: 8
 #      maxVusers: 10
-#      name: "Ramp Up Stage 2"
-#    - duration: 120
+#    - duration: 60
 #      arrivalRate: 10
 #      maxVusers: 15
-#      name: "Ramp Up Stage 3"
-#    - duration: 120
-#      arrivalRate: 12
+#    - duration: 60
+#      arrivalRate: 15
 #      maxVusers: 20
-#      name: "Ramp Up Stage 4"
 #  variables:
 #    commentsNumber: 2
 #  payload:
@@ -32,9 +31,9 @@
 #      Content-Type: "application/json"
 #      Accept: "application/json"
 #  http:
-#    # Responses have to be sent within 20 seconds, or an `ETIMEDOUT` error gets raised.
-#    timeout: 20
-#    extendedMetrics: false
+#    # Responses have to be sent within 30 seconds, or an `ETIMEDOUT` error gets raised.
+#    timeout: 30
+#    extendedMetrics: true
 #  ensure:
 #    thresholds:
 #      - "http.response_time.p99": 15000
@@ -50,6 +49,7 @@
 #        shutdown: true
 #  processor: "../processors/main.js"
 #  plugins:
+#    #test: { }
 #    ensure: { }
 #    ensure-shutdown: { }
 #    expect:
@@ -62,17 +62,18 @@
 #        port: 8126
 #        prefix: 'artillery.publish_metrics_plugin.'
 #        tags:
-#          - "mode:load"
-#          - "scenario:system"
-#          - "env:local"
+#          - 'tool:artillery'
+#          #- "mode:load"
+#          #- "scenario:system"
+#          #- "env:local"
 #        event:
 #          priority: low
 #          tags:
 #            - "testId:mytest123"
-##    advanced-metrics:
-##      host: 'localhost' # statsd server host
-##      port: 8126 # statsd port
-##      prefix: "artillery.publish_metrics_plugin" # metrics prefix. Metrics path will be: {prefix}.plugins.advanced_metrics.errors
+#    advanced-metrics:
+#      host: 'localhost' # statsd server host
+#      port: 8126 # statsd port
+#      prefix: "artillery" # metrics prefix. Metrics path will be: {prefix}.plugins.advanced_metrics.errors
 
 before:
   flow:
@@ -117,7 +118,7 @@ scenarios:
             - json: "$.comments"
               as: "postComments"
           expect:
-            - statusCode: 202
+            - statusCode: 201
             - hasProperty: id
           beforeRequest: "postBody"
           afterResponse: "savePost"

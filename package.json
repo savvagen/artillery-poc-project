@@ -16,7 +16,6 @@
     "@fast-csv/format": "^4.3.5",
     "@fast-csv/parse": "^4.3.6",
     "artillery": "^2.0.0-23",
-    "artillery-engine-playwright": "^0.1.0",
     "csv-writer": "^1.6.0",
     "debug": "^4.3.4",
     "dogapi": "^2.8.4",

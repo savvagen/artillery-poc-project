@@ -1,18 +1,12 @@
-/* This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-
-// https://www.artillery.io/blog/extend-artillery-by-creating-your-own-plugins
-
 'use strict';
 
 const debug = require('debug')('plugin:advanced-metrics');
-
 let StatsD = require('node-statsd')
 
-//module.exports = { Plugin: ArtilleryAdvancedMetricsPlugin }
-module.exports.Plugin = ArtilleryAdvancedMetricsPlugin;
-
+module.exports = {
+    Plugin: ArtilleryAdvancedMetricsPlugin,
+    LEGACY_METRICS_FORMAT: false
+}
 
 function ArtilleryAdvancedMetricsPlugin(script, events) {
     // This is the entirety of the test script - config and
@@ -20,7 +14,9 @@ function ArtilleryAdvancedMetricsPlugin(script, events) {
     this.script = script;
     // This is an EventEmitter, we can subscribe to:
     // 'stats' - fired when a new batch of metrics is available
-    // 'done' - fired when all VUs are done
+    // 'done' - fired when all VUs finished running their scenarios.
+    // 'phaseStarted' - fired when new arrival phase has started.
+    // 'phaseCompleted' -  fired when sn arrival phase has finished.
     this.events = events;
 
     // If running in Artillery v2, the plugin should only load in workers
@@ -67,19 +63,18 @@ function ArtilleryAdvancedMetricsPlugin(script, events) {
     //     scenario.afterResponse.push('pluginDatadogAdvancedMetricsAfterRespHook');
     // });
 
-    // script.config.processor.getEndpointMetrics = getEndpointMetrics
+    // script.config.processor.printEndpoint = printEndpoint
     //
     // script.scenarios.forEach((scenario) => {
     //     scenario.afterResponse = scenario.afterResponse || [];
-    //     scenario.afterResponse.push('getEndpointMetrics');
+    //     scenario.afterResponse.push('printEndpoint');
     // });
 
     // Set event handlers
-    // debug('Setting event handlers...')
-    //this.events.on('stats', printStats)
     this.events.on('stats', (stats) => {
-        //sendEndpointMetrics(stats, statsd)
-        sendErrorMetrics(stats, statsd)
+        //printStats(stats)
+        //sendErrorMetrics(stats, statsd)
+        sendAdvancedMetrics(stats, statsd, this, this.events)
     })
 
     return this;
@@ -91,74 +86,94 @@ function ArtilleryAdvancedMetricsPlugin(script, events) {
 ArtilleryAdvancedMetricsPlugin.prototype.cleanup = function(done) {
     debug('cleaning up');
     done(null);
-};
-
-
-function printStats(statsObject) {
-    const stats = statsObject.report()
-    debug("Stats\n" + JSON.stringify(stats, null, 2))
-
 }
 
-function sendErrorMetrics(statsObject, statsd) {
-    const stats = statsObject.report()
+function sendAdvancedMetrics(stats, statsd) {
     debug("🖥️ Sending endpoint stats to Datadog.")
-    debug("Stats JSON:\n" + JSON.stringify(stats, null, 2))
-    // Handle Errors Stats
-    let errorNames = Object.keys(stats.errors)
-    let errorCounts = Object.values(stats.errors)
-    errorNames.forEach(function (value, i) {
-        statsd.increment("errors", errorCounts[i], [`error:${value}`])
-    })
+    //debug(JSON.stringify(stats))
+    //debug("Sending response time metrics:")
+    sendResponseTimeStats(stats, statsd)
+    //debug("Sending status code metrics:")
+    sendStatusCodeStats(stats, statsd)
+    //debug("Sending error metrics:")
+    sendErrorStats(stats, statsd)
 }
 
-function sendEndpointMetrics(statsObject, statsd) {
-    const stats = statsObject.report()
-    debug("🖥️ Sending endpoint stats to Datadog.")
-    debug("Stats JSON:\n" + JSON.stringify(stats))
-    // Handle Response Time Stats
-    let endpointNames = Object.keys(stats.customStats)
-        .map(k => {
-            if (k.match(/plugins.metrics-by-endpoint.response_time.(.*)/) !== null){
-                return k.match(/plugins.metrics-by-endpoint.response_time.(.*)/)[1]
-            }
-        })
-        .filter(url => url !== undefined)
-    debug("Sending response time metrics:")
-    debug(endpointNames)
-    endpointNames.forEach((endpoint, i) => {
-        const respTimeObj = stats.customStats[`plugins.metrics-by-endpoint.response_time.${endpoint}`]
+function sendErrorMetrics(stats, statsd) {
+    debug("🖥️ Sending error stats to Datadog.")
+    sendErrorStats(stats, statsd)
+}
+
+function sendResponseTimeStats(stats, statsd){
+    let endpoints = Object.keys(stats.summaries).map(k => {
+        if (k.match(/plugins.metrics-by-endpoint.response_time.(.*)/) !== null){
+            return k.match(/plugins.metrics-by-endpoint.response_time.(.*)/)[1]
+        }
+    }).filter(url => url !== undefined)
+    //debug(endpoints)
+    endpoints.forEach((endpoint, i) => {
+        const respTimeObj = stats.summaries[`plugins.metrics-by-endpoint.response_time.${endpoint}`]
         //debug(respTimeObj)
         statsd.timing("response_time_min", respTimeObj.min,[`url:${endpoint}`])
         statsd.timing("response_time_max", respTimeObj.max,[`url:${endpoint}`])
         statsd.timing("response_time_median", respTimeObj.median,[`url:${endpoint}`])
+        statsd.timing("response_time_p75", respTimeObj.p75,[`url:${endpoint}`])
         statsd.timing("response_time_p95", respTimeObj.p95,[`url:${endpoint}`])
         statsd.timing("response_time_p99", respTimeObj.p99, [`url:${endpoint}`])
     })
-    // Handle Status Code Stats
-    let codeUrls = Object.keys(stats.counters).map(k => k.match(/plugins.metrics-by-endpoint.(.*).codes.(.*)/)[1])
-    let codeNames = Object.keys(stats.counters).map(k => k.match(/plugins.metrics-by-endpoint.(.*).codes.(.*)/)[2])
-    let codeValues = Object.values(stats.counters)
-    debug("Sending status code metrics:")
-    debug(codeUrls)
-    codeUrls.forEach((url, i) =>
-        statsd.increment("codes", codeValues[i], [`url:${codeUrls[i]}`, `code:${codeNames[i]}`])
-    )
-    // Handle Errors Stats
-    let errorNames = Object.keys(stats.errors)
-    let errorCounts = Object.values(stats.errors)
-    errorNames.forEach(function (value, i) {
-        statsd.increment("errors", errorCounts[i], [`error:${value}`])
+}
+
+function sendStatusCodeStats(stats, statsd){
+    let codeKeys = Object.keys(stats.counters)
+        .filter(k => k.match(/plugins.metrics-by-endpoint.(.*).codes.(.*)/) !== null)
+        .filter(k => k !== undefined)
+
+    let codeUrls = Object.keys(stats.counters).map(k => {
+        if (k.match(/plugins.metrics-by-endpoint.(.*).codes.(.*)/) !== null){
+            return k.match(/plugins.metrics-by-endpoint.(.*).codes.(.*)/)[1]
+        }
+    }).filter(k => k !== undefined)
+
+    let codeNames = Object.keys(stats.counters).map(k => {
+        if (k.match(/plugins.metrics-by-endpoint.(.*).codes.(.*)/) !== null){
+            return k.match(/plugins.metrics-by-endpoint.(.*).codes.(.*)/)[2]
+        }
+    }).filter(k => k !== undefined)
+    //debug(codeUrls)
+    //debug(codeNames)
+    //debug(codeKeys)
+    codeKeys.forEach((key, i) => {
+        statsd.increment("codes", stats.counters[`${key}`], [`url:${codeUrls[i]}`, `code:${codeNames[i]}`])
     })
 }
 
-function getEndpointMetrics(req, res, context, events, next) {
-    //debug(req.url)
-    //debug(req.name)
-    //debug(JSON.stringify(res.timings, null, 4))
-    // Create Your own metrics
-    events.emit('histogram', `plugins.advanced_metrics.response_time.${req.name}`, res.timings.phases.firstByte)
-    events.emit('counter', `plugins.advanced_metrics.${req.name}.codes.${res.statusCode}`, 1)
-    return next();
+function sendErrorStats(stats, statsd) {
+    const errorKeys = Object.keys(stats.counters).filter(k => k.includes("errors."))
+    //debug(errorKeys)
+    errorKeys.forEach((error) => {
+        statsd.increment("errors", stats.counters[`${error}`], [`error:${error}`])
+    })
+}
+
+function printStats(stats) {
+    for(const [name, value] of Object.entries(stats.counters || {})) {
+        debug(`${name}: ${value}`)
+    }
+    debug(JSON.stringify(stats.summaries, null, 2))
+    // for(const [name, values] of Object.entries(stats.summaries || {})) {
+    //     for (const [aggregation, value] of Object.entries(values)) {
+    //         debug(`${aggregation}: ${value}`)
+    //     }
+    // }
+    debug(JSON.stringify(stats.rates, null, 2))
+    // for (const [name, value] of Object.entries(stats.rates || {})) {
+    //     debug(`${name}: ${value}`)
+    // }
+}
+
+
+function printEndpoint(req, res, context, events, next) {
+    debug(req.url)
+    debug(req.name)
 }
 
