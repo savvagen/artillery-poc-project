@@ -1,4 +1,4 @@
-const faker = require('faker/locale/en_US')
+const { faker } = require("@faker-js/faker/locale/en_US")
 
 dateTimeNow = () => new Date().toISOString().slice(0, 19) + "Z"
 let categories = ["cats", "dogs", "test"]
@@ -6,7 +6,7 @@ let categories = ["cats", "dogs", "test"]
 
 randomUser = () => {
     return {
-        name: `${faker.name.findName()}`,
+        name: `${faker.name.firstName()}`,
         username: `${faker.internet.userName()}`,
         email: `${faker.internet.email()}`,
         createdAt: dateTimeNow()

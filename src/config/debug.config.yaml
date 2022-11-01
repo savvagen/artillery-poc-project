@@ -20,7 +20,7 @@ config:
   ensure:
     maxErrorRate: 1
   http:
-    timeout: 60
+    timeout: 20
     extendedMetrics: true
   processor: "../processors/main.js"
   variables:
@@ -38,48 +38,34 @@ config:
       Content-Type: "application/json"
       Accept: "application/json"
   plugins:
-    expect: {}
+    ensure: { }
+    ensure-shutdown: { }
+    expect:
+      outputFormat: prettyError # prettyError # pretty # silent
     metrics-by-endpoint:
       useOnlyRequestNames: true
-    statsd: # https://github.com/artilleryio/artillery-plugin-statsd
-      host: "{{ $processEnvironment.STATSD_SERVER_ADDRESS }}" # localhost
-      port: "{{ $processEnvironment.STATSD_SERVER_PORT }}" # 8125 or 8126 for datadog
-      # Prefix Format: "artillery.<SCENARIO_NAME>.<CONFIG_NAME>"
-      # Set: "artillery.statsd_plugin" when publishing metrics to Datadog (using agent)
-      prefix: "artillery.statsd_plugin"
-    datadog-advanced-metrics:
+    publish-metrics:
+      - type: datadog
+        host: "{{ $processEnvironment.STATSD_SERVER_ADDRESS }}" # "127.0.0.1"
+        port: "{{ $processEnvironment.STATSD_SERVER_PORT }}" # 8125 # port to datadog agent
+        prefix: 'artillery.publish_metrics_plugin.'
+        tags:
+          - 'tool:artillery'
+          - 'mode:{{ $processEnvironment.CONFIG }}' #'mode:load'
+          - 'scenario:{{ $processEnvironment.SCENARIO_NAME }}' #'scenario:system'
+          - 'env:{{ $environment }}' # 'env:local'
+        event:
+          priority: low
+          tags:
+            - "testId:mytest123"
+    #statsd: # https://github.com/artilleryio/artillery-plugin-statsd
+    #  host: "{{ $processEnvironment.STATSD_SERVER_ADDRESS }}" # localhost
+    #  port: "{{ $processEnvironment.STATSD_SERVER_PORT }}" # 8125 or 8126 for datadog
+    #  # Prefix Format: "artillery.<SCENARIO_NAME>.<CONFIG_NAME>"
+    #  # Set: "artillery.statsd_plugin" when publishing metrics to Datadog (using agent)
+    #  prefix: "artillery.statsd_plugin"
+    advanced-metrics:
       host: "{{ $processEnvironment.STATSD_SERVER_ADDRESS }}" # statsd server host
       port: "{{ $processEnvironment.STATSD_SERVER_PORT }}" # statsd port
-      prefix: "artillery" # metrics prefix. Metrics path will be: {prefix}.plugins.datadog_statsd_endpoint_metrics.
-    # artillery-plugin-publish-metrics: https://github.com/artilleryio/artillery-plugin-publish-metrics
-    #publish-metrics:
-    #  # apiKey not set, so the plugin will assume that the agent is running:
-    #  - type: datadog
-    #    prefix: 'artillery.publish_metrics_plugin.'
-    #    # apiKey: "{{ $processEnvironment.DD_API_KEY }}" # '****************'
-    #    host: "{{ $processEnvironment.STATSD_SERVER_ADDRESS }}" # "127.0.0.1"
-    #    port: "{{ $processEnvironment.STATSD_SERVER_PORT }}" # 8125 # port to datadog agent
-    #    tags:
-    #      - 'tool:artillery'
-    #      - 'mode:{{ $processEnvironment.CONFIG }}' #'mode:load'
-    #      - 'scenario:{{ $processEnvironment.SCENARIO_NAME }}'
-    #      - 'env:{{ $environment }}'
-    #    event:
-    #      title: "Plugin integration test"
-    #      priority: low
-    #      tags:
-    #        - 'mode:load'
-    #        - 'tool:artillery'
-    #  - type: influxdb-statsd
-    #    prefix: 'artillery.system.load.'
-    #datadog: # artillery-plugin-datadog: https://github.com/artilleryio/artillery-plugin-datadog
-    #  # Custom hostname (leave blank if not desired)
-    #  host: ''
-    #  # Custom metric prefix (defaults to 'artillery.')
-    #  prefix: 'artillery.'
-    #  # Additional tags for all metrics
-    #  tags:
-    #    - 'mode:test'
-    #    - 'scenario:messaging'
-    #    - 'env:{{ $environment }}'
+      prefix: "artillery.publish_metrics_plugin" # metrics prefix. Metrics path will be: {prefix}.plugins.advanced_metrics.errors
 

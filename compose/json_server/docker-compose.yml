@@ -15,10 +15,10 @@ services:
       resources:
         limits:
           cpus: '1.0'
-          memory: 300M
+          memory: 500M
         reservations:
           cpus: '0.5'
-          memory: 150M
+          memory: 300M
 
 networks:
   performance:
