@@ -116,7 +116,7 @@
           }
         ],
         "autoscale": true,
-        "precision": 1
+        "precision": 3
       },
       "layout": {
         "x": 4,
@@ -158,7 +158,7 @@
           }
         ],
         "autoscale": true,
-        "precision": 1
+        "precision": 3
       },
       "layout": {
         "x": 6,
@@ -206,7 +206,7 @@
           }
         ],
         "autoscale": true,
-        "precision": 1
+        "precision": 3
       },
       "layout": {
         "x": 8,
@@ -230,8 +230,8 @@
                 "conditional_formats": [
                   {
                     "palette": "black_on_light_green",
-                    "value": 1,
-                    "comparator": ">"
+                    "comparator": ">",
+                    "value": 1
                   }
                 ],
                 "limit": {
@@ -246,8 +246,8 @@
                 "conditional_formats": [
                   {
                     "palette": "black_on_light_green",
-                    "value": 1,
-                    "comparator": ">"
+                    "comparator": ">",
+                    "value": 1
                   }
                 ],
                 "formula": "query2"
@@ -257,8 +257,8 @@
                 "conditional_formats": [
                   {
                     "palette": "black_on_light_green",
-                    "value": 1,
-                    "comparator": ">"
+                    "comparator": ">",
+                    "value": 1
                   }
                 ],
                 "formula": "query3"
@@ -268,8 +268,8 @@
                 "conditional_formats": [
                   {
                     "palette": "black_on_light_green",
-                    "value": 1,
-                    "comparator": ">"
+                    "comparator": ">",
+                    "value": 1
                   }
                 ],
                 "formula": "query4"
@@ -279,8 +279,8 @@
                 "conditional_formats": [
                   {
                     "palette": "black_on_light_green",
-                    "value": 1,
-                    "comparator": ">"
+                    "comparator": ">",
+                    "value": 1
                   }
                 ],
                 "formula": "query5"
@@ -290,8 +290,8 @@
                 "conditional_formats": [
                   {
                     "palette": "black_on_light_green",
-                    "value": 1,
-                    "comparator": ">"
+                    "comparator": ">",
+                    "value": 1
                   }
                 ],
                 "formula": "query6"
@@ -301,8 +301,8 @@
                 "conditional_formats": [
                   {
                     "palette": "black_on_light_green",
-                    "value": 1,
-                    "comparator": ">"
+                    "comparator": ">",
+                    "value": 1
                   }
                 ],
                 "cell_display_mode": "number",
@@ -313,8 +313,8 @@
                 "conditional_formats": [
                   {
                     "palette": "black_on_light_green",
-                    "value": 1,
-                    "comparator": ">"
+                    "comparator": ">",
+                    "value": 1
                   }
                 ],
                 "formula": "query8"
@@ -324,8 +324,8 @@
                 "conditional_formats": [
                   {
                     "palette": "black_on_light_yellow",
-                    "value": 1,
-                    "comparator": ">"
+                    "comparator": ">",
+                    "value": 1
                   }
                 ],
                 "formula": "query9"
@@ -335,8 +335,8 @@
                 "conditional_formats": [
                   {
                     "palette": "black_on_light_yellow",
-                    "value": 1,
-                    "comparator": ">"
+                    "comparator": ">",
+                    "value": 1
                   }
                 ],
                 "formula": "query10"
@@ -346,8 +346,8 @@
                 "conditional_formats": [
                   {
                     "palette": "black_on_light_yellow",
-                    "value": 1,
-                    "comparator": ">"
+                    "comparator": ">",
+                    "value": 1
                   }
                 ],
                 "formula": "query11"
@@ -357,8 +357,8 @@
                 "conditional_formats": [
                   {
                     "palette": "black_on_light_yellow",
-                    "value": 1,
-                    "comparator": ">"
+                    "comparator": ">",
+                    "value": 1
                   }
                 ],
                 "formula": "query12"
@@ -368,8 +368,8 @@
                 "conditional_formats": [
                   {
                     "palette": "black_on_light_yellow",
-                    "value": 1,
-                    "comparator": ">"
+                    "comparator": ">",
+                    "value": 1
                   }
                 ],
                 "formula": "query13"
@@ -379,8 +379,8 @@
                 "conditional_formats": [
                   {
                     "palette": "black_on_light_red",
-                    "value": 1,
-                    "comparator": ">"
+                    "comparator": ">",
+                    "value": 1
                   }
                 ],
                 "formula": "query14"
@@ -390,8 +390,8 @@
                 "conditional_formats": [
                   {
                     "palette": "black_on_light_red",
-                    "value": 1,
-                    "comparator": ">"
+                    "comparator": ">",
+                    "value": 1
                   }
                 ],
                 "formula": "query15"
@@ -401,8 +401,8 @@
                 "conditional_formats": [
                   {
                     "palette": "black_on_light_red",
-                    "value": 1,
-                    "comparator": ">"
+                    "comparator": ">",
+                    "value": 1
                   }
                 ],
                 "formula": "query16"
@@ -412,8 +412,8 @@
                 "conditional_formats": [
                   {
                     "palette": "black_on_light_red",
-                    "value": 1,
-                    "comparator": ">"
+                    "comparator": ">",
+                    "value": 1
                   }
                 ],
                 "formula": "query17"
@@ -423,8 +423,8 @@
                 "conditional_formats": [
                   {
                     "palette": "black_on_light_red",
-                    "value": 1,
-                    "comparator": ">"
+                    "comparator": ">",
+                    "value": 1
                   }
                 ],
                 "formula": "query18"
@@ -434,8 +434,8 @@
                 "conditional_formats": [
                   {
                     "palette": "black_on_light_green",
-                    "value": 1,
-                    "comparator": ">"
+                    "comparator": ">",
+                    "value": 1
                   }
                 ],
                 "formula": "query1 + query2 + query3 + query4"
@@ -445,8 +445,8 @@
                 "conditional_formats": [
                   {
                     "palette": "black_on_light_green",
-                    "value": 1,
-                    "comparator": ">"
+                    "comparator": ">",
+                    "value": 1
                   }
                 ],
                 "formula": "query5 + query6 + query7 + query8"
@@ -456,8 +456,8 @@
                 "conditional_formats": [
                   {
                     "palette": "black_on_light_yellow",
-                    "value": 1,
-                    "comparator": ">"
+                    "comparator": ">",
+                    "value": 1
                   }
                 ],
                 "formula": "query9 + query10 + query11 + query12 + query13"
@@ -467,8 +467,8 @@
                 "conditional_formats": [
                   {
                     "palette": "black_on_light_red",
-                    "value": 1,
-                    "comparator": ">"
+                    "comparator": ">",
+                    "value": 1
                   }
                 ],
                 "formula": "query14 + query15 + query16 + query17 + query18"
@@ -866,7 +866,7 @@
             }
           },
           {
-            "id": 2393627051727812,
+            "id": 1971685613534188,
             "definition": {
               "title": "Http Response Time (MAX) by Endpoint, ms",
               "title_size": "16",
@@ -891,7 +891,7 @@
                   "response_format": "timeseries",
                   "queries": [
                     {
-                      "query": "avg:artillery.plugins.advanced_metrics.response_time_max.max{mode:$mode.value,env:$env.value,scenario:$scenario.value} by {url}",
+                      "query": "avg:artillery.plugins.datadog_advanced_metrics.response_time_max.max{env:$env.value,mode:$mode.value,scenario:$scenario.value} by {url}",
                       "data_source": "metrics",
                       "name": "query1"
                     }
@@ -1076,139 +1076,6 @@
             "layout": {
               "x": 0,
               "y": 9,
-              "width": 6,
-              "height": 3
-            }
-          },
-          {
-            "id": 5526120610957192,
-            "definition": {
-              "title": "Status Codes",
-              "title_size": "16",
-              "title_align": "left",
-              "show_legend": true,
-              "legend_layout": "horizontal",
-              "legend_columns": [
-                "avg",
-                "min",
-                "max",
-                "value",
-                "sum"
-              ],
-              "time": { },
-              "type": "timeseries",
-              "requests": [
-                {
-                  "formulas": [
-                    {
-                      "formula": "query1"
-                    }
-                  ],
-                  "queries": [
-                    {
-                      "query": "sum:artillery.plugins.advanced_metrics.codes{*} by {code}.as_count()",
-                      "data_source": "metrics",
-                      "name": "query1"
-                    }
-                  ],
-                  "response_format": "timeseries",
-                  "style": {
-                    "palette": "dog_classic",
-                    "line_type": "solid",
-                    "line_width": "normal"
-                  },
-                  "display_type": "line"
-                }
-              ]
-            },
-            "layout": {
-              "x": 6,
-              "y": 9,
-              "width": 6,
-              "height": 3
-            }
-          },
-          {
-            "id": 8840617083945260,
-            "definition": {
-              "title": "Http TLS Connection Time, ms",
-              "title_size": "16",
-              "title_align": "left",
-              "show_legend": true,
-              "legend_layout": "auto",
-              "legend_columns": [
-                "avg",
-                "min",
-                "max",
-                "value",
-                "sum"
-              ],
-              "time": { },
-              "type": "timeseries",
-              "requests": [
-                {
-                  "formulas": [
-                    {
-                      "alias": "min",
-                      "formula": "query1"
-                    },
-                    {
-                      "alias": "max",
-                      "formula": "query2"
-                    },
-                    {
-                      "alias": "med",
-                      "formula": "query3"
-                    },
-                    {
-                      "alias": "p95",
-                      "formula": "query4"
-                    },
-                    {
-                      "alias": "p99",
-                      "formula": "query5"
-                    }
-                  ],
-                  "response_format": "timeseries",
-                  "queries": [
-                    {
-                      "query": "avg:artillery.publish_metrics_plugin.http.tls.min{env:$env.value,mode:$mode.value,scenario:$scenario.value}",
-                      "data_source": "metrics",
-                      "name": "query1"
-                    },
-                    {
-                      "query": "avg:artillery.publish_metrics_plugin.http.tls.max{env:$env.value,mode:$mode.value,scenario:$scenario.value}",
-                      "data_source": "metrics",
-                      "name": "query2"
-                    },
-                    {
-                      "query": "avg:artillery.publish_metrics_plugin.http.tls.median{env:$env.value,mode:$mode.value,scenario:$scenario.value}",
-                      "data_source": "metrics",
-                      "name": "query3"
-                    },
-                    {
-                      "query": "avg:artillery.publish_metrics_plugin.http.tls.p95{env:$env.value,mode:$mode.value,scenario:$scenario.value}",
-                      "data_source": "metrics",
-                      "name": "query4"
-                    },
-                    {
-                      "query": "avg:artillery.publish_metrics_plugin.http.tls.p99{env:$env.value,mode:$mode.value,scenario:$scenario.value}",
-                      "data_source": "metrics",
-                      "name": "query5"
-                    }
-                  ],
-                  "style": {
-                    "palette": "dog_classic",
-                    "line_type": "solid",
-                    "line_width": "normal"
-                  },
-                  "display_type": "line"
-                }
-              ]
-            },
-            "layout": {
-              "x": 0,
-              "y": 12,
               "width": 6,
               "height": 3
             }
@@ -1405,6 +1272,137 @@
                       "query": "avg:artillery.publish_metrics_plugin.http.codes.409{env:$env.value,mode:$mode.value,scenario:$scenario.value}.as_count()",
                       "data_source": "metrics",
                       "name": "query19"
+                    }
+                  ],
+                  "style": {
+                    "palette": "dog_classic",
+                    "line_type": "solid",
+                    "line_width": "normal"
+                  },
+                  "display_type": "line"
+                }
+              ]
+            },
+            "layout": {
+              "x": 6,
+              "y": 9,
+              "width": 6,
+              "height": 3
+            }
+          },
+          {
+            "id": 8840617083945260,
+            "definition": {
+              "title": "Http TLS Connection Time, ms",
+              "title_size": "16",
+              "title_align": "left",
+              "show_legend": true,
+              "legend_layout": "auto",
+              "legend_columns": [
+                "avg",
+                "min",
+                "max",
+                "value",
+                "sum"
+              ],
+              "type": "timeseries",
+              "requests": [
+                {
+                  "formulas": [
+                    {
+                      "alias": "min",
+                      "formula": "query1"
+                    },
+                    {
+                      "alias": "max",
+                      "formula": "query2"
+                    },
+                    {
+                      "alias": "med",
+                      "formula": "query3"
+                    },
+                    {
+                      "alias": "p95",
+                      "formula": "query4"
+                    },
+                    {
+                      "alias": "p99",
+                      "formula": "query5"
+                    }
+                  ],
+                  "response_format": "timeseries",
+                  "queries": [
+                    {
+                      "query": "avg:artillery.publish_metrics_plugin.http.tls.min{env:$env.value,mode:$mode.value,scenario:$scenario.value}",
+                      "data_source": "metrics",
+                      "name": "query1"
+                    },
+                    {
+                      "query": "avg:artillery.publish_metrics_plugin.http.tls.max{env:$env.value,mode:$mode.value,scenario:$scenario.value}",
+                      "data_source": "metrics",
+                      "name": "query2"
+                    },
+                    {
+                      "query": "avg:artillery.publish_metrics_plugin.http.tls.median{env:$env.value,mode:$mode.value,scenario:$scenario.value}",
+                      "data_source": "metrics",
+                      "name": "query3"
+                    },
+                    {
+                      "query": "avg:artillery.publish_metrics_plugin.http.tls.p95{env:$env.value,mode:$mode.value,scenario:$scenario.value}",
+                      "data_source": "metrics",
+                      "name": "query4"
+                    },
+                    {
+                      "query": "avg:artillery.publish_metrics_plugin.http.tls.p99{env:$env.value,mode:$mode.value,scenario:$scenario.value}",
+                      "data_source": "metrics",
+                      "name": "query5"
+                    }
+                  ],
+                  "style": {
+                    "palette": "dog_classic",
+                    "line_type": "solid",
+                    "line_width": "normal"
+                  },
+                  "display_type": "line"
+                }
+              ]
+            },
+            "layout": {
+              "x": 0,
+              "y": 12,
+              "width": 6,
+              "height": 3
+            }
+          },
+          {
+            "id": 43360481225152,
+            "definition": {
+              "title": "Status Codes",
+              "title_size": "16",
+              "title_align": "left",
+              "show_legend": true,
+              "legend_layout": "horizontal",
+              "legend_columns": [
+                "avg",
+                "min",
+                "max",
+                "value",
+                "sum"
+              ],
+              "type": "timeseries",
+              "requests": [
+                {
+                  "formulas": [
+                    {
+                      "formula": "query1"
+                    }
+                  ],
+                  "response_format": "timeseries",
+                  "queries": [
+                    {
+                      "query": "sum:artillery.plugins.datadog_advanced_metrics.codes{env:$env.value,mode:$mode.value,scenario:$scenario.value} by {code}.as_count()",
+                      "data_source": "metrics",
+                      "name": "query1"
                     }
                   ],
                   "style": {
@@ -1665,39 +1663,29 @@
                 "value",
                 "sum"
               ],
-              "time": { },
               "type": "timeseries",
               "requests": [
                 {
                   "formulas": [
                     {
-                      "alias": "Post Writer Scn",
+                      "alias": "Onboarding Flow",
                       "formula": "cumsum(query1)"
-                    },
-                    {
-                      "alias": "Post Reader Scn",
-                      "formula": "cumsum(query2)"
-                    }
-                  ],
-                  "queries": [
-                    {
-                      "query": "avg:artillery.publish_metrics_plugin.vusers.created_by_name.Post_Writer_Scenario{env:$env.value,mode:$mode.value,scenario:$scenario.value}.as_count()",
-                      "data_source": "metrics",
-                      "name": "query1"
-                    },
-                    {
-                      "query": "avg:artillery.publish_metrics_plugin.vusers.created_by_name.Post_Reader_Scenario{env:$env.value,mode:$mode.value,scenario:$scenario.value}.as_count()",
-                      "data_source": "metrics",
-                      "name": "query2"
                     }
                   ],
                   "response_format": "timeseries",
+                  "queries": [
+                    {
+                      "query": "avg:artillery.publish_metrics_plugin.vusers.created_by_name.Onboarding_Flow{env:$env.value,mode:$mode.value,scenario:$scenario.value}.as_count()",
+                      "data_source": "metrics",
+                      "name": "query1"
+                    }
+                  ],
                   "style": {
                     "palette": "cool",
                     "line_type": "solid",
                     "line_width": "normal"
                   },
-                  "display_type": "line"
+                  "display_type": "area"
                 }
               ]
             },
@@ -1773,6 +1761,54 @@
               "width": 6,
               "height": 3
             }
+          },
+          {
+            "id": 6426819933593130,
+            "definition": {
+              "title": "Scenarios Created by Name",
+              "title_size": "16",
+              "title_align": "left",
+              "show_legend": true,
+              "legend_layout": "auto",
+              "legend_columns": [
+                "avg",
+                "min",
+                "max",
+                "value",
+                "sum"
+              ],
+              "type": "timeseries",
+              "requests": [
+                {
+                  "formulas": [
+                    {
+                      "alias": "Onboarding Flow",
+                      "formula": "cumsum(query1)"
+                    }
+                  ],
+                  "response_format": "timeseries",
+                  "queries": [
+                    {
+                      "query": "avg:artillery.plugins.datadog_advanced_metrics.scenarios{env:$env.value,mode:$mode.value,scenario:$scenario.value} by {scn}.as_count()",
+                      "data_source": "metrics",
+                      "name": "query1"
+                    }
+                  ],
+                  "style": {
+                    "palette": "cool",
+                    "line_type": "solid",
+                    "line_width": "normal"
+                  },
+                  "display_type": "area"
+                }
+              ]
+            },
+            "layout": {
+              "x": 6,
+              "y": 6,
+              "width": 6,
+              "height": 3
+            }
           }
         ]
       },
@@ -1823,7 +1859,8 @@
                   ]
                 }
               ],
-              "autoscale": true
+              "autoscale": true,
+              "precision": 3
             },
             "layout": {
               "x": 0,
@@ -2227,25 +2264,23 @@
               "title": "Errors",
               "title_size": "16",
               "title_align": "left",
-              "time": { },
               "type": "query_table",
               "requests": [
                 {
                   "formulas": [
                     {
                       "alias": "count",
-                      "formula": "query1",
                       "limit": {
                         "count": 500,
                         "order": "desc"
                       },
-                      "cell_display_mode": "number"
+                      "formula": "query1"
                     }
                   ],
                   "response_format": "scalar",
                   "queries": [
                     {
-                      "query": "avg:artillery.plugins.advanced_metrics.errors{env:$env.value,mode:$mode.value,scenario:$scenario.value} by {error,env,scenario}.as_count()",
+                      "query": "avg:artillery.plugins.datadog_advanced_metrics.errors{env:$env.value,mode:$mode.value,scenario:$scenario.value} by {error,env,scenario}.as_count()",
                       "data_source": "metrics",
                       "name": "query1",
                       "aggregator": "sum"
@@ -2295,5 +2330,5 @@
   "is_read_only": false,
   "notify_list": [ ],
   "reflow_type": "fixed",
-  "id": "xm5-zzp-eyi"
+  "id": "cr7-w4q-ujx"
 }

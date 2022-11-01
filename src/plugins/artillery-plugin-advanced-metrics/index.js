@@ -97,6 +97,8 @@ function sendAdvancedMetrics(stats, statsd) {
     sendStatusCodeStats(stats, statsd)
     //debug("Sending error metrics:")
     sendErrorStats(stats, statsd)
+    //debug("Sending scenario count metrics:")
+    sendScenarioStats(stats, statsd)
 }
 
 function sendErrorMetrics(stats, statsd) {
@@ -152,6 +154,20 @@ function sendErrorStats(stats, statsd) {
     //debug(errorKeys)
     errorKeys.forEach((error) => {
         statsd.increment("errors", stats.counters[`${error}`], [`error:${error}`])
+    })
+}
+
+function sendScenarioStats(stats, statsd){
+    const scenarioNames = Object.keys(stats.counters).map(k => {
+        if (k.match(/vusers.created_by_name.(.*)/) !== null){
+            return k.match(/vusers.created_by_name.(.*)/)[1]
+        }
+    }).filter(k => k !== undefined)
+    // scenarioNames.forEach(scn => {
+    //     debug(`${scn}: ${stats.counters[`vusers.created_by_name.${scn}`]}`)
+    // })
+    scenarioNames.forEach(scn => {
+        statsd.increment("scenarios", stats.counters[`vusers.created_by_name.${scn}`], [`scn:${scn}`])
     })
 }
 
