@@ -116,7 +116,7 @@
           }
         ],
         "autoscale": true,
-        "precision": 3
+        "precision": 1
       },
       "layout": {
         "x": 4,
@@ -158,7 +158,7 @@
           }
         ],
         "autoscale": true,
-        "precision": 3
+        "precision": 1
       },
       "layout": {
         "x": 6,
@@ -206,7 +206,7 @@
           }
         ],
         "autoscale": true,
-        "precision": 3
+        "precision": 1
       },
       "layout": {
         "x": 8,
@@ -866,7 +866,7 @@
             }
           },
           {
-            "id": 1971685613534188,
+            "id": 2393627051727812,
             "definition": {
               "title": "Http Response Time (MAX) by Endpoint, ms",
               "title_size": "16",
@@ -880,6 +880,7 @@
                 "value",
                 "sum"
               ],
+              "time": { },
               "type": "timeseries",
               "requests": [
                 {
@@ -888,14 +889,14 @@
                       "formula": "query1"
                     }
                   ],
-                  "response_format": "timeseries",
                   "queries": [
                     {
-                      "query": "avg:artillery.plugins.datadog_advanced_metrics.response_time_max.max{env:$env.value,mode:$mode.value,scenario:$scenario.value} by {url}",
+                      "query": "avg:artillery.publish_metrics_plugin.plugins.advanced_metrics.response_time_max.max{mode:$mode.value,env:$env.value,scenario:$scenario.value} by {url}",
                       "data_source": "metrics",
                       "name": "query1"
                     }
                   ],
+                  "response_format": "timeseries",
                   "style": {
                     "palette": "dog_classic",
                     "line_type": "solid",
@@ -1076,6 +1077,138 @@
             "layout": {
               "x": 0,
               "y": 9,
+              "width": 6,
+              "height": 3
+            }
+          },
+          {
+            "id": 5526120610957192,
+            "definition": {
+              "title": "Status Codes",
+              "title_size": "16",
+              "title_align": "left",
+              "show_legend": true,
+              "legend_layout": "horizontal",
+              "legend_columns": [
+                "avg",
+                "min",
+                "max",
+                "value",
+                "sum"
+              ],
+              "time": { },
+              "type": "timeseries",
+              "requests": [
+                {
+                  "formulas": [
+                    {
+                      "formula": "query1"
+                    }
+                  ],
+                  "queries": [
+                    {
+                      "query": "sum:artillery.publish_metrics_plugin.plugins.advanced_metrics.codes{*} by {code}.as_count()",
+                      "data_source": "metrics",
+                      "name": "query1"
+                    }
+                  ],
+                  "response_format": "timeseries",
+                  "style": {
+                    "palette": "dog_classic",
+                    "line_type": "solid",
+                    "line_width": "normal"
+                  },
+                  "display_type": "line"
+                }
+              ]
+            },
+            "layout": {
+              "x": 6,
+              "y": 9,
+              "width": 6,
+              "height": 3
+            }
+          },
+          {
+            "id": 8840617083945260,
+            "definition": {
+              "title": "Http TLS Connection Time, ms",
+              "title_size": "16",
+              "title_align": "left",
+              "show_legend": true,
+              "legend_layout": "auto",
+              "legend_columns": [
+                "avg",
+                "min",
+                "max",
+                "value",
+                "sum"
+              ],
+              "type": "timeseries",
+              "requests": [
+                {
+                  "formulas": [
+                    {
+                      "alias": "min",
+                      "formula": "query1"
+                    },
+                    {
+                      "alias": "max",
+                      "formula": "query2"
+                    },
+                    {
+                      "alias": "med",
+                      "formula": "query3"
+                    },
+                    {
+                      "alias": "p95",
+                      "formula": "query4"
+                    },
+                    {
+                      "alias": "p99",
+                      "formula": "query5"
+                    }
+                  ],
+                  "response_format": "timeseries",
+                  "queries": [
+                    {
+                      "query": "avg:artillery.publish_metrics_plugin.http.tls.min{env:$env.value,mode:$mode.value,scenario:$scenario.value}",
+                      "data_source": "metrics",
+                      "name": "query1"
+                    },
+                    {
+                      "query": "avg:artillery.publish_metrics_plugin.http.tls.max{env:$env.value,mode:$mode.value,scenario:$scenario.value}",
+                      "data_source": "metrics",
+                      "name": "query2"
+                    },
+                    {
+                      "query": "avg:artillery.publish_metrics_plugin.http.tls.median{env:$env.value,mode:$mode.value,scenario:$scenario.value}",
+                      "data_source": "metrics",
+                      "name": "query3"
+                    },
+                    {
+                      "query": "avg:artillery.publish_metrics_plugin.http.tls.p95{env:$env.value,mode:$mode.value,scenario:$scenario.value}",
+                      "data_source": "metrics",
+                      "name": "query4"
+                    },
+                    {
+                      "query": "avg:artillery.publish_metrics_plugin.http.tls.p99{env:$env.value,mode:$mode.value,scenario:$scenario.value}",
+                      "data_source": "metrics",
+                      "name": "query5"
+                    }
+                  ],
+                  "style": {
+                    "palette": "dog_classic",
+                    "line_type": "solid",
+                    "line_width": "normal"
+                  },
+                  "display_type": "line"
+                }
+              ]
+            },
+            "layout": {
+              "x": 0,
+              "y": 12,
               "width": 6,
               "height": 3
             }
@@ -1272,137 +1405,6 @@
                       "query": "avg:artillery.publish_metrics_plugin.http.codes.409{env:$env.value,mode:$mode.value,scenario:$scenario.value}.as_count()",
                       "data_source": "metrics",
                       "name": "query19"
-                    }
-                  ],
-                  "style": {
-                    "palette": "dog_classic",
-                    "line_type": "solid",
-                    "line_width": "normal"
-                  },
-                  "display_type": "line"
-                }
-              ]
-            },
-            "layout": {
-              "x": 6,
-              "y": 9,
-              "width": 6,
-              "height": 3
-            }
-          },
-          {
-            "id": 8840617083945260,
-            "definition": {
-              "title": "Http TLS Connection Time, ms",
-              "title_size": "16",
-              "title_align": "left",
-              "show_legend": true,
-              "legend_layout": "auto",
-              "legend_columns": [
-                "avg",
-                "min",
-                "max",
-                "value",
-                "sum"
-              ],
-              "type": "timeseries",
-              "requests": [
-                {
-                  "formulas": [
-                    {
-                      "alias": "min",
-                      "formula": "query1"
-                    },
-                    {
-                      "alias": "max",
-                      "formula": "query2"
-                    },
-                    {
-                      "alias": "med",
-                      "formula": "query3"
-                    },
-                    {
-                      "alias": "p95",
-                      "formula": "query4"
-                    },
-                    {
-                      "alias": "p99",
-                      "formula": "query5"
-                    }
-                  ],
-                  "response_format": "timeseries",
-                  "queries": [
-                    {
-                      "query": "avg:artillery.publish_metrics_plugin.http.tls.min{env:$env.value,mode:$mode.value,scenario:$scenario.value}",
-                      "data_source": "metrics",
-                      "name": "query1"
-                    },
-                    {
-                      "query": "avg:artillery.publish_metrics_plugin.http.tls.max{env:$env.value,mode:$mode.value,scenario:$scenario.value}",
-                      "data_source": "metrics",
-                      "name": "query2"
-                    },
-                    {
-                      "query": "avg:artillery.publish_metrics_plugin.http.tls.median{env:$env.value,mode:$mode.value,scenario:$scenario.value}",
-                      "data_source": "metrics",
-                      "name": "query3"
-                    },
-                    {
-                      "query": "avg:artillery.publish_metrics_plugin.http.tls.p95{env:$env.value,mode:$mode.value,scenario:$scenario.value}",
-                      "data_source": "metrics",
-                      "name": "query4"
-                    },
-                    {
-                      "query": "avg:artillery.publish_metrics_plugin.http.tls.p99{env:$env.value,mode:$mode.value,scenario:$scenario.value}",
-                      "data_source": "metrics",
-                      "name": "query5"
-                    }
-                  ],
-                  "style": {
-                    "palette": "dog_classic",
-                    "line_type": "solid",
-                    "line_width": "normal"
-                  },
-                  "display_type": "line"
-                }
-              ]
-            },
-            "layout": {
-              "x": 0,
-              "y": 12,
-              "width": 6,
-              "height": 3
-            }
-          },
-          {
-            "id": 43360481225152,
-            "definition": {
-              "title": "Status Codes",
-              "title_size": "16",
-              "title_align": "left",
-              "show_legend": true,
-              "legend_layout": "horizontal",
-              "legend_columns": [
-                "avg",
-                "min",
-                "max",
-                "value",
-                "sum"
-              ],
-              "type": "timeseries",
-              "requests": [
-                {
-                  "formulas": [
-                    {
-                      "formula": "query1"
-                    }
-                  ],
-                  "response_format": "timeseries",
-                  "queries": [
-                    {
-                      "query": "sum:artillery.plugins.datadog_advanced_metrics.codes{env:$env.value,mode:$mode.value,scenario:$scenario.value} by {code}.as_count()",
-                      "data_source": "metrics",
-                      "name": "query1"
                     }
                   ],
                   "style": {
@@ -1668,16 +1670,25 @@
                 {
                   "formulas": [
                     {
-                      "alias": "Onboarding Flow",
+                      "alias": "Post Writer Scn",
                       "formula": "cumsum(query1)"
+                    },
+                    {
+                      "alias": "Post Reader Scn",
+                      "formula": "cumsum(query2)"
                     }
                   ],
                   "response_format": "timeseries",
                   "queries": [
                     {
-                      "query": "avg:artillery.publish_metrics_plugin.vusers.created_by_name.Onboarding_Flow{env:$env.value,mode:$mode.value,scenario:$scenario.value}.as_count()",
+                      "query": "avg:artillery.publish_metrics_plugin.vusers.created_by_name.Post_Writer_Scenario{env:$env.value,mode:$mode.value,scenario:$scenario.value}.as_count()",
                       "data_source": "metrics",
                       "name": "query1"
+                    },
+                    {
+                      "query": "avg:artillery.publish_metrics_plugin.vusers.created_by_name.Post_Reader_Scenario{env:$env.value,mode:$mode.value,scenario:$scenario.value}.as_count()",
+                      "data_source": "metrics",
+                      "name": "query2"
                     }
                   ],
                   "style": {
@@ -1685,7 +1696,7 @@
                     "line_type": "solid",
                     "line_width": "normal"
                   },
-                  "display_type": "area"
+                  "display_type": "line"
                 }
               ]
             },
@@ -1763,9 +1774,9 @@
             }
           },
           {
-            "id": 6426819933593130,
+            "id": 4519710958283908,
             "definition": {
-              "title": "Scenarios Created by Name",
+              "title": "Scenarios Created",
               "title_size": "16",
               "title_align": "left",
               "show_legend": true,
@@ -1777,29 +1788,29 @@
                 "value",
                 "sum"
               ],
+              "time": { },
               "type": "timeseries",
               "requests": [
                 {
                   "formulas": [
                     {
-                      "alias": "Onboarding Flow",
                       "formula": "cumsum(query1)"
                     }
                   ],
-                  "response_format": "timeseries",
                   "queries": [
                     {
-                      "query": "avg:artillery.plugins.datadog_advanced_metrics.scenarios{env:$env.value,mode:$mode.value,scenario:$scenario.value} by {scn}.as_count()",
+                      "query": "avg:artillery.publish_metrics_plugin.plugins.advanced_metrics.scenarios{env:$env.value,mode:$mode.value,scenario:$scenario.value} by {scn}.as_count()",
                       "data_source": "metrics",
                       "name": "query1"
                     }
                   ],
+                  "response_format": "timeseries",
                   "style": {
                     "palette": "cool",
                     "line_type": "solid",
                     "line_width": "normal"
                   },
-                  "display_type": "area"
+                  "display_type": "line"
                 }
               ]
             },
@@ -1859,8 +1870,7 @@
                   ]
                 }
               ],
-              "autoscale": true,
-              "precision": 3
+              "autoscale": true
             },
             "layout": {
               "x": 0,
@@ -2270,6 +2280,7 @@
                   "formulas": [
                     {
                       "alias": "count",
+                      "cell_display_mode": "number",
                       "limit": {
                         "count": 500,
                         "order": "desc"
@@ -2280,7 +2291,7 @@
                   "response_format": "scalar",
                   "queries": [
                     {
-                      "query": "avg:artillery.plugins.datadog_advanced_metrics.errors{env:$env.value,mode:$mode.value,scenario:$scenario.value} by {error,env,scenario}.as_count()",
+                      "query": "avg:artillery.plugins.advanced_metrics.errors{env:$env.value,mode:$mode.value,scenario:$scenario.value} by {error,env,scenario}.as_count()",
                       "data_source": "metrics",
                       "name": "query1",
                       "aggregator": "sum"
@@ -2330,5 +2341,5 @@
   "is_read_only": false,
   "notify_list": [ ],
   "reflow_type": "fixed",
-  "id": "cr7-w4q-ujx"
+  "id": "xm5-zzp-eyi"
 }

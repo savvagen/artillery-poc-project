@@ -63,10 +63,10 @@ jobs:
           echo "SCENARIO_NAME = ${{ env.SCENARIO_NAME }}"
           echo "CONFIG = ${{ env.CONFIG }}"
           echo "ENVIRONMENT = ${{ env.ENVIRONMENT }}"
-          echo "::set-output name=scenarioName::${{ env.SCENARIO_NAME }}"
-          echo "::set-output name=config::${{ env.CONFIG }}"
-          echo "::set-output name=environment::${{ env.ENVIRONMENT }}"
-          echo "::set-output name=baseUrl::${{ env.BASE_URL }}"
+          echo "scenarioName=${{ env.SCENARIO_NAME }}" >> $GITHUB_OUTPUT
+          echo "config=${{ env.CONFIG }}" >> $GITHUB_OUTPUT
+          echo "environment=${{ env.ENVIRONMENT }}" >> $GITHUB_OUTPUT
+          echo "baseUrl=${{ env.BASE_URL }}" >> $GITHUB_OUTPUT
 
   artillery:
     runs-on: ubuntu-latest
