@@ -73,7 +73,6 @@ function ArtilleryAdvancedMetricsPlugin(script, events) {
     // Set event handlers
     this.events.on('stats', (stats) => {
         //printStats(stats)
-        //sendErrorMetrics(stats, statsd)
         sendAdvancedMetrics(stats, statsd, this, this.events)
     })
 
@@ -99,11 +98,6 @@ function sendAdvancedMetrics(stats, statsd) {
     sendErrorStats(stats, statsd)
     //debug("Sending scenario count metrics:")
     sendScenarioStats(stats, statsd)
-}
-
-function sendErrorMetrics(stats, statsd) {
-    debug("🖥️ Sending error stats to Datadog.")
-    sendErrorStats(stats, statsd)
 }
 
 function sendResponseTimeStats(stats, statsd){
