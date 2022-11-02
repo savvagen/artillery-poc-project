@@ -1,0 +1,52 @@
+config:
+  target: "https://localhost:3001"
+  phases:
+    - duration: 1
+      arrivalCount: 1
+      name: "Debug Phase"
+  custom:
+    default_data: "hello_world"
+  engines:
+    custom: { }
+
+  processor: "../processors/custom.js"
+
+
+scenarios:
+  # 1.
+#  - name: "My Engine test"
+#    engine: custom
+#    flowFunction: "myFlowFunc"
+#    flow:
+#      - function: "helloWorld2"
+#      - think: 1
+#      - function: "helloWorld2"
+#      - think: 1
+#      - test:
+#          data: "test {{ testData }} test"
+#          before: "setUpTest"
+#          after: "afterTest"
+
+  # 2.
+  - name: "My Engine test"
+    engine: custom
+    flowFunction: "myFlowFunc"
+    flow:
+      - function: "helloWorld"
+      - think: 1
+      - function: "helloWorld"
+      - think: 1
+      - function: "helloWorld"
+      - think: 1
+      - test:
+          data: "test {{ testData }} test"
+          before: "setUpTest"
+          after: "afterTest"
+      - think: 1
+      - log: "Found Test Data {{ testData }}"
+      - log: "Test"
+      - think: 1
+      - loop:
+          - function: "helloWorld"
+          - think: 1
+        count: 2

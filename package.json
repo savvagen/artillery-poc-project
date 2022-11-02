@@ -20,15 +20,18 @@
     "debug": "^4.3.4",
     "dogapi": "^2.8.4",
     "fast-csv": "^4.3.6",
+    "filtrex": "^2.2.3",
+    "lodash": "^4.17.21",
     "node-statsd": "^0.1.1",
-    "statsd-client": "^0.4.7",
-    "filtrex": "^2.2.3"
+    "statsd-client": "^0.4.7"
   },
   "devDependencies": {
+    "artillery-engine-custom": "file:artillery-engine-custom",
     "artillery-plugin-datadog": "^0.2.0",
     "artillery-plugin-http-file-uploads": "^0.0.0",
     "artillery-plugin-influxdb": "^0.9.0",
     "artillery-plugin-statsd": "^2.2.1",
-    "artillery-plugin-telegraf": "^1.0.3"
+    "artillery-plugin-telegraf": "^1.0.3",
+    "async": "^3.2.4"
   }
 }
