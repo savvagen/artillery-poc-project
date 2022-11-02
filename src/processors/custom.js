@@ -2,7 +2,7 @@ module.exports = {
     helloWorld,
     helloWorld2,
     myFlowFunc,
-    setUpTest,
+    beforeTest,
     afterTest
 }
 
@@ -20,7 +20,6 @@ async function helloWorld2(context, ee) {
     //throw Error("Test")
 }
 
-
 /* Functions with callback */
 
 async function helloWorld(context, ee, next) {
@@ -30,7 +29,7 @@ async function helloWorld(context, ee, next) {
     next()
 }
 
-function setUpTest(context, ee, next){
+function beforeTest(context, ee, next){
     context.vars.testData = JSON.stringify({ message: "My test data" })
     context.vars.testDataMessage = "My test data"
     console.log("Before Test Fun")

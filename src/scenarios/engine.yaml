@@ -24,7 +24,7 @@ scenarios:
 #      - think: 1
 #      - test:
 #          data: "test {{ testData }} test"
-#          before: "setUpTest"
+#          before: "beforeTest"
 #          after: "afterTest"
 
   # 2.
@@ -40,7 +40,7 @@ scenarios:
       - think: 1
       - test:
           data: "test {{ testData }} test"
-          before: "setUpTest"
+          before: "beforeTest"
           after: "afterTest"
       - think: 1
       - log: "Found Test Data {{ testData }}"
