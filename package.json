@@ -32,6 +32,8 @@
     "artillery-plugin-influxdb": "^0.9.0",
     "artillery-plugin-statsd": "^2.2.1",
     "artillery-plugin-telegraf": "^1.0.3",
-    "async": "^3.2.4"
+    "async": "^3.2.4",
+    "node-forge": "^1.3.1",
+    "crypto-js": "^4.1.1"
   }
 }

@@ -83,6 +83,7 @@ scenarios:
   - name: Post Writer Scenario
     weight: 1
     flow:
+      - function: "printSignature"
       #- log: "Authenticate and get token"
       - get:
           url: "/get_token"
@@ -150,6 +151,7 @@ scenarios:
   - name: Post Reader Scenario
     weight: 2
     flow:
+      - function: "printSignature"
       #- log: "Get posts"
       #- log: "Found user {{ userId }} {{ userName }}"
       #- function: "randomFailure" # 50% of all the scenarios will fail with error: "Failed Scenario"

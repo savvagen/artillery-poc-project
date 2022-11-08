@@ -1,22 +1,22 @@
 config:
   target: "http://json_server:3000"
   phases:
-    - duration: 120
-      arrivalCount: 60
-      name: "My Load Stage"
+    - duration: 1
+      arrivalCount: 1
+      name: "Debug Stage"
   environments:
     local:
-      target: "http://json_server:3000"
+      target: "http://localhost:3001"
       phases:
-        - duration: 120
-          arrivalCount: 60
-          name: "My Load Stage"
+        - duration: 1
+          arrivalCount: 1
+          name: "Debug Stage"
     remote:
       target: "{{ $processEnvironment.BASE_URL }}"
       phases:
-        - duration: 120
-          arrivalCount: 60
-          name: "My Load Stage"
+        - duration: 1
+          arrivalCount: 1
+          name: "Debug Stage"
   ensure:
     maxErrorRate: 1
   http:

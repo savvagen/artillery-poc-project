@@ -1,15 +1,11 @@
 const { faker } = require("@faker-js/faker/locale/en_US")
-const {
-    dateTimeNow,
-    randomPost,
-    randomUser,
-    randomComment
-} = require('../data/data_genrator')
-const fs = require("fs");
-const path = require("path");
+const { dateTimeNow, randomPost, randomUser, randomComment} = require('../data/data_genrator')
+const fs = require("fs")
+const path = require("path")
 const csv = require("fast-csv")
-const events = require("events");
-const createCsvWriter = require('csv-writer').createObjectCsvWriter;
+const createCsvWriter = require('csv-writer').createObjectCsvWriter
+const nodeCrypto = require("crypto");
+const forge = require("node-forge")
 
 Array.prototype.randomIndex = function (){
     return this[Math.floor(Math.random() * this.length)]
@@ -39,12 +35,12 @@ function saveUsersData(context, ee, next){
         userEmail: context.vars.userEmail
     })
     context.vars.usersDataCount = context.vars.usersData.length
-    next();
+    next()
 }
 
 function writeUsersDataToCsv(context, ee, next){
     context.vars.csvWriter.writeRecords(context.vars.usersData).then(() => { console.log('...Done writing.') })
-    next();
+    next()
 }
 
 function readUsersDataFromCsv(context, ee, next) {
@@ -59,7 +55,7 @@ function readUsersDataFromCsv(context, ee, next) {
             console.log(`Parsed ${rowCount} rows from file: people.csv`)
             context.vars.usersData = context.vars.usersData.filter(user => user.id !== '')
         })
-    next();
+    next()
 }
 
 function getRandomUserFromData(context, ee, next) {
@@ -68,7 +64,7 @@ function getRandomUserFromData(context, ee, next) {
     context.vars.targetUserId = randomUser.id
     context.vars.targetUserName = randomUser.userName
     context.vars.targetUserEmail = randomUser.email
-    next();
+    next()
 }
 
 
@@ -83,7 +79,7 @@ function saveUserId(req, res, context, ee, next) {
     context.vars.userEmail = userJson.email
     context.vars.userName = userJson.username
     ee.emit('counter', 'users_registered', 1)
-    next();
+    next()
 }
 
 function postBody(req, context, ee, next) {
@@ -93,7 +89,7 @@ function postBody(req, context, ee, next) {
 
 function savePost(req, res, context, ee, next) {
     context.vars.post = JSON.parse(res.body)
-    next();
+    next()
 }
 
 function commentBody(req, context, ee, next) {
@@ -113,7 +109,7 @@ function getPosts(req, res, context, ee, next) {
     const postList = posts.slice(0, 6).map(post => { return post.id }) // get first 6 post ids
     context.vars.postIds = postList
     context.vars.postId = postList.randomIndex()
-    next();
+    next()
 }
 
 function getRandomEmail(context, ee, done) {
@@ -126,7 +122,7 @@ function getComments(req, res, context, ee, next) {
     if (post.comments.length > 5)
         context.vars.commentIds = post.comments.slice(0, 4).filter(id => id !== 0)
     else context.vars.commentIds = post.comments.filter(id => id !== 0)
-    next();
+    next()
 }
 
 function randomFailure(context, ee, next) {
@@ -135,6 +131,57 @@ function randomFailure(context, ee, next) {
         return next(new Error("Failed Scenario"))
     } else return next()
 }
+
+/* Node-Forge */
+// function generateKeys() {
+//     const keypair = forge.pki.rsa.generateKeyPair({bits: 2048, e: 0x10001})
+//     const publicKey = forge.pki.publicKeyToPem(keypair.publicKey)
+//     const privateKey = forge.pki.privateKeyToPem(keypair.privateKey)
+//     return { publicKey, privateKey }
+// }
+//
+// function createSignature(privateSignKey, data = "test"){
+//     const sign_key = forge.pki.privateKeyFromPem(privateSignKey)
+//     const md = forge.md.sha256.create()
+//     md.update(data)
+//     const signature = sign_key.sign(md)
+//     return forge.util.encode64(signature)
+// }
+
+/* Node-Crypto */
+function generateKeys() {
+    return  nodeCrypto.generateKeyPairSync('rsa',
+        {
+            modulusLength: 2048,  // the length of your key in bits
+            publicKeyEncoding: {
+                type: 'spki',       // recommended to be 'spki' by the Node.js docs
+                format: 'pem'
+            },
+            privateKeyEncoding: {
+                type: 'pkcs8',      // recommended to be 'pkcs8' by the Node.js docs
+                format: 'pem',
+                //cipher: 'aes-256-cbc',   // *optional*
+                //passphrase: 'top secret' // *optional*
+            }
+        })
+}
+
+function createSignature(privateKey, data = "test"){
+    return nodeCrypto.createSign('RSA-SHA256')
+        .update(data)
+        .sign(privateKey, 'base64')
+}
+
+function printSignature(context, ee, next){
+    const keys = generateKeys()
+    const signature = createSignature(keys.privateKey, "hello world")
+    if (context.vars.$environment === 'local'){
+        console.log("Signature: " + signature)
+    }
+    next()
+}
+
+
 
 module.exports = {
     createPeopleCsv: createPeopleCsv,
@@ -149,5 +196,6 @@ module.exports = {
     getPosts: getPosts,
     getRandomEmail: getRandomEmail,
     getComments: getComments,
-    randomFailure: randomFailure
+    randomFailure: randomFailure,
+    printSignature: printSignature
 }
