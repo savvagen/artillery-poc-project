@@ -39,8 +39,8 @@ config:
         shutdown: true
     #maxErrorRate: 1
   http:
-    timeout: 20
-    extendedMetrics: false
+    timeout: 30
+    extendedMetrics: true
   processor: "../processors/main.js"
   variables:
     commentsNumber: 2
