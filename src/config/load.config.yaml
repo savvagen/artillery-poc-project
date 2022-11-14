@@ -11,12 +11,12 @@ config:
         - duration: 120
           arrivalRate: 3
           maxVusers: 5
-#        - duration: 120
-#          arrivalRate: 8
-#          maxVusers: 10
-#        - duration: 180
-#          arrivalRate: 12
-#          maxVusers: 15
+        - duration: 120
+          arrivalRate: 8
+          maxVusers: 10
+        - duration: 180
+          arrivalRate: 12
+          maxVusers: 15
     remote:
       target: "{{ $processEnvironment.BASE_URL }}"
       phases:
