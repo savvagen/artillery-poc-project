@@ -60,7 +60,7 @@ config:
     ensure: {}
     ensure-shutdown: {}
     expect:
-      outputFormat: pretty # prettyError # pretty # silent
+      outputFormat: prettyError # prettyError # pretty # silent
     metrics-by-endpoint:
       useOnlyRequestNames: true
     publish-metrics:
