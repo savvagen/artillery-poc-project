@@ -24,3 +24,9 @@ Running your custom `engine` scenario:
  
  DEBUG=engine:custom ./node_modules/.bin/artillery run src/scenarios/engine.yaml
 ```
+
+Debugging:
+```
+ARTILLERY_PLUGIN_PATH=`pwd`/src/plugins/ DEBUG=plugin:ensure-shutdown artillery run --config src/config/debug.config.yaml --environment=local src/scenarios/system.yaml
+
+```

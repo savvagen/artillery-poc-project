@@ -18,6 +18,8 @@ config:
           arrivalCount: 1
           name: "Debug Stage"
   ensure:
+    thresholds:
+      - "vusers.failed": 1
     maxErrorRate: 1
   http:
     timeout: 20
@@ -41,7 +43,7 @@ config:
     ensure: { }
     ensure-shutdown: { }
     expect:
-      outputFormat: prettyError # prettyError # pretty # silent
+      outputFormat: pretty # prettyError # pretty # silent
     metrics-by-endpoint:
       useOnlyRequestNames: true
     publish-metrics:
